@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "description": "convert HAST to MDAST",
   "main": "index.js",
-  "scripts": {
-    "test": "node tests/index.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/syntax-tree/hast-util-to-mdast.git"
@@ -27,7 +24,6 @@
   "dependencies": {
     "has": "^1.0.1",
     "hast-util-to-string": "^1.0.0",
-    "trim": "0.0.1",
     "trim-lines": "^1.1.0",
     "unist-builder": "^1.0.2",
     "xtend": "^4.0.1"
@@ -41,6 +37,15 @@
     "remark-stringify": "^2.3.0",
     "tape": "^4.6.3",
     "unified": "^5.1.0",
-    "unist-util-remove-position": "^1.1.0"
+    "unist-util-remove-position": "^1.1.0",
+    "xo": "^0.17.1"
+  },
+  "scripts": {
+    "lint": "xo",
+    "test-api": "node tests",
+    "test": "npm run lint && npm run test-api"
+  },
+  "xo": {
+    "space": true
   }
 }

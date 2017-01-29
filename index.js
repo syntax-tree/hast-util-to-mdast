@@ -1,48 +1,39 @@
-var u = require('unist-builder')
-var xtend = require('xtend')
+'use strict';
 
-var one = require('./one')
+module.exports = toMDAST;
 
-module.exports = function toMDAST (tree, options) {
-  var h = factory(tree, options)
-  var node = one(h, tree)
+var xtend = require('xtend');
+var one = require('./one');
 
-  return node
+h.augment = augment;
+
+function toMDAST(tree) {
+  return one(h, tree);
 }
 
-function factory (tree, options) {
-  var settings = options || {}
-  h.augment = augment
-
-  return h
-
-  function h (node, type, props, children) {
-    if (!children && ((typeof props === 'object' && 'length' in props) || typeof props === 'string')) {
-      children = props
-      props = {}
-    }
-
-    var result = augment(node, {type: type})
-
-    if (typeof children === 'string') {
-      result.value = children;
-    } else if (children) {
-      result.children = children;
-    }
-
-    return xtend(result, props)
+function h(node, type, props, children) {
+  if (!children && ((typeof props === 'object' && 'length' in props) || typeof props === 'string')) {
+    children = props;
+    props = {};
   }
 
-  /* `right` is the finalized MDAST node,
-  created from `left`, a HAST node */
-  function augment (left, right) {
-    var data
-    var ctx
+  var result = augment(node, {type: type});
 
-    if (left.value) {
-      right.value = left.value
-    }
-
-    return right
+  if (typeof children === 'string') {
+    result.value = children;
+  } else if (children) {
+    result.children = children;
   }
+
+  return xtend(result, props);
+}
+
+/* `right` is the finalized MDAST node,
+ * created from `left`, a HAST node */
+function augment(left, right) {
+  if (left.value) {
+    right.value = left.value;
+  }
+
+  return right;
 }

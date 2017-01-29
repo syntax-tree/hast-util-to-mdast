@@ -1,10 +1,14 @@
-var u = require('unist-builder')
-var trimLines = require('trim-lines')
+'use strict';
 
-module.exports = function text (h, node) {
+module.exports = text;
+
+var u = require('unist-builder');
+var trimLines = require('trim-lines');
+
+function text(h, node) {
   if (node.value.match(/(\n+)/g)) {
-    return null
+    return null;
   }
 
-  return h.augment(node, u('text', trimLines(node.value)))
+  return h.augment(node, u('text', trimLines(node.value)));
 }
