@@ -12,3 +12,5 @@ exports.p = require('./paragraph');
 
 exports.h1 = exports.h2 = exports.h3 =
   exports.h4 = exports.h5 = exports.h6 = require('./heading');
+
+exports.a = require('./link');
