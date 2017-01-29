@@ -1,8 +1,9 @@
-module.exports = root
+'use strict';
 
-var u = require('unist-builder')
-var all = require('../all')
+module.exports = root;
 
-function root (h, node) {
-  return h(node, 'root', all(h, node))
+var all = require('../all');
+
+function root(h, node) {
+  return h(node, 'root', all(h, node));
 }

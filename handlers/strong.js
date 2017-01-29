@@ -1,8 +1,9 @@
-module.exports = strong
+'use strict';
 
-var u = require('unist-builder')
-var all = require('../all')
+module.exports = strong;
 
-function strong (h, node) {
-  return h(node, 'strong', all(h, node))
+var all = require('../all');
+
+function strong(h, node) {
+  return h(node, 'strong', all(h, node));
 }

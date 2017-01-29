@@ -1,8 +1,9 @@
-module.exports = emphasis
+'use strict';
 
-var u = require('unist-builder')
-var all = require('../all')
+module.exports = emphasis;
 
-function emphasis (h, node) {
-  return h(node, 'emphasis', all(h, node))
+var all = require('../all');
+
+function emphasis(h, node) {
+  return h(node, 'emphasis', all(h, node));
 }
