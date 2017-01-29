@@ -2,62 +2,62 @@ var fs = require('fs')
 var path = require('path')
 
 var test = require('tape')
+var hidden = require('is-hidden')
+var negate = require('negate')
 var unified = require('unified')
-var parse = require('rehype-parse')
+var markdown = require('remark-parse')
+var html = require('rehype-parse')
 var stringify = require('remark-stringify')
+var assert = require('mdast-util-assert')
+var remove = require('unist-util-remove-position')
 var toMDAST = require('../index')
 
 var fixtures = path.join(__dirname, 'fixtures')
 
-test('root', function (t) {
-  var result = unified()
-    .use(parse)
+test('fixtures', function (t) {
+  var fromHTML = unified()
+    .use(html)
     .use(function () { return toMDAST })
     .use(stringify)
-    .process('', { fragment: true }).contents
 
-  t.ok(result)
+  var remark = unified().use(markdown).use(stringify)
+
+  fs
+    .readdirSync(fixtures)
+    .filter(negate(hidden))
+    .forEach(check)
+
   t.end()
-})
 
-test('paragraph', function (t) {
-  var html = fs.readFileSync(path.join(fixtures, 'paragraph', 'index.html'), 'utf8')
-  var md = fs.readFileSync(path.join(fixtures, 'paragraph', 'index.md'), 'utf8')
+  function check(name) {
+    t.test(name, function (st) {
+      var input = fs.readFileSync(path.join(fixtures, name, 'index.html'), 'utf8')
+      var output = fs.readFileSync(path.join(fixtures, name, 'index.md'), 'utf8')
+      var config
 
-  var result = unified()
-    .use(parse)
-    .use(function () { return toMDAST })
-    .use(stringify)
-    .process(html, { fragment: true }).contents
+      try {
+        config = fs.readFileSync(path.join(fixtures, name, 'index.json'), 'utf8')
+      } catch (err) {}
 
-  t.equal(result, md)
-  t.end()
-})
+      if (config) {
+        config = JSON.parse(config)
+      }
 
-test('strong', function (t) {
-  var html = fs.readFileSync(path.join(fixtures, 'strong', 'index.html'), 'utf8')
-  var md = fs.readFileSync(path.join(fixtures, 'strong', 'index.md'), 'utf8')
+      var tree = remove(fromHTML.run(fromHTML.parse(input, config)), true)
 
-  var result = unified()
-    .use(parse)
-    .use(function () { return toMDAST })
-    .use(stringify)
-    .process(html, { fragment: true }).contents
+      st.doesNotThrow(function () {
+        assert(tree)
+      }, 'should produce valid MDAST nodes')
 
-  t.equal(result, md)
-  t.end()
-})
+      st.deepEqual(remark.stringify(tree), output || '\n', 'should produce the same documents');
 
-test('heading', function (t) {
-  var html = fs.readFileSync(path.join(fixtures, 'heading', 'index.html'), 'utf8')
-  var md = fs.readFileSync(path.join(fixtures, 'heading', 'index.md'), 'utf8')
+      st.deepEqual(
+        tree,
+        remove(remark.run(remark.parse(output)), true),
+        'should produce the same tree as remark'
+      );
 
-  var result = unified()
-    .use(parse)
-    .use(function () { return toMDAST })
-    .use(stringify)
-    .process(html, { fragment: true }).contents
-
-  t.equal(result, md)
-  t.end()
+      st.end();
+    })
+  }
 })
