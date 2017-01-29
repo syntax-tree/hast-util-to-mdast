@@ -17,21 +17,24 @@ function factory (tree, options) {
   return h
 
   function h (node, type, props, children) {
-    if (children === null &&typeof props === 'object' && props.length) {
+    if (!children && ((typeof props === 'object' && 'length' in props) || typeof props === 'string')) {
       children = props
       props = {}
     }
 
-    var result = augment(node, {
-      type: type,
-      children: children
-    })
+    var result = augment(node, {type: type})
+
+    if (typeof children === 'string') {
+      result.value = children;
+    } else if (children) {
+      result.children = children;
+    }
 
     return xtend(result, props)
   }
 
-  /* `right` is the finalized MDAST node, 
-  created from `left`, an HAST node */
+  /* `right` is the finalized MDAST node,
+  created from `left`, a HAST node */
   function augment (left, right) {
     var data
     var ctx
