@@ -1,12 +1,9 @@
-module.exports = function (depth) {
-  return heading(depth)
-}
+module.exports = heading
 
 var u = require('unist-builder')
 var all = require('../all')
 
-function heading (depth) {
-  return function (h, node) {
-    return h(node, 'heading', { depth: depth }, all(h, node))
-  }
+function heading (h, node) {
+  var depth = Number(node.tagName.charAt(1)) || 1;
+  return h(node, 'heading', {depth: depth}, all(h, node))
 }

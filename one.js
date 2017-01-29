@@ -8,21 +8,9 @@ var handlers = require('./handlers')
 
 function one (h, node, parent) {
   var fn = null
-
-  var tagName = node && node.tagName && node.tagName !== undefined 
-    ? node.tagName
-    : null
-
-  if (tagName && has(handlers, tagName)) {
-    fn = has(handlers, tagName) ? handlers[tagName] : null
-  } else if (tagName) {
-    var matchHeader = tagName.match(/h([1-6?])/g)
-
-    if (matchHeader) {
-      var depth = tagName.split('h')[1]
-      fn = handlers.heading(depth)
-    }
-  } else if (node.type && has(handlers, node.type)) {
+  if (node.type === 'element' && has(handlers, node.tagName)) {
+    fn = handlers[node.tagName]
+  } else if (has(handlers, node.type)) {
     fn = handlers[node.type]
   }
 
@@ -35,5 +23,5 @@ function unknown (h, node) {
     return h.augment(node, u('text', node.value))
   }
 
-  return h(node, all(h, node))
+  return all(h, node)
 }
