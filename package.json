@@ -1,0 +1,40 @@
+{
+  "name": "hast-util-to-mdast",
+  "version": "0.0.0",
+  "description": "convert HAST to MDAST",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syntax-tree/hast-util-to-mdast.git"
+  },
+  "keywords": [
+    "hast",
+    "mdast",
+    "rehype",
+    "remark",
+    "markdown",
+    "html"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/syntax-tree/hast-util-to-mdast/issues"
+  },
+  "homepage": "https://github.com/syntax-tree/hast-util-to-mdast#readme",
+  "dependencies": {
+    "has": "^1.0.1",
+    "trim": "0.0.1",
+    "trim-lines": "^1.1.0",
+    "unist-builder": "^1.0.2",
+    "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "rehype-parse": "^2.0.1",
+    "remark-stringify": "^2.3.0",
+    "tape": "^4.6.3",
+    "unified": "^5.1.0"
+  }
+}
