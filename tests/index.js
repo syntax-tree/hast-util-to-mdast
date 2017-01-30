@@ -56,7 +56,9 @@ test('fixtures', function (t) {
         'should produce valid MDAST nodes'
       );
 
-      st.deepEqual(remark.stringify(tree), output || '\n', 'should produce the same documents');
+      if (!config || config.stringify !== false) {
+        st.deepEqual(remark.stringify(tree), output || '\n', 'should produce the same documents');
+      }
 
       st.deepEqual(
         tree,

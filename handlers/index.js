@@ -10,6 +10,7 @@ exports.code = exports.kbd = exports.samp = exports.var = require('./inline-code
 exports.img = require('./image');
 
 exports.p = require('./paragraph');
+exports.pre = require('./code');
 
 exports.h1 = exports.h2 = exports.h3 =
   exports.h4 = exports.h5 = exports.h6 = require('./heading');
