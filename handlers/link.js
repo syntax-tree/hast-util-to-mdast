@@ -6,7 +6,7 @@ var all = require('../all');
 
 function link(h, node) {
   var props = {
-    url: node.properties.href,
+    url: node.properties.href || '',
     title: node.properties.title || null
   };
 
