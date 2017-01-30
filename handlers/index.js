@@ -8,6 +8,7 @@ exports.strong = exports.b = require('./strong');
 exports.em = exports.i = require('./emphasis');
 exports.code = exports.kbd = exports.samp = exports.var = require('./inline-code');
 exports.img = require('./image');
+exports.br = require('./break');
 
 exports.p = require('./paragraph');
 exports.pre = require('./code');
