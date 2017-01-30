@@ -11,6 +11,7 @@ exports.img = require('./image');
 exports.br = require('./break');
 
 exports.p = require('./paragraph');
+exports.hr = require('./thematic-break');
 exports.pre = require('./code');
 
 exports.h1 = exports.h2 = exports.h3 =
