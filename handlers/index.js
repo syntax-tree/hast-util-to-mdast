@@ -6,6 +6,7 @@ exports.text = require('./text');
 
 exports.strong = exports.b = require('./strong');
 exports.em = exports.i = require('./emphasis');
+exports.del = exports.s = exports.strike = require('./delete');
 exports.code = exports.kbd = exports.samp = exports.var = require('./inline-code');
 exports.img = require('./image');
 exports.br = require('./break');
