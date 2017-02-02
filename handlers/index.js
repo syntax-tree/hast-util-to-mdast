@@ -7,6 +7,8 @@ exports.comment = require('./comment');
 exports.head = exports.math = exports.script = exports.style = exports.svg =
   exports.template = exports.title = ignore;
 
+exports.ol = exports.ul = require('./list');
+exports.li = require('./list-item');
 exports.strong = exports.b = require('./strong');
 exports.em = exports.i = require('./emphasis');
 exports.del = exports.s = exports.strike = require('./delete');
