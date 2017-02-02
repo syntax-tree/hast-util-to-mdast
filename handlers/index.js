@@ -1,8 +1,8 @@
 'use strict';
 
 exports.root = require('./root');
-
 exports.text = require('./text');
+exports.comment = require('./comment');
 
 exports.strong = exports.b = require('./strong');
 exports.em = exports.i = require('./emphasis');
