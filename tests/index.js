@@ -9,6 +9,7 @@ var negate = require('negate');
 var unified = require('unified');
 var markdown = require('remark-parse');
 var html = require('rehype-parse');
+var toHTML = require('rehype-stringify');
 var stringify = require('remark-stringify');
 var assert = require('mdast-util-assert');
 var remove = require('unist-util-remove-position');
