@@ -13,8 +13,16 @@ Foo.
 Bar.
 
 -   Alpha
--   Bravo
+
+    Bravo
+
 -   Charlie
+
+    Delta
+
+-   Echo
+
+    Foxtrot
 
 Baz.
 

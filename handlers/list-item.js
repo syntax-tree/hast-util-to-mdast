@@ -5,9 +5,8 @@ module.exports = listItem;
 var is = require('hast-util-is-element');
 var all = require('../all');
 
-function listItem(h, node, parent) {
+function listItem(h, node) {
   var children = node.children;
-  var tail = !parent || parent.children[parent.children.length - 1] === node;
   var head = children[0];
   var checked = null;
   var loose = false;
@@ -62,11 +61,6 @@ function listItem(h, node, parent) {
         content = [];
       }
     }
-  }
-
-  /* Last list-item is never loose. */
-  if (tail) {
-    loose = false;
   }
 
   return h(node, 'listItem', {loose: loose, checked: checked}, content);

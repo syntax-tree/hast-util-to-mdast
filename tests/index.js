@@ -2,7 +2,8 @@
 
 var fs = require('fs');
 var path = require('path');
-
+var u = require('unist-builder');
+var h = require('hastscript');
 var test = require('tape');
 var hidden = require('is-hidden');
 var negate = require('negate');
@@ -12,9 +13,37 @@ var html = require('rehype-parse');
 var stringify = require('remark-stringify');
 var assert = require('mdast-util-assert');
 var remove = require('unist-util-remove-position');
-var toMDAST = require('../');
+var toMDAST = require('..');
 
 var fixtures = path.join(__dirname, 'fixtures');
+
+test('core', function (t) {
+  t.deepEqual(
+    toMDAST(u('root', [h('strong', 'Alpha')])),
+    u('root', [u('strong', [u('text', 'Alpha')])]),
+    'should transform HAST to MDAST'
+  );
+
+  t.deepEqual(
+    toMDAST(u('root', [u('unknown', 'text')])),
+    u('root', [u('text', 'text')]),
+    'should transform unknown texts to `text`'
+  );
+
+  t.deepEqual(
+    toMDAST(u('root', [u('unknown', [h('em')])])),
+    u('root', [u('emphasis', [])]),
+    'should unwrap unknown parents'
+  );
+
+  t.deepEqual(
+    toMDAST(u('root', [u('unknown')])),
+    u('root', []),
+    'should ignore unknown voids'
+  );
+
+  t.end();
+});
 
 test('fixtures', function (t) {
   var fromHTML = unified()
