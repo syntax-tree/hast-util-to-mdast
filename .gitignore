@@ -1,6 +1,5 @@
 .DS_Store
-node_modules
-tmp
-*.log*
-coverage
-.nyc_output
+*.log
+.nyc_output/
+coverage/
+node_modules/
