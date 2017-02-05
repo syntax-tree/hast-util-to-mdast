@@ -2,7 +2,7 @@
 
 Transform [HAST][] (HTML) to [MDAST][] (markdown).
 
-> :warn: Work in progress :warn
+> :warning: Work in progress :warning:
 > See [GH-3][3] for progress.
 
 ## Installation
