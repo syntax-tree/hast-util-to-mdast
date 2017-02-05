@@ -27,7 +27,7 @@ console.log(doc);
 
 Yields:
 
-```txt
+```markdown
 ## Hello **world!**
 ```
 
