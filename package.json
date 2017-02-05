@@ -1,12 +1,8 @@
 {
   "name": "hast-util-to-mdast",
   "version": "0.0.0",
-  "description": "convert HAST to MDAST",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/syntax-tree/hast-util-to-mdast.git"
-  },
+  "description": "Transform HAST to MDAST",
+  "license": "ISC",
   "keywords": [
     "hast",
     "mdast",
@@ -15,12 +11,20 @@
     "markdown",
     "html"
   ],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/syntax-tree/hast-util-to-mdast/issues"
-  },
-  "homepage": "https://github.com/syntax-tree/hast-util-to-mdast#readme",
+  "files": [
+    "lib",
+    "index.js",
+    "one.js",
+    "all.js"
+  ],
+  "repository": "https://github.com/syntax-tree/hast-util-to-mdast",
+  "bugs": "https://github.com/syntax-tree/hast-util-to-mdast/issues",
+  "author": "Seth Vincent <sethvincent@gmail.com> (https://sethvincent.com)",
+  "contributors": [
+    "Seth Vincent <sethvincent@gmail.com> (https://sethvincent.com)",
+    "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
+  "main": "index.js",
   "dependencies": {
     "has": "^1.0.1",
     "hast-util-has-property": "^1.0.0",
