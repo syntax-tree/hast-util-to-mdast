@@ -1,42 +1,70 @@
-# hast-util-to-mdast
+# hast-util-to-mdast [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-Convert [HAST trees](https://github.com/syntax-tree/hast) to [MDAST trees](https://github.com/syntax-tree/mdast).
+Transform [HAST][] (HTML) to [MDAST][] (markdown).
 
-## About
+> :warn: Work in progress :warn
+> See [GH-3][3] for progress.
 
-Based on the code in [mdast-util-to-hast](https://github.com/wooorm/mdast-util-to-hast), this module provides a way to transform an HTML abstract syntax tree into a markdown abstract syntax tree.
+## Installation
 
-Used with [rehype](https://npmjs.com/rehype) and [remark](https://npmjs.com/remark), this allows you to convert HTML into markdown.
+[npm][]:
 
-### Work in progress
-
-So far this only transforms a few HTML elements, and there's more work to do. To see what's been completed so far look at [the handlers directory](/handlers).
-
-## Install
-
-```sh
-npm install --save hast-util-to-mdast
+```bash
+npm install hast-util-to-mdast
 ```
 
 ## Usage
 
-```js
-var unified = require('unified')
-var parse = require('rehype-parse')
-var stringify = require('remark-stringify')
+```javascript
+var rehype = require('rehype');
+var remark = require('remark');
+var toMDAST = require('hast-util-to-mdast');
 
-var toMDAST = require('hast-util-to-mdast')
-
-var result = unified()
-  .use(parse)
-  .use(function () { return toMDAST })
-  .use(stringify)
-  .process(html, { fragment: true })
-
-console.log(result.contents)
+var hast = rehype().parse('<h2>Hello <strong>world!</strong></h2>');
+var doc = remark().stringify(toMDAST(hast));
+console.log(doc);
 ```
 
+Yields:
+
+```txt
+## Hello **world!**
+```
+
+## API
+
+### `toMDAST(node)`
+
+Transform the given [HAST][] tree to an [MDAST][] tree.
+
+## Related
+
+*   [`mdast-util-to-hast`][mdast-util-to-hast]
 
 ## License
 
-[MIT](LICENSE.md)
+[MIT][license] © [Titus Wormer][author]
+
+<!-- Definitions -->
+
+[travis-badge]: https://img.shields.io/travis/syntax-tree/hast-util-to-mdast.svg
+
+[travis]: https://travis-ci.org/syntax-tree/hast-util-to-mdast
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-mdast.svg
+
+[codecov]: https://codecov.io/github/syntax-tree/hast-util-to-mdast
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[license]: LICENSE
+
+[author]: http://wooorm.com
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[hast]: https://github.com/syntax-tree/hast
+
+[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
+[3]: https://github.com/syntax-tree/hast-util-to-mdast/issues/3
