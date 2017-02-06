@@ -42,6 +42,51 @@ test('core', function (t) {
     'should ignore unknown voids'
   );
 
+  var pos = {
+    left: {
+      line: 1,
+      column: 1,
+      offset: 0
+    },
+    right: {
+      line: 1,
+      column: 6,
+      offset: 5
+    }
+  };
+
+  t.deepEqual(
+    toMDAST({
+      type: 'root',
+      children: [{
+        type: 'element',
+        tagName: 'p',
+        properties: {},
+        children: [{
+          type: 'text',
+          value: 'Alpha',
+          position: pos
+        }],
+        position: pos
+      }],
+      position: pos
+    }),
+    {
+      type: 'root',
+      children: [{
+        type: 'paragraph',
+        children: [{
+          type: 'text',
+          value: 'Alpha',
+          position: pos
+        }],
+        position: pos
+      }],
+      position: pos
+    },
+    'should ignore unknown voids'
+  );
+
   t.end();
 });
 

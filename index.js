@@ -12,12 +12,13 @@ function toMDAST(tree) {
 }
 
 function h(node, type, props, children) {
+  var result;
   if (!children && ((typeof props === 'object' && 'length' in props) || typeof props === 'string')) {
     children = props;
     props = {};
   }
 
-  var result = augment(node, {type: type});
+  result = xtend({type: type}, props);
 
   if (typeof children === 'string') {
     result.value = children;
@@ -25,14 +26,14 @@ function h(node, type, props, children) {
     result.children = children;
   }
 
-  return xtend(result, props);
+  return augment(node, result);
 }
 
 /* `right` is the finalized MDAST node,
  * created from `left`, a HAST node */
 function augment(left, right) {
-  if (left.value) {
-    right.value = left.value;
+  if (left.position) {
+    right.position = left.position;
   }
 
   return right;
