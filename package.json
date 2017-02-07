@@ -12,6 +12,7 @@
     "html"
   ],
   "files": [
+    "handlers",
     "lib",
     "index.js",
     "one.js",
