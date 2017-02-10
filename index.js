@@ -2,17 +2,19 @@
 
 module.exports = toMDAST;
 
+var minify = require('rehype-minify-whitespace')();
 var xtend = require('xtend');
 var one = require('./one');
 
 h.augment = augment;
 
 function toMDAST(tree) {
-  return one(h, tree);
+  return one(h, minify(tree));
 }
 
 function h(node, type, props, children) {
   var result;
+
   if (!children && ((typeof props === 'object' && 'length' in props) || typeof props === 'string')) {
     children = props;
     props = {};

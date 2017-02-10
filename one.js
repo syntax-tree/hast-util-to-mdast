@@ -2,7 +2,6 @@
 
 module.exports = one;
 
-var u = require('unist-builder');
 var has = require('has');
 var all = require('./all');
 var handlers = require('./handlers');
@@ -21,7 +20,7 @@ function one(h, node, parent) {
 
 function unknown(h, node) {
   if (node.value) {
-    return h.augment(node, u('text', node.value));
+    return h.augment(node, {type: 'text', value: node.value});
   }
 
   return all(h, node);

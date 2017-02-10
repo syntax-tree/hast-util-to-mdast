@@ -50,6 +50,7 @@ function cellsBefore(parent, node) {
       break;
     }
 
+    /* istanbul ignore else - When proper HTML, should always be a cell */
     if (cell(child)) {
       pos++;
     }

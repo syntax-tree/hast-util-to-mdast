@@ -137,11 +137,13 @@ test('fixtures', function (t) {
         st.deepEqual(remark.stringify(tree), output || '\n', 'should produce the same documents');
       }
 
-      st.deepEqual(
-        tree,
-        remove(remark.run(remark.parse(output)), true),
-        'should produce the same tree as remark'
-      );
+      if (!config || config.tree !== false) {
+        st.deepEqual(
+          tree,
+          remove(remark.run(remark.parse(output)), true),
+          'should produce the same tree as remark'
+        );
+      }
 
       st.end();
     });
