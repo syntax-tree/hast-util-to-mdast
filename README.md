@@ -2,7 +2,7 @@
 
 Transform [HAST][] (HTML) to [MDAST][] (markdown).
 
-> :warning: Work in progress :warning:
+> This is stable in versioning now, but may change a bit in the future.
 >
 > See [GH-3][3] for progress.
 
