@@ -3,10 +3,15 @@
 module.exports = one;
 
 var has = require('has');
+var xtend = require('xtend');
 var all = require('./all');
 var handlers = require('./handlers');
 
-function one(h, node, parent) {
+function one(h, node, parent, options) {
+  if (options && options.handlers) {
+    handlers = xtend(handlers, options.handlers);
+  }
+
   var fn = null;
 
   if (node.type === 'element' && has(handlers, node.tagName)) {

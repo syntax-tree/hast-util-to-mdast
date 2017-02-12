@@ -8,8 +8,10 @@ var one = require('./one');
 
 h.augment = augment;
 
-function toMDAST(tree) {
-  return one(h, minify(tree));
+function toMDAST(tree, options) {
+  options = options || {};
+  options.handlers = options.handlers || {};
+  return one(h, minify(tree), null, options);
 }
 
 function h(node, type, props, children) {
