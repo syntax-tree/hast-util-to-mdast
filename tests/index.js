@@ -184,7 +184,7 @@ test('handlers option', function (t) {
         }]
       }]
     },
-    'should ignore unknown voids'
+    'use handlers passed as option'
   );
 
   t.end();
