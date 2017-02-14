@@ -34,9 +34,14 @@ Yields:
 
 ## API
 
-### `toMDAST(node)`
+### `toMDAST(node[, options])`
 
 Transform the given [HAST][] tree to an [MDAST][] tree.
+
+###### `options.handlers`
+
+*   Object mapping tag-names to functions handling those elements.
+    Take a look at [`handlers/`][handlers] for examples.
 
 ## Related
 
@@ -69,3 +74,5 @@ Transform the given [HAST][] tree to an [MDAST][] tree.
 [mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
 [3]: https://github.com/syntax-tree/hast-util-to-mdast/issues/3
+
+[handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/handlers
