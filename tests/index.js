@@ -149,3 +149,43 @@ test('fixtures', function (t) {
     });
   }
 });
+
+test('handlers option', function (t) {
+  var options = {
+    handlers: {
+      div: function (h, node) {
+        node.children[0].value = 'Beta';
+        node.type = 'paragraph';
+        return h(node, 'paragraph', node.children);
+      }
+    }
+  };
+
+  t.deepEqual(
+    toMDAST({
+      type: 'root',
+      children: [{
+        type: 'element',
+        tagName: 'div',
+        properties: {},
+        children: [{
+          type: 'text',
+          value: 'Alpha'
+        }]
+      }]
+    }, options),
+    {
+      type: 'root',
+      children: [{
+        type: 'paragraph',
+        children: [{
+          type: 'text',
+          value: 'Beta'
+        }]
+      }]
+    },
+    'use handlers passed as option'
+  );
+
+  t.end();
+});

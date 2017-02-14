@@ -5,11 +5,14 @@ module.exports = toMDAST;
 var minify = require('rehype-minify-whitespace')();
 var xtend = require('xtend');
 var one = require('./one');
+var handlers = require('./handlers');
 
 h.augment = augment;
 
-function toMDAST(tree) {
-  return one(h, minify(tree));
+function toMDAST(tree, options) {
+  options = options || {};
+  h.handlers = xtend(handlers, options.handlers || {});
+  return one(h, minify(tree), null);
 }
 
 function h(node, type, props, children) {
