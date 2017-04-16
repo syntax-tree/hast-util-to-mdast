@@ -121,7 +121,7 @@ test('fixtures', function (t) {
         config = JSON.parse(config);
       }
 
-      var tree = remove(fromHTML.run(fromHTML.parse(input, config)), true);
+      var tree = remove(fromHTML.runSync(fromHTML.parse(input, config)), true);
 
       /* Replace middots with spaces (useful for break nodes). */
       output = output.replace(/·/g, ' ');
@@ -140,7 +140,7 @@ test('fixtures', function (t) {
       if (!config || config.tree !== false) {
         st.deepEqual(
           tree,
-          remove(remark.run(remark.parse(output)), true),
+          remove(remark.runSync(remark.parse(output)), true),
           'should produce the same tree as remark'
         );
       }

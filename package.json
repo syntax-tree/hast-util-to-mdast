@@ -40,14 +40,14 @@
     "mdast-util-assert": "^1.0.0",
     "negate": "^1.0.0",
     "nyc": "^10.1.2",
-    "rehype-parse": "^2.0.1",
-    "remark-parse": "^2.2.0",
-    "remark-stringify": "^2.3.0",
+    "rehype-parse": "^3.1.0",
+    "remark-parse": "^3.0.0",
+    "remark-stringify": "^3.0.0",
     "tape": "^4.6.3",
-    "unified": "^5.1.0",
+    "unified": "^6.1.0",
     "unist-builder": "^1.0.2",
     "unist-util-remove-position": "^1.1.0",
-    "xo": "^0.17.1"
+    "xo": "^0.18.1"
   },
   "scripts": {
     "lint": "xo",
@@ -62,6 +62,10 @@
     "branches": 100
   },
   "xo": {
-    "space": true
+    "space": true,
+    "esnext": false,
+    "rules": {
+      "no-multi-assign": "off"
+    }
   }
 }
