@@ -4,6 +4,7 @@ module.exports = listItem;
 
 var is = require('hast-util-is-element');
 var all = require('../all');
+var wrap = require('../wrap');
 
 function listItem(h, node) {
   var children = node.children;
@@ -26,7 +27,7 @@ function listItem(h, node) {
     }
   }
 
-  content = all(h, node);
+  content = wrap(all(h, node));
 
   /* Remove initial spacing if we previously found a checkbox. */
   if (checked !== null) {
@@ -49,11 +50,7 @@ function listItem(h, node) {
   } else if (content.length === 1) {
     head = content[0];
 
-    if (head.type === 'text') {
-      /* Wrap `text` in `paragraph` (always tight). */
-      content = [{type: 'paragraph', children: content}];
-      loose = false;
-    } else if (head.type === 'paragraph') {
+    if (head.type === 'paragraph') {
       /* One `paragraph`, always tight. Ensure it isn’t empty. */
       loose = false;
 
