@@ -2,15 +2,16 @@
 
 module.exports = one;
 
-var has = require('has');
 var all = require('./all');
+
+var own = {}.hasOwnProperty;
 
 function one(h, node, parent) {
   var fn = null;
 
-  if (node.type === 'element' && has(h.handlers, node.tagName)) {
+  if (node.type === 'element' && own.call(h.handlers, node.tagName)) {
     fn = h.handlers[node.tagName];
-  } else if (has(h.handlers, node.type)) {
+  } else if (own.call(h.handlers, node.type)) {
     fn = h.handlers[node.type];
   }
 
