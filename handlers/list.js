@@ -10,6 +10,7 @@ function list(h, node) {
   var start = null;
   var loose = false;
   var content;
+  var child;
   var length;
   var index;
 
@@ -22,9 +23,20 @@ function list(h, node) {
   index = -1;
 
   while (++index < length) {
-    if (content[index].loose === true) {
+    child = content[index];
+
+    if (child.type !== 'listItem') {
+      child = {
+        type: 'listItem',
+        loose: false,
+        checked: null,
+        children: [child]
+      };
+      content[index] = child;
+    }
+
+    if (child.loose === true) {
       loose = true;
-      break;
     }
   }
 
