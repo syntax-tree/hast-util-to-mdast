@@ -40,8 +40,8 @@ Transform the given [HAST][] tree to an [MDAST][] tree.
 
 ###### `options.handlers`
 
-*   Object mapping tag-names to functions handling those elements.
-    Take a look at [`handlers/`][handlers] for examples.
+Object mapping tag-names to functions handling those elements.
+Take a look at [`handlers/`][handlers] for examples.
 
 ## Related
 
