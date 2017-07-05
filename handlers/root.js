@@ -6,5 +6,11 @@ var all = require('../all');
 var wrap = require('../wrap');
 
 function root(h, node) {
-  return h(node, 'root', wrap.optional(all(h, node)));
+  var children = all(h, node);
+
+  if (h.document || wrap.needed(children)) {
+    children = wrap(children);
+  }
+
+  return h(node, 'root', children);
 }

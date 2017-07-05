@@ -189,3 +189,38 @@ test('handlers option', function (t) {
 
   t.end();
 });
+
+test('document', function (t) {
+  var tree = u('root', [
+    h('b', 'Importance'),
+    u('text', ' and '),
+    h('i', 'emphasis'),
+    u('text', '.')
+  ]);
+
+  t.deepEqual(
+    toMDAST(tree),
+    u('root', [
+      u('strong', [u('text', 'Importance')]),
+      u('text', ' and '),
+      u('emphasis', [u('text', 'emphasis')]),
+      u('text', '.')
+    ]),
+    'should infer document if not needed'
+  );
+
+  t.deepEqual(
+    toMDAST(tree, {document: true}),
+    u('root', [
+      u('paragraph', [
+        u('strong', [u('text', 'Importance')]),
+        u('text', ' and '),
+        u('emphasis', [u('text', 'emphasis')]),
+        u('text', '.')
+      ])
+    ]),
+    'should support an explitic `document: true`'
+  );
+
+  t.end();
+});

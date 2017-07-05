@@ -43,6 +43,12 @@ Transform the given [HAST][] tree to an [MDAST][] tree.
 Object mapping tag-names to functions handling those elements.
 Take a look at [`handlers/`][handlers] for examples.
 
+###### `options.document`
+
+Whether the given tree is a complete document.  If `document: true`,
+implicit paragraphs are added in the `root` node around inline MDAST nodes.
+Otherwise, inline MDAST nodes are wrapped when needed.
+
 ## Related
 
 *   [`mdast-util-to-hast`][mdast-util-to-hast]

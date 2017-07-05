@@ -12,6 +12,7 @@ function toMDAST(tree, options) {
 
   h.handlers = xtend(handlers, settings.handlers || {});
   h.augment = augment;
+  h.document = settings.document;
 
   return one(h, minify(tree), null);
 

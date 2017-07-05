@@ -2,7 +2,7 @@
 
 module.exports = wrap;
 
-wrap.optional = optional;
+wrap.needed = needed;
 
 var is = require('unist-util-is');
 
@@ -54,11 +54,6 @@ function wrap(nodes) {
   }
 
   return result;
-}
-
-/* Optionally wrap `nodes`, if `needed`. */
-function optional(nodes) {
-  return needed(nodes) ? wrap(nodes) : nodes;
 }
 
 /* Check if there are non-inline MDAST nodes returned.

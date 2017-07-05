@@ -7,3 +7,5 @@ An **implicit** paragraph.
 > # Heading
 >
 > Another _implicit_ paragraph.
+
+_Emphasis_, **importance**, and ~~strikethrough~~.
