@@ -44,7 +44,8 @@
     "rehype-parse": "^4.0.0",
     "remark-parse": "^3.0.0",
     "remark-stringify": "^3.0.0",
-    "tape": "^4.6.3",
+    "tape": "^4.8.0",
+    "tape-watch": "^2.3.0",
     "unified": "^6.1.0",
     "unist-builder": "^1.0.2",
     "unist-util-remove-position": "^1.1.0",
@@ -52,7 +53,8 @@
   },
   "scripts": {
     "lint": "xo",
-    "test-api": "node tests",
+    "test-api": "tape tests/index.js",
+    "test-api-watch": "tape-watch tests/index.js",
     "test-coverage": "nyc --reporter lcov tape tests/index.js",
     "test": "npm run lint && npm run test-coverage"
   },
