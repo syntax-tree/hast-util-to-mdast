@@ -190,6 +190,28 @@ test('handlers option', function (t) {
   t.end();
 });
 
+test('minify option disabled', function (t) {
+  var options = {minify: false};
+
+  var hast = h('p', [
+    'a',
+    h('span', ' '),
+    'b'
+  ]);
+
+  t.deepEqual(
+    toMDAST(hast, options),
+    u('paragraph', [
+      u('text', 'a'),
+      u('text', ' '),
+      u('text', 'b')
+    ]),
+    'should disable minification by option'
+  );
+
+  t.end();
+});
+
 test('document', function (t) {
   var tree = u('root', [
     h('b', 'Importance'),

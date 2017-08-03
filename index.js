@@ -8,13 +8,16 @@ var one = require('./one');
 var handlers = require('./handlers');
 
 function toMDAST(tree, options) {
-  var settings = options || {};
+  var defaults = {handlers: handlers, minify: true};
+  var settings = xtend(defaults, options || {});
 
   h.handlers = xtend(handlers, settings.handlers || {});
   h.augment = augment;
   h.document = settings.document;
 
-  return one(h, minify(tree), null);
+  tree = settings.minify ? minify(tree) : tree;
+
+  return one(h, tree, null);
 
   function h(node, type, props, children) {
     var result;

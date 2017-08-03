@@ -49,6 +49,12 @@ Whether the given tree is a complete document.  If `document: true`,
 implicit paragraphs are added in the `root` node around inline MDAST nodes.
 Otherwise, inline MDAST nodes are wrapped when needed.
 
+###### `options.minify`
+
+Whether to minify whitespace in the tree via
+[rehype-minify-whitespace][rehype-minify-whitespace] (`boolean`, default:
+`true`).
+
 ## Related
 
 *   [`mdast-util-to-hast`][mdast-util-to-hast]
@@ -82,3 +88,5 @@ Otherwise, inline MDAST nodes are wrapped when needed.
 [3]: https://github.com/syntax-tree/hast-util-to-mdast/issues/3
 
 [handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/handlers
+
+[rehype-minify-whitespace]: https://github.com/wooorm/rehype-minify/tree/master/packages/rehype-minify-whitespace
