@@ -54,8 +54,8 @@
   "scripts": {
     "build": "remark *.md -qfo",
     "lint": "xo",
-    "test-api": "node tests",
-    "test-coverage": "nyc --reporter lcov tape tests/index.js",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test/index.js",
     "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "nyc": {
