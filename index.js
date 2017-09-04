@@ -4,8 +4,8 @@ module.exports = toMDAST;
 
 var minify = require('rehype-minify-whitespace')();
 var xtend = require('xtend');
-var one = require('./one');
-var handlers = require('./handlers');
+var one = require('./lib/one');
+var handlers = require('./lib/handlers');
 
 function toMDAST(tree, options) {
   var settings = options || {};

@@ -19,11 +19,8 @@
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
   ],
   "files": [
-    "handlers",
     "index.js",
-    "one.js",
-    "all.js",
-    "wrap.js"
+    "lib"
   ],
   "dependencies": {
     "hast-util-has-property": "^1.0.0",
