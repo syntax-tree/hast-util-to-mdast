@@ -41,7 +41,9 @@
     "negate": "^1.0.0",
     "nyc": "^11.0.0",
     "rehype-parse": "^4.0.0",
+    "remark-cli": "^4.0.0",
     "remark-parse": "^4.0.0",
+    "remark-preset-wooorm": "^3.0.0",
     "remark-stringify": "^4.0.0",
     "tape": "^4.6.3",
     "unified": "^6.1.0",
@@ -50,10 +52,11 @@
     "xo": "^0.18.1"
   },
   "scripts": {
+    "build": "remark *.md -qfo",
     "lint": "xo",
     "test-api": "node tests",
     "test-coverage": "nyc --reporter lcov tape tests/index.js",
-    "test": "npm run lint && npm run test-coverage"
+    "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "nyc": {
     "check-coverage": true,
@@ -67,5 +70,10 @@
     "rules": {
       "no-multi-assign": "off"
     }
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm"
+    ]
   }
 }
