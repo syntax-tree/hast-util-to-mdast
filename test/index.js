@@ -91,13 +91,6 @@ test('core', function (t) {
 });
 
 test('fixtures', function (t) {
-  var fromHTML = unified()
-    .use(html)
-    .use(function () {
-      return toMDAST;
-    })
-    .use(stringify);
-
   var remark = unified().use(markdown).use(stringify);
 
   fs
@@ -121,7 +114,17 @@ test('fixtures', function (t) {
         config = JSON.parse(config);
       }
 
-      var tree = remove(fromHTML.runSync(fromHTML.parse(input, config)), true);
+      var fromHTML = unified()
+        .use(html)
+        .use(function () {
+          return transformer;
+          function transformer(tree) {
+            return toMDAST(tree, config);
+          }
+        })
+        .use(stringify);
+
+      var tree = remove(fromHTML.runSync(fromHTML.parse(input)), true);
 
       /* Replace middots with spaces (useful for break nodes). */
       output = output.replace(/·/g, ' ');
