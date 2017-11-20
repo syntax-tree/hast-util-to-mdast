@@ -53,6 +53,14 @@ Otherwise, inline MDAST nodes are wrapped when needed.
 
 *   [`mdast-util-to-hast`][mdast-util-to-hast]
 
+## Contribute
+
+See [`contribute.md` in `syntax-tree/hast`][contribute] for ways to get
+started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -82,3 +90,7 @@ Otherwise, inline MDAST nodes are wrapped when needed.
 [3]: https://github.com/syntax-tree/hast-util-to-mdast/issues/3
 
 [handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/handlers
+
+[contribute]: https://github.com/syntax-tree/hast/blob/master/contributing.md
+
+[coc]: https://github.com/syntax-tree/hast/blob/master/code-of-conduct.md
