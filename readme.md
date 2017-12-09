@@ -87,7 +87,7 @@ An implicit sentence.
 # An explicit sentence.
 ```
 
-###### Ignored nodes
+###### Ignoring nodes
 
 Some nodes are ignored and their content will not be present in MDAST.
 To ignore custom elements, configure a handler for their tag-name or type that
@@ -96,6 +96,18 @@ For example, to ignore `em` elements, pass `handlers: {'em': function () {}}`:
 
 ```html
 <p><strong>Importance</strong> and <em>emphasis</em>.</p>
+```
+
+Yields:
+
+```markdown
+**Importance** and .
+```
+
+To ignore a specific element from HTML, set `data-mdast` to `ignore`:
+
+```html
+<p><strong>Importance</strong> and <em data-mdast="ignore">emphasis</em>.</p>
 ```
 
 Yields:
