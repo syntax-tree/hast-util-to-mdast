@@ -66,6 +66,44 @@ Otherwise, inline MDAST nodes are wrapped when needed.
 
 [`MDASTNode`][mdast].
 
+##### Notes
+
+###### Implied sentences
+
+The algorithm supports implicit and explicit paragraphs, such as:
+
+```html
+<article>
+  An implicit sentence.
+  <h1>An explicit sentence.</h1>
+</article>
+```
+
+Yields:
+
+```markdown
+An implicit sentence.
+
+# An explicit sentence.
+```
+
+###### Ignored nodes
+
+Some nodes are ignored and their content will not be present in MDAST.
+To ignore custom elements, configure a handler for their tag-name or type that
+returns nothing.
+For example, to ignore `em` elements, pass `handlers: {'em': function () {}}`:
+
+```html
+<p><strong>Importance</strong> and <em>emphasis</em>.</p>
+```
+
+Yields:
+
+```markdown
+**Importance** and .
+```
+
 ## Related
 
 *   [`mdast-util-to-hast`][mdast-util-to-hast]
