@@ -118,7 +118,16 @@ Yields:
 
 ## Related
 
-*   [`mdast-util-to-hast`][mdast-util-to-hast]
+*   [`hast-util-to-nlcst`](https://github.com/syntax-tree/hast-util-to-nlcst)
+    — Transform HAST to NLCST
+*   [`mdast-util-to-hast`](https://github.com/syntax-tree/mdast-util-to-hast)
+    — Transform MDAST to HAST
+*   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
+    — Transform MDAST to NLCST
+*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
+    — rehype support for remark
+*   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
+    — remark support for rehype
 
 ## Contribute
 
@@ -151,8 +160,6 @@ repository, organisation, or community you agree to abide by its terms.
 [mdast]: https://github.com/syntax-tree/mdast
 
 [hast]: https://github.com/syntax-tree/hast
-
-[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
 
