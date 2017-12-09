@@ -2,9 +2,7 @@
 
 Transform [HAST][] (HTML) to [MDAST][] (markdown).
 
-> This is stable in versioning now, but may change a bit in the future.
->
-> See [GH-3][3] for progress.
+> **Note**: You probably want to use [rehype-remark][].
 
 ## Installation
 
@@ -16,17 +14,30 @@ npm install hast-util-to-mdast
 
 ## Usage
 
+Say we have the following `example.html`:
+
+```html
+<h2>Hello <strong>world!</strong></h2>
+```
+
+…and next to it, `example.js`:
+
 ```javascript
-var rehype = require('rehype');
-var remark = require('remark');
+var unified = require('unified');
+var parse = require('rehype-parse');
+var stringify = require('remark-stringify');
+var vfile = require('to-vfile');
 var toMDAST = require('hast-util-to-mdast');
 
-var hast = rehype().parse('<h2>Hello <strong>world!</strong></h2>');
-var doc = remark().stringify(toMDAST(hast));
+var file = vfile.readSync('example.html');
+var hast = unified().use(parse).parse(file);
+var mdast = toMDAST(hast);
+var doc = unified().use(stringify).stringify(mdast);
+
 console.log(doc);
 ```
 
-Yields:
+Now, running `node example.js` yields:
 
 ```markdown
 ## Hello **world!**
@@ -38,6 +49,8 @@ Yields:
 
 Transform the given [HAST][] tree to an [MDAST][] tree.
 
+##### Options
+
 ###### `options.handlers`
 
 Object mapping tag-names to functions handling those elements.
@@ -48,6 +61,10 @@ Take a look at [`handlers/`][handlers] for examples.
 Whether the given tree is a complete document.  If `document: true`,
 implicit paragraphs are added in the `root` node around inline MDAST nodes.
 Otherwise, inline MDAST nodes are wrapped when needed.
+
+##### Returns
+
+[`MDASTNode`][mdast].
 
 ## Related
 
@@ -87,7 +104,7 @@ repository, organisation, or community you agree to abide by its terms.
 
 [mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
-[3]: https://github.com/syntax-tree/hast-util-to-mdast/issues/3
+[rehype-remark]: https://github.com/rehypejs/rehype-remark
 
 [handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/handlers
 
