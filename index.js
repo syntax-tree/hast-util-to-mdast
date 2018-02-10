@@ -2,13 +2,16 @@
 
 module.exports = toMDAST;
 
-var minify = require('rehype-minify-whitespace')();
+var rehypeMinifyWhitespace = require('rehype-minify-whitespace');
 var xtend = require('xtend');
 var one = require('./lib/one');
 var handlers = require('./lib/handlers');
 
 function toMDAST(tree, options) {
   var settings = options || {};
+  var minify = rehypeMinifyWhitespace({
+    newlines: typeof settings.newlines === 'boolean' ? settings.newlines : false
+  });
 
   h.handlers = xtend(handlers, settings.handlers || {});
   h.augment = augment;

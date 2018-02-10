@@ -193,6 +193,40 @@ test('handlers option', function (t) {
   t.end();
 });
 
+test('newlines option', function (t) {
+  var options = {
+    newlines: true
+  };
+
+  t.deepEqual(
+    toMDAST({
+      type: 'root',
+      children: [{
+        type: 'element',
+        tagName: 'p',
+        properties: {},
+        children: [{
+          type: 'text',
+          value: 'Alpha\nBeta'
+        }]
+      }]
+    }, options),
+    {
+      type: 'root',
+      children: [{
+        type: 'paragraph',
+        children: [{
+          type: 'text',
+          value: 'Alpha\nBeta'
+        }]
+      }]
+    },
+    'should keep \\n'
+  );
+
+  t.end();
+});
+
 test('document', function (t) {
   var tree = u('root', [
     h('b', 'Importance'),
