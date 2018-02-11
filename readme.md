@@ -65,7 +65,7 @@ Otherwise, inline MDAST nodes are wrapped when needed.
 ###### `options.newlines`
 
 If `newlines: true`, collapses white-space containing newlines to `\n` instead
-of ` `. Default is `newlines: false`.
+of ``.  Default is `newlines: false`.
 
 ##### Returns
 
