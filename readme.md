@@ -163,7 +163,7 @@ repository, organisation, or community you agree to abide by its terms.
 
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
 
-[handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/handlers
+[handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/lib/handlers
 
 [contribute]: https://github.com/syntax-tree/hast/blob/master/contributing.md
 
