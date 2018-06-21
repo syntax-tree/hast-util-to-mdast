@@ -207,7 +207,7 @@ test('handlers option', function(t) {
   t.end()
 })
 
-test('document', function(t) {
+test('document option', function(t) {
   var tree = u('root', [
     h('b', 'Importance'),
     u('text', ' and '),
@@ -237,6 +237,81 @@ test('document', function(t) {
       ])
     ]),
     'should support an explitic `document: true`'
+  )
+
+  t.end()
+})
+
+test('newlines option', function(t) {
+  t.deepEqual(
+    toMDAST({
+      type: 'root',
+      children: [
+        {
+          type: 'element',
+          tagName: 'p',
+          properties: {},
+          children: [
+            {
+              type: 'text',
+              value: 'Alpha\nBeta'
+            }
+          ]
+        }
+      ]
+    }),
+    {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'text',
+              value: 'Alpha Beta'
+            }
+          ]
+        }
+      ]
+    },
+    'should collapse newline to a single space'
+  )
+
+  t.deepEqual(
+    toMDAST(
+      {
+        type: 'root',
+        children: [
+          {
+            type: 'element',
+            tagName: 'p',
+            properties: {},
+            children: [
+              {
+                type: 'text',
+                value: 'Alpha\nBeta'
+              }
+            ]
+          }
+        ]
+      },
+      {newlines: true}
+    ),
+    {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'text',
+              value: 'Alpha\nBeta'
+            }
+          ]
+        }
+      ]
+    },
+    'should contain newlines'
   )
 
   t.end()

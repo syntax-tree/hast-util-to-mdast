@@ -69,6 +69,11 @@ Whether the given tree is a complete document.  If `document: true`,
 implicit paragraphs are added in the `root` node around inline MDAST nodes.
 Otherwise, inline MDAST nodes are wrapped when needed.
 
+###### `options.newlines`
+
+Whether to collapse to a newline (`\n`) instead of a single space (default) if
+a streak of white-space in a text node contains a newline.
+
 ##### Returns
 
 [`MDASTNode`][mdast].
