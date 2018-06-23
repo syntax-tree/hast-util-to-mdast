@@ -10,6 +10,9 @@ var handlers = require('./lib/handlers')
 function toMDAST(tree, options) {
   var settings = options || {}
 
+  h.baseFound = false
+  h.frozenBaseURL = null
+
   h.handlers = xtend(handlers, settings.handlers || {})
   h.augment = augment
   h.document = settings.document
