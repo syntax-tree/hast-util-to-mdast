@@ -90,6 +90,8 @@ test('fixtures', function(t) {
   t.end()
 
   function check(name) {
+    var ignore = /^base\b/.test(name) && typeof URL === 'undefined'
+
     t.test(name, function(st) {
       var input = String(
         fs.readFileSync(path.join(fixtures, name, 'index.html'))
@@ -127,6 +129,11 @@ test('fixtures', function(t) {
       st.doesNotThrow(function() {
         assert(tree)
       }, 'should produce valid MDAST nodes')
+
+      if (ignore) {
+        st.end()
+        return
+      }
 
       if (!config || config.stringify !== false) {
         st.deepEqual(
