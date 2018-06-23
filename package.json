@@ -38,6 +38,7 @@
     "mdast-util-assert": "^1.0.0",
     "negate": "^1.0.0",
     "nyc": "^12.0.0",
+    "prettier": "^1.13.5",
     "rehype-parse": "^4.0.0",
     "remark-cli": "^5.0.0",
     "remark-parse": "^5.0.0",
@@ -50,11 +51,10 @@
     "xo": "^0.21.0"
   },
   "scripts": {
-    "build": "remark *.md -qfo",
-    "lint": "xo",
+    "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test/index.js",
-    "test": "npm run build && npm run lint && npm run test-coverage"
+    "test": "npm run format && npm run test-coverage"
   },
   "nyc": {
     "check-coverage": true,
@@ -62,8 +62,16 @@
     "functions": 100,
     "branches": 100
   },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
   "xo": {
-    "space": true,
+    "prettier": true,
     "esnext": false,
     "rules": {
       "no-multi-assign": "off"

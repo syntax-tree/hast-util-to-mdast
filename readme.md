@@ -23,18 +23,25 @@ Say we have the following `example.html`:
 …and next to it, `example.js`:
 
 ```javascript
-var unified = require('unified');
-var parse = require('rehype-parse');
-var stringify = require('remark-stringify');
-var vfile = require('to-vfile');
-var toMDAST = require('hast-util-to-mdast');
+var unified = require('unified')
+var parse = require('rehype-parse')
+var stringify = require('remark-stringify')
+var vfile = require('to-vfile')
+var toMDAST = require('hast-util-to-mdast')
 
-var file = vfile.readSync('example.html');
-var hast = unified().use(parse).parse(file);
-var mdast = toMDAST(hast);
-var doc = unified().use(stringify).stringify(mdast);
+var file = vfile.readSync('example.html')
 
-console.log(doc);
+var hast = unified()
+  .use(parse)
+  .parse(file)
+
+var mdast = toMDAST(hast)
+
+var doc = unified()
+  .use(stringify)
+  .stringify(mdast)
+
+console.log(doc)
 ```
 
 Now, running `node example.js` yields:
