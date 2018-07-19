@@ -2,7 +2,7 @@
 
 module.exports = toMDAST
 
-var minify = require('rehype-minify-whitespace')()
+var minify = require('rehype-minify-whitespace')
 var xtend = require('xtend')
 var one = require('./lib/one')
 var handlers = require('./lib/handlers')
@@ -17,7 +17,13 @@ function toMDAST(tree, options) {
   h.augment = augment
   h.document = settings.document
 
-  return one(h, minify(tree), null)
+  return one(
+    h,
+    minify({
+      newlines: settings.newlines === true
+    })(tree),
+    null
+  )
 
   function h(node, type, props, children) {
     var result
