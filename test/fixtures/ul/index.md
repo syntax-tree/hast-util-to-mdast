@@ -26,18 +26,18 @@ Bar.
 
 Baz.
 
--···
+-
 -   Something else
 
 Qux.
 
 -   Something else
--···
+-
 
 Quux.
 
 -   Something else
--···
+-
 
 Quuux.
 

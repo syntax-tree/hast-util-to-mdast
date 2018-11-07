@@ -26,18 +26,18 @@ Bar.
 
 Baz.
 
-1.··
+1.
 2.  Something else
 
 Qux.
 
 1.  Something else
-2.··
+2.
 
 Quux.
 
 1.  Something else
-2.··
+2.
 
 Quuux.
 
