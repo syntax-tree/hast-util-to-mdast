@@ -123,7 +123,7 @@ test('fixtures', function(t) {
 
       var tree = remove(fromHTML.runSync(fromHTML.parse(input)), true)
 
-      /* Replace middots with spaces (useful for break nodes). */
+      // Replace middots with spaces (useful for break nodes).
       output = output.replace(/·/g, ' ')
 
       st.doesNotThrow(function() {

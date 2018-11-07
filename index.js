@@ -43,8 +43,7 @@ function toMdast(tree, options) {
     return augment(node, result)
   }
 
-  /* `right` is the finalized mdast node,
-   * created from `left`, a hast node */
+  // `right` is the finalized mdast node, created from `left`, a hast node.
   function augment(left, right) {
     if (left.position) {
       right.position = left.position
