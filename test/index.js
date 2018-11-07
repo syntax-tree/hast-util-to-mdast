@@ -13,31 +13,31 @@ var html = require('rehype-parse')
 var stringify = require('remark-stringify')
 var assert = require('mdast-util-assert')
 var remove = require('unist-util-remove-position')
-var toMDAST = require('..')
+var toMdast = require('..')
 
 var fixtures = path.join(__dirname, 'fixtures')
 
 test('core', function(t) {
   t.deepEqual(
-    toMDAST(u('root', [h('strong', 'Alpha')])),
+    toMdast(u('root', [h('strong', 'Alpha')])),
     u('root', [u('strong', [u('text', 'Alpha')])]),
-    'should transform HAST to MDAST'
+    'should transform hast to mdast'
   )
 
   t.deepEqual(
-    toMDAST(u('root', [u('unknown', 'text')])),
+    toMdast(u('root', [u('unknown', 'text')])),
     u('root', [u('text', 'text')]),
     'should transform unknown texts to `text`'
   )
 
   t.deepEqual(
-    toMDAST(u('root', [u('unknown', [h('em')])])),
+    toMdast(u('root', [u('unknown', [h('em')])])),
     u('root', [u('emphasis', [])]),
     'should unwrap unknown parents'
   )
 
   t.deepEqual(
-    toMDAST(u('root', [u('unknown')])),
+    toMdast(u('root', [u('unknown')])),
     u('root', []),
     'should ignore unknown voids'
   )
@@ -48,7 +48,7 @@ test('core', function(t) {
   }
 
   t.deepEqual(
-    toMDAST({
+    toMdast({
       type: 'root',
       children: [
         {
@@ -116,7 +116,7 @@ test('fixtures', function(t) {
         .use(function() {
           return transformer
           function transformer(tree) {
-            return toMDAST(tree, config)
+            return toMdast(tree, config)
           }
         })
         .use(stringify)
@@ -128,7 +128,7 @@ test('fixtures', function(t) {
 
       st.doesNotThrow(function() {
         assert(tree)
-      }, 'should produce valid MDAST nodes')
+      }, 'should produce valid mdast nodes')
 
       if (ignore) {
         st.end()
@@ -168,7 +168,7 @@ test('handlers option', function(t) {
   }
 
   t.deepEqual(
-    toMDAST(
+    toMdast(
       {
         type: 'root',
         children: [
@@ -216,7 +216,7 @@ test('document option', function(t) {
   ])
 
   t.deepEqual(
-    toMDAST(tree),
+    toMdast(tree),
     u('root', [
       u('strong', [u('text', 'Importance')]),
       u('text', ' and '),
@@ -227,7 +227,7 @@ test('document option', function(t) {
   )
 
   t.deepEqual(
-    toMDAST(tree, {document: true}),
+    toMdast(tree, {document: true}),
     u('root', [
       u('paragraph', [
         u('strong', [u('text', 'Importance')]),
@@ -244,7 +244,7 @@ test('document option', function(t) {
 
 test('newlines option', function(t) {
   t.deepEqual(
-    toMDAST({
+    toMdast({
       type: 'root',
       children: [
         {
@@ -278,7 +278,7 @@ test('newlines option', function(t) {
   )
 
   t.deepEqual(
-    toMDAST(
+    toMdast(
       {
         type: 'root',
         children: [

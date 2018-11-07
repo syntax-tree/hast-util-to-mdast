@@ -1,13 +1,13 @@
 'use strict'
 
-module.exports = toMDAST
+module.exports = toMdast
 
 var minify = require('rehype-minify-whitespace')
 var xtend = require('xtend')
 var one = require('./lib/one')
 var handlers = require('./lib/handlers')
 
-function toMDAST(tree, options) {
+function toMdast(tree, options) {
   var settings = options || {}
   var opts = {newlines: settings.newlines === true}
 
@@ -43,8 +43,8 @@ function toMDAST(tree, options) {
     return augment(node, result)
   }
 
-  /* `right` is the finalized MDAST node,
-   * created from `left`, a HAST node */
+  /* `right` is the finalized mdast node,
+   * created from `left`, a hast node */
   function augment(left, right) {
     if (left.position) {
       right.position = left.position

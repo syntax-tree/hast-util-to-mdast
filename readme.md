@@ -5,7 +5,7 @@
 [![Downloads][downloads-badge]][downloads]
 [![Chat][chat-badge]][chat]
 
-Transform [HAST][] (HTML) to [MDAST][] (markdown).
+Transform [hast][] (HTML) to [mdast][] (markdown).
 
 > **Note**: You probably want to use [rehype-remark][].
 
@@ -32,7 +32,7 @@ var unified = require('unified')
 var parse = require('rehype-parse')
 var stringify = require('remark-stringify')
 var vfile = require('to-vfile')
-var toMDAST = require('hast-util-to-mdast')
+var toMdast = require('hast-util-to-mdast')
 
 var file = vfile.readSync('example.html')
 
@@ -40,7 +40,7 @@ var hast = unified()
   .use(parse)
   .parse(file)
 
-var mdast = toMDAST(hast)
+var mdast = toMdast(hast)
 
 var doc = unified()
   .use(stringify)
@@ -57,9 +57,9 @@ Now, running `node example.js` yields:
 
 ## API
 
-### `toMDAST(node[, options])`
+### `toMdast(node[, options])`
 
-Transform the given [HAST][] tree to an [MDAST][] tree.
+Transform the given [hast][] tree to [mdast][].
 
 ##### Options
 
@@ -71,8 +71,8 @@ Take a look at [`handlers/`][handlers] for examples.
 ###### `options.document`
 
 Whether the given tree is a complete document.  If `document: true`,
-implicit paragraphs are added in the `root` node around inline MDAST nodes.
-Otherwise, inline MDAST nodes are wrapped when needed.
+implicit paragraphs are added in the `root` node around inline mdast nodes.
+Otherwise, inline mdast nodes are wrapped when needed.
 
 ###### `options.newlines`
 
@@ -106,7 +106,7 @@ An implicit sentence.
 
 ###### Ignoring nodes
 
-Some nodes are ignored and their content will not be present in MDAST.
+Some nodes are ignored and their content will not be present in mdast.
 To ignore custom elements, configure a handler for their tag-name or type that
 returns nothing.
 For example, to ignore `em` elements, pass `handlers: {'em': function () {}}`:
@@ -136,11 +136,11 @@ Yields:
 ## Related
 
 *   [`hast-util-to-nlcst`](https://github.com/syntax-tree/hast-util-to-nlcst)
-    — Transform HAST to NLCST
+    — Transform hast to nlcst
 *   [`mdast-util-to-hast`](https://github.com/syntax-tree/mdast-util-to-hast)
-    — Transform MDAST to HAST
+    — Transform mdast to hast
 *   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
-    — Transform MDAST to NLCST
+    — Transform mdast to nlcst
 *   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
     — rehype support for remark
 *   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
