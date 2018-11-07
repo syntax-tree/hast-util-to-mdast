@@ -34,22 +34,22 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "hastscript": "^4.0.0",
+    "hastscript": "^5.0.0",
     "is-hidden": "^1.1.0",
     "mdast-util-assert": "^1.0.0",
     "negate": "^1.0.0",
-    "nyc": "^12.0.0",
+    "nyc": "^13.0.0",
     "prettier": "^1.13.5",
     "rehype-parse": "^5.0.0",
-    "remark-cli": "^5.0.0",
-    "remark-parse": "^5.0.0",
+    "remark-cli": "^6.0.0",
+    "remark-parse": "^6.0.0",
     "remark-preset-wooorm": "^4.0.0",
-    "remark-stringify": "^5.0.0",
+    "remark-stringify": "^6.0.0",
     "tape": "^4.6.3",
     "unified": "^7.0.0",
     "unist-builder": "^1.0.2",
     "unist-util-remove-position": "^1.1.0",
-    "xo": "^0.21.0"
+    "xo": "^0.23.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
