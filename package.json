@@ -1,6 +1,6 @@
 {
   "name": "hast-util-to-mdast",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Transform hast to mdast",
   "license": "MIT",
   "keywords": [
