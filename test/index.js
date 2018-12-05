@@ -236,7 +236,7 @@ test('document option', function(t) {
         u('text', '.')
       ])
     ]),
-    'should support an explitic `document: true`'
+    'should support an explicit `document: true`'
   )
 
   t.end()
