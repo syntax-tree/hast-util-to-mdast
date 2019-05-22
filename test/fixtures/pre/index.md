@@ -31,5 +31,7 @@ lima(); mike
 ```
 
 ```
-november oscar(); papa
+november·
+oscar();
+ papa
 ```
