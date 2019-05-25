@@ -66,4 +66,16 @@ Golf: <https://l.com>
 
 Hotel: <https://l.com>, <https://n.com>
 
+<!-- Email -->
+
+Alpha:·
+
+Bravo: [charlie@example.com](mailto:charlie@example.com)
+
+Delta: [echo@example.com](mailto:echo@example.com)
+
+Golf: [l@example.com](mailto:l@example.com)
+
+Hotel: [l@example.com](mailto:l@example.com), [n@example.com](mailto:n@example.com)
+
 <!-- Data lists -->

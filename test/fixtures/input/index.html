@@ -42,6 +42,14 @@
 <p><label>Golf: <input type=url list=b></label></p>
 <p><label>Hotel: <input type=url list=b multiple></label></p>
 
+<!-- Email -->
+
+<p><label>Alpha: <input type=email></label></p>
+<p><label>Bravo: <input type=email value=charlie@example.com></label></p>
+<p><label>Delta: <input type=email value=echo@example.com title=Foxtrot></label></p>
+<p><label>Golf: <input type=email list=c></label></p>
+<p><label>Hotel: <input type=email list=c multiple></label></p>
+
 <!-- Data lists -->
 
 <datalist id=a>
@@ -66,4 +74,16 @@
   <option selected>https://l.com</option>
   <option selected disabled>https://m.com</option>
   <option selected>https://n.com</option> <!-- Also selected -->
+</datalist>
+
+<datalist id=c>
+  <option value=a@example.com>
+  <option value=b@example.com label=D>
+  <option value=c@example.com label=F>G</option> <!-- Invalid content -->
+  <option label=H>i@example.com</option>
+  <option>j@example.com</option>
+  <option disabled>k@example.com</option>
+  <option selected>l@example.com</option>
+  <option selected disabled>m@example.com</option>
+  <option selected>n@example.com</option> <!-- Also selected -->
 </datalist>
