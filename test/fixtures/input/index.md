@@ -88,6 +88,12 @@ Charlie: 23:59:59
 
 Delta: 23:59:59.999
 
+<!-- Datetime-local -->
+
+Alpha:·
+
+Bravo: 2000-11-22T23:59
+
 <!-- URL -->
 
 Alpha:·
