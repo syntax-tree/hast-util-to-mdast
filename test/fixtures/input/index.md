@@ -162,4 +162,10 @@ Hotel: [l@example.com](mailto:l@example.com), [n@example.com](mailto:n@example.c
 
 \[x] Delta
 
+<!-- Submit -->
+
+Alpha:·
+
+Bravo: Charlie
+
 <!-- Data lists -->
