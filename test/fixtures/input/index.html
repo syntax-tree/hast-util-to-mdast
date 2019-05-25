@@ -1,0 +1,34 @@
+<!-- Text -->
+
+<p><label>Alpha: <input></label></p>
+<p><label>Bravo: <input type=text></label></p>
+<p><label>Charlie: <input value=Delta></label></p>
+<p><label>Echo: <input value=Foxtrot disabled></label></p>
+<p><label>Golf: <input list=a></label></p>
+<p><label>Hotel: <input list=a multiple></label></p>
+<p><label>India: <input list=a multiple size=123></label></p>
+<p><label>Juliett: <input maxlength=123></label></p>
+<p><label>Kilo: <input minlength=123></label></p>
+<p><label>Mike: <input name=november></label></p>
+<p><label>Oscar: <input pattern=\d+></label></p>
+<p><label>Papa: <input pattern=\d+ title="One or more digits"></label></p>
+<p><label>Romeo: <input placeholder=Québec></label></p>
+<p><label>Sierra: <input readonly></label></p>
+<p><label>Tango: <input required></label></p>
+<p><label>Uniform: <input size=123></label></p>
+<p><label>Whiskey: <input list=a size=123></label></p>
+<p><label>X-ray: <input title=Yankee></label></p>
+
+<!-- Data lists -->
+
+<datalist id=a>
+  <option value=B>
+  <option value=C label=D>
+  <option value=E label=F>G</option> <!-- Invalid content -->
+  <option label=H>I</option>
+  <option>J</option>
+  <option disabled>K</option>
+  <option selected>L</option>
+  <option selected disabled>M</option>
+  <option selected>N</option> <!-- Also selected -->
+</datalist>

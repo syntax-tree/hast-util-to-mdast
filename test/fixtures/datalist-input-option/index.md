@@ -1,1 +1,1 @@
-Choose a browser from this list:·
+Choose a browser from this list: Chrome
