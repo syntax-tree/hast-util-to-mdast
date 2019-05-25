@@ -180,4 +180,22 @@ Alpha:·
 
 Bravo: Charlie
 
+<!-- Image -->
+
+Alpha:·
+
+Bravo: ![Charlie](<>)
+
+Delta: ![Echo](foxtrot.svg)
+
+Golf: ![Hotel](india.svg "Juliett")
+
+Kilo: ![Oscar](mike.svg "November")
+
+Papa: ![Sierra](romeo.svg)
+
+Tango: ![Whiskey](uniform.svg)
+
+X-ray:·
+
 <!-- Data lists -->
