@@ -60,6 +60,10 @@ Alpha:·
 
 Bravo: •••••••
 
+Delta: ••••
+
+Foxtrot:·
+
 <!-- Date -->
 
 Alpha:·
