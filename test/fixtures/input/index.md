@@ -106,6 +106,12 @@ Alpha:·
 
 Bravo: 3
 
+<!-- Color -->
+
+Alpha:·
+
+Bravo: #000000
+
 <!-- URL -->
 
 Alpha:·
