@@ -54,6 +54,12 @@ Alpha:·
 
 Bravo: Charlie
 
+<!-- Password -->
+
+Alpha:·
+
+Bravo: •••••••
+
 <!-- URL -->
 
 Alpha:·
