@@ -146,4 +146,12 @@ Golf: [l@example.com](mailto:l@example.com)
 
 Hotel: [l@example.com](mailto:l@example.com), [n@example.com](mailto:n@example.com)
 
+<!-- Checkbox -->
+
+\[ ] Alpha
+
+\[x] Bravo
+
+\[x] Delta
+
 <!-- Data lists -->
