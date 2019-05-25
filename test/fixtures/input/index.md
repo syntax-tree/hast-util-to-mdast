@@ -66,6 +66,12 @@ Alpha:·
 
 Bravo: 2000-11-22
 
+<!-- Month -->
+
+Alpha:·
+
+Bravo: 2000-11
+
 <!-- URL -->
 
 Alpha:·
