@@ -72,6 +72,12 @@ Alpha:·
 
 Bravo: 2000-11
 
+<!-- Week -->
+
+Alpha:·
+
+Bravo: 2000-w1
+
 <!-- URL -->
 
 Alpha:·
