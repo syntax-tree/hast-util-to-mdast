@@ -3,6 +3,7 @@
 module.exports = toMdast
 
 var minify = require('rehype-minify-whitespace')
+var visit = require('unist-util-visit')
 var xtend = require('xtend')
 var one = require('./lib/one')
 var handlers = require('./lib/handlers')
@@ -10,13 +11,17 @@ var handlers = require('./lib/handlers')
 function toMdast(tree, options) {
   var settings = options || {}
   var opts = {newlines: settings.newlines === true}
+  var byId = {}
 
+  h.nodeById = byId
   h.baseFound = false
   h.frozenBaseURL = null
 
   h.handlers = xtend(handlers, settings.handlers || {})
   h.augment = augment
   h.document = settings.document
+
+  visit(tree, onvisit)
 
   return one(h, minify(opts)(tree), null)
 
@@ -50,5 +55,14 @@ function toMdast(tree, options) {
     }
 
     return right
+  }
+
+  function onvisit(node) {
+    var props = node.properties || {}
+    var id = props.id
+
+    if (id && !(id in node)) {
+      byId[id] = node
+    }
   }
 }
