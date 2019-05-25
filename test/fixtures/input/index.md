@@ -168,4 +168,10 @@ Alpha:·
 
 Bravo: Charlie
 
+<!-- Reset -->
+
+Alpha:·
+
+Bravo: Charlie
+
 <!-- Data lists -->
