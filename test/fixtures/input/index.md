@@ -78,6 +78,16 @@ Alpha:·
 
 Bravo: 2000-w1
 
+<!-- Time -->
+
+Alpha:·
+
+Bravo: 23:59
+
+Charlie: 23:59:59
+
+Delta: 23:59:59.999
+
 <!-- URL -->
 
 Alpha:·
