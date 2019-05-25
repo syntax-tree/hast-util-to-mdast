@@ -54,4 +54,16 @@ Alpha:·
 
 Bravo: Charlie
 
+<!-- URL -->
+
+Alpha:·
+
+Bravo: <http://charlie.com>
+
+Delta: <http://echo.com>
+
+Golf: <https://l.com>
+
+Hotel: <https://l.com>, <https://n.com>
+
 <!-- Data lists -->

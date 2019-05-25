@@ -34,6 +34,14 @@
 <p><label>Alpha: <input type=tel></label></p>
 <p><label>Bravo: <input type=tel value=Charlie></label></p>
 
+<!-- URL -->
+
+<p><label>Alpha: <input type=url></label></p>
+<p><label>Bravo: <input type=url value=http://charlie.com></label></p>
+<p><label>Delta: <input type=url value=http://echo.com title=Foxtrot></label></p>
+<p><label>Golf: <input type=url list=b></label></p>
+<p><label>Hotel: <input type=url list=b multiple></label></p>
+
 <!-- Data lists -->
 
 <datalist id=a>
@@ -46,4 +54,16 @@
   <option selected>L</option>
   <option selected disabled>M</option>
   <option selected>N</option> <!-- Also selected -->
+</datalist>
+
+<datalist id=b>
+  <option value=https://a.com>
+  <option value=https://b.com label=D>
+  <option value=https://c.com label=F>G</option> <!-- Invalid content -->
+  <option label=H>https://i.com</option>
+  <option>https://j.com</option>
+  <option disabled>https://k.com</option>
+  <option selected>https://l.com</option>
+  <option selected disabled>https://m.com</option>
+  <option selected>https://n.com</option> <!-- Also selected -->
 </datalist>
