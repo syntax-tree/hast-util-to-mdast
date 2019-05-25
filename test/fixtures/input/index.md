@@ -154,4 +154,12 @@ Hotel: [l@example.com](mailto:l@example.com), [n@example.com](mailto:n@example.c
 
 \[x] Delta
 
+<!-- Radio -->
+
+\[ ] Alpha
+
+\[x] Bravo
+
+\[x] Delta
+
 <!-- Data lists -->
