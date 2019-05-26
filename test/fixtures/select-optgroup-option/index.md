@@ -1,3 +1,11 @@
-Check out these options:·
+Check out these options: Option 1.1
 
-And these:·
+This one: Value 2
+
+Or this: Value 2
+
+Or this: Value 1
+
+Or this: Value 2, Value 3
+
+Or this:·
