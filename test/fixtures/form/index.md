@@ -90,8 +90,6 @@ Post Comment
 
 Search terms:·
 
-
-
  Search
 
 Account:·
