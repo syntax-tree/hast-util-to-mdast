@@ -10,7 +10,7 @@ Enhance contrast 0
 
 Destination
 
-Airport: ATL
+Airport: Atlanta (ATL)
 
 Departure time:·
 

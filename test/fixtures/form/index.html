@@ -1,0 +1,199 @@
+<form>
+  <p><label> <input type=radio name=payment-type value=cc> Credit Card</label></p>
+  <p><label>Name on card: <input name=cc1 autocomplete="section-cc cc-name" placeholder="Y. Name"></label>
+  <p><label>Card number: <input name=cc2 inputmode=numeric autocomplete="section-cc cc-number" placeholder="6331 1019 9999 0016"></label>
+  <p><label>Expiry Date: <input name=cc3 type=month autocomplete="section-cc cc-exp" placeholder=2020-02></label>
+  <p><label>Security Code: <input name=cc4 inputmode=numeric autocomplete="section-cc cc-csc" placeholder=246></label>
+</p>
+
+<form
+  method=post
+  enctype=application/x-www-form-urlencoded
+  action=https://pizza.example.com/order.cgi
+>
+  <p><label>Customer name: <input name=custname required autocomplete="shipping name"></label></p>
+  <p><label>Telephone: <input type=tel name=custtel autocomplete="shipping tel"></label></p>
+  <p><label>Buzzer code: <input name=custbuzz inputmode=numeric></label></p>
+  <p><label>E-mail address: <input type=email name=custemail autocomplete="shipping email"></label></p>
+  <fieldset>
+    <legend> Pizza Size </legend>
+    <p><label> <input type=radio name=size required value=small> Small </label></p>
+    <p><label> <input type=radio name=size required value=medium> Medium </label></p>
+    <p><label> <input type=radio name=size required value=large> Large </label></p>
+  </fieldset>
+  <fieldset>
+    <legend> Pizza Toppings </legend>
+    <p><label> <input type=checkbox name=topping value=bacon> Bacon </label></p>
+    <p><label> <input type=checkbox name=topping value=cheese> Extra Cheese </label></p>
+    <p><label> <input type=checkbox name=topping value=onion> Onion </label></p>
+    <p><label> <input type=checkbox name=topping value=mushroom> Mushroom </label></p>
+  </fieldset>
+  <p><label>Preferred delivery time: <input type=time min=11:00 max=21:00 step=900 name=delivery required></label></p>
+  <p><label>Delivery instructions: <textarea name=comments maxlength=1000></textarea></label></p>
+  <p><button>Submit order</button></p>
+</form>
+
+<form>
+  <input type=url name=location list=urls>
+  <datalist id=urls>
+    <option label="MIME: Format of Internet Message Bodies" value=https://tools.ietf.org/html/rfc2045>
+    <option label=HTML value=https://html.spec.whatwg.org/>
+    <option label=DOM value=https://dom.spec.whatwg.org/>
+    <option label=Fullscreen value=https://fullscreen.spec.whatwg.org/>
+    <option label="Media Session" value=https://mediasession.spec.whatwg.org/>
+    <option label="The Single UNIX Specification, Version 3" value=http://www.unix.org/version3/>
+  </datalist>
+</form>
+
+<form>
+  <input type=range min=-100 max=100 value=0 step=10 name=power list=powers>
+  <datalist id=powers>
+    <option value=0>
+    <option value=-30>
+    <option value=30>
+    <option value=++50>
+  </datalist>
+</form>
+
+<form>
+  <input name=x type=range min=100 max=700 step=9.09090909 value=509.090909>
+</form>
+
+<form>
+  <input type=range name=a list=a-values>
+  <datalist id=a-values>
+    <option value=10 label=Low>
+    <option value=90 label=High>
+  </datalist>
+</form>
+
+<form>
+  <input type=file accept=.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document>
+</form>
+
+<form action=process.cgi>
+  <input type=image src=map.png name=where alt="Show location list">
+</form>
+
+<h1>Create new account</h1>
+<form
+  action=/newaccount
+  method=post
+  oninput="up2.setCustomValidity(up2.value != up.value ? 'Passwords do not match.' : '')"
+>
+  <p>
+    <label for=username>E-mail address:</label>
+    <input id=username type=email required name=un>
+  <p>
+    <label for=password1>Password:</label>
+    <input id=password1 type=password required name=up>
+  <p>
+    <label for=password2>Confirm password:</label>
+    <input id=password2 type=password name=up2>
+  <p>
+    <input type=submit value="Create account">
+</form>
+
+
+<form>
+  <label>Homepage: <input name=hp type=url list=hpurls></label>
+  <datalist id=hpurls>
+    <option value=https://www.google.com/ label=Google>
+    <option value=https://www.reddit.com/ label=Reddit>
+  </datalist>
+</form>
+
+<form>
+  <p>
+    <label>Enter a breed: <input name=breed list=breeds></label>
+    <datalist id=breeds>
+      <label>
+        or select one from the list:
+        <select name=breed>
+          <option value> (none selected)
+          <option>Abyssinian
+          <option>Alpaca
+          <!-- ... -->
+        </select>
+      </label>
+    </datalist>
+  </p>
+</form>
+
+<form>
+  <fieldset>
+    <legend>Mail Account</legend>
+    <p><label>Name: <input name=fullname placeholder="John Ratzenberger"></label></p>
+    <p><label>Address: <input type=email name=address placeholder=john@example.net></label></p>
+    <p><label>Password: <input type=password name=password></label></p>
+    <p><label>Description: <input type=text name=desc placeholder="My Email Account"></label></p>
+  </fieldset>
+</form>
+
+<form>
+  <input name=t1 type=tel placeholder="&#x202B; رقم الهاتف 1 &#x202E;">
+  <input name=t2 type=tel placeholder="&#x202B; رقم الهاتف 2 &#x202E;">
+</form>
+
+<form action=courseselector.dll method=get>
+  <p>Which course would you like to watch today?
+  <p>
+    <label>
+      Course:
+      <select name=c>
+        <optgroup label="8.01 Physics I: Classical Mechanics">
+          <option value=8.01.1>Lecture 01: Powers of Ten
+          <option value=8.01.2>Lecture 02: 1D Kinematics
+          <option value=8.01.3>Lecture 03: Vectors
+        <optgroup label="8.02 Electricity and Magnestism">
+          <option value=8.02.1>Lecture 01: What holds our world together?
+          <option value=8.02.2>Lecture 02: Electric Field
+          <option value=8.02.3>Lecture 03: Electric Flux
+        <optgroup label="8.03 Physics III: Vibrations and Waves">
+          <option value=8.03.1>Lecture 01: Periodic Phenomenon
+          <option value=8.03.2>Lecture 02: Beats
+          <option value=8.03.3>Lecture 03: Forced Oscillations with Damping
+      </select>
+    </label>
+  <p>
+    <input type=submit value="▶ Play">
+</form>
+
+<form onsubmit="return false" oninput="o.value = a.valueAsNumber + b.valueAsNumber">
+  <input id=a type=number step=any> +
+  <input id=b type=number step=any> =
+  <output id=o for="a b"></output>
+</form>
+
+<form action=addcomment.cgi method=post>
+ <p><label>Comment: <input type=text name=comment dirname=comment.dir required></label></p>
+ <p><button name=mode type=submit value=add>Post Comment</button></p>
+</form>
+
+<form method=get action=/search.cgi>
+ <p><label>Search terms: <input type=search name=q></label></p>
+ <p><input type=submit></p>
+</form>
+
+<form>
+  <input maxlength=256 name=q value autofocus>
+  <input type=submit value=Search>
+</form>
+
+<form>
+  <p><label>Account: <input name=ac autocomplete=off></label></p>
+  <p><label>PIN: <input type=password name=pin autocomplete=off></label></p>
+</form>
+
+<form>
+  <input type=hidden autocomplete=nickname value=TreePlate>
+  <input type=text autocomplete=nickname>
+</form>
+
+<form>
+  <details>
+   <summary><label for=fn>Name & Extension:</label></summary>
+   <p><input type=text id=fn name=fn value="Pillar Magazine.pdf">
+   <p><label><input type=checkbox name=ext checked> Hide extension</label>
+  </details>
+</form>
