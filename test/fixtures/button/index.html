@@ -1,0 +1,29 @@
+<!-- Typical button -->
+<p><button onclick="void 0" type=button>Show hint</button></p>
+
+<!-- Button without `type` (actually a submit button) -->
+<p><button onclick="void 0">Fire</button></p>
+
+<!-- Explicit and implicit submit buttons -->
+<form>
+  <button type=submit value=prev>← Back</button>
+  <button value=next>Next →</button>
+</form>
+
+<!-- Buttons in a menu -->
+<menu>
+  <li><button onclick=copy()><img src=copy.svg alt=Copy></button></li>
+  <li><button onclick=cut()><img src=cut.svg alt=Cut></button></li>
+</menu>
+
+<!-- Buttons with more images. -->
+<p>
+  <button name=rgb>
+    <img src=red alt=R><img src=green alt=G><img src=blue alt=B>
+  </button>
+</p>
+<p>
+  <button name=cmyk>
+    <img src=cyan alt=C><img src=magenta alt=M><img src=yellow alt=Y><img src=black alt=K>
+  </button>
+</p>

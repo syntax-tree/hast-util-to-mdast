@@ -1,0 +1,5 @@
+{
+  "fragment": true,
+  "#": "TODO: `tree` is false because remark-stringify should escape blank lines in text so as not to generate separate paragraphs",
+  "tree": false
+}

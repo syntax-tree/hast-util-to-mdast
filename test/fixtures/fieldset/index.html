@@ -1,0 +1,53 @@
+<fieldset>
+  <legend>Display</legend>
+  <p><label><input type=radio name=c value=0 checked> Black on White</label>
+  <p><label><input type=radio name=c value=1> White on Black</label>
+  <p><label><input type=checkbox name=g> Use grayscale</label>
+  <p><label>Enhance contrast <input type=range name=e list=contrast min=0 max=100 value=0 step=1></label>
+  <datalist id=contrast>
+    <option label=Normal value=0>
+    <option label=Maximum value=100>
+  </datalist>
+</fieldset>
+
+<fieldset>
+  <legend>Destination</legend>
+  <p><label>Airport: <input type=text name=to list=airports></label></p>
+  <p><label>Departure time: <input type=datetime-local name=totime step=3600></label></p>
+</fieldset>
+<datalist id=airports>
+  <option value=ATL label=Atlanta>
+  <option value=MEM label=Memphis>
+  <option value=LHR label="London Heathrow">
+  <option value=LAX label="Los Angeles">
+  <option value=FRA label=Frankfurt>
+</datalist>
+
+<fieldset>
+  <legend>Did the movie pass the Bechdel test?</legend>
+  <p><label><input type=radio name=bechdel value=no-characters> No, there are not even two female characters in the movie. </label>
+  <p><label><input type=radio name=bechdel value=no-names> No, the female characters never talk to each other. </label>
+  <p><label><input type=radio name=bechdel value=no-topic> No, when female characters talk to each other it’s always about a male character. </label>
+  <p><label><input type=radio name=bechdel value=yes required> Yes. </label>
+  <p><label><input type=radio name=bechdel value=unknown> I don’t know. </label>
+</fieldset>
+
+<fieldset>
+  <legend>Mail Account</legend>
+  <p><label>Name: <input name=fullname placeholder="John Ratzenberger"></label></p>
+  <p><label>Address: <input type=email name=address placeholder=john@example.net></label></p>
+  <p><label>Password: <input type=password name=password></label></p>
+  <p><label>Description: <input name=desc placeholder="My Email Account"></label></p>
+</fieldset>
+
+<fieldset name=clubfields disabled>
+  <legend>
+    <label>
+      <input type=checkbox name=club onchange="form.clubfields.disabled = !checked">
+      Use Club Card
+    </label>
+  </legend>
+  <p><label>Name on card: <input name=clubname required></label></p>
+  <p><label>Card number: <input name=clubnum required pattern=[-0-9]+></label></p>
+  <p><label>Expiry date: <input name=clubexp type=month></label></p>
+</fieldset>

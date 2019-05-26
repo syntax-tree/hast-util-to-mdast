@@ -1,1 +1,1 @@
-·Stem: consider
+Value: considerations stems to: consider
