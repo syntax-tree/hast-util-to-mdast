@@ -62,7 +62,7 @@ Create account
 
 Homepage: [Google](https://www.google.com/)
 
-Enter a breed:·
+Enter a breed: (none selected)
 
 Mail Account
 
