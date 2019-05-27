@@ -76,7 +76,7 @@ See [`handlers/`][handlers] for examples.
 
 Whether the given [*tree*][tree] is a complete document.
 Applies if the given `tree` is a [`root`][hast-root].
-First its [*children*][child] are transformed to [**mast**][mdast].
+First its [*children*][child] are transformed to [**mdast**][mdast].
 By default, if one or more of the new mdast children are [*phrasing*][phrasing]
 nodes, and one or more are not, the phrasing nodes are wrapped in
 [*paragraphs*][mdast-paragraph].
@@ -100,17 +100,17 @@ A. van Kesteren; et al. WHATWG § 3.2.5.4 Paragraphs][spec]), such as:
 
 ```html
 <article>
-  An implicit paragraphs.
-  <h1>An explicit paragraphs.</h1>
+  An implicit paragraph.
+  <h1>An explicit paragraph.</h1>
 </article>
 ```
 
 Yields:
 
 ```markdown
-An implicit paragraphs.
+An implicit paragraph.
 
-# An explicit paragraphs.
+# An explicit paragraph.
 ```
 
 ###### Ignoring nodes
