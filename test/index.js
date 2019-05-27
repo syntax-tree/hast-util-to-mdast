@@ -111,7 +111,7 @@ test('fixtures', function(t) {
         config = JSON.parse(config)
       }
 
-      var fromHTML = unified()
+      var fromHtml = unified()
         .use(html)
         .use(function() {
           return transformer
@@ -121,7 +121,7 @@ test('fixtures', function(t) {
         })
         .use(stringify)
 
-      var tree = remove(fromHTML.runSync(fromHTML.parse(input)), true)
+      var tree = remove(fromHtml.runSync(fromHtml.parse(input)), true)
 
       // Replace middots with spaces (useful for break nodes).
       output = output.replace(/·/g, ' ')

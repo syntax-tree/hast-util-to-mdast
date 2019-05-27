@@ -89,7 +89,7 @@ a streak of white-space in a text node contains a newline.
 
 ##### Returns
 
-[`MDASTNode`][mdast-node].
+[`MdastNode`][mdast-node].
 
 ##### Notes
 
