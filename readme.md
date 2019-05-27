@@ -3,17 +3,20 @@
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Transform [hast][] (HTML) to [mdast][] (markdown).
+[**hast**][hast] utility to transform to [**mdast**][mdast].
 
 > **Note**: You probably want to use [rehype-remark][].
 
-## Installation
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install hast-util-to-mdast
 ```
 
@@ -27,7 +30,7 @@ Say we have the following `example.html`:
 
 …and next to it, `example.js`:
 
-```javascript
+```js
 var unified = require('unified')
 var parse = require('rehype-parse')
 var stringify = require('remark-stringify')
@@ -57,59 +60,67 @@ Now, running `node example.js` yields:
 
 ## API
 
-### `toMdast(node[, options])`
+### `toMdast(tree[, options])`
 
-Transform the given [hast][] tree to [mdast][].
+Transform the given [**hast**][hast] [*tree*][tree] to [**mdast**][mdast].
 
 ##### Options
 
 ###### `options.handlers`
 
-Object mapping tag-names to functions handling those elements.
-Take a look at [`handlers/`][handlers] for examples.
+Object mapping tag names or [*types*][type] to functions handling those
+[*elements*][element] or [*nodes*][hast-node].
+See [`handlers/`][handlers] for examples.
 
 ###### `options.document`
 
-Whether the given tree is a complete document.  If `document: true`,
-implicit paragraphs are added in the `root` node around inline mdast nodes.
-Otherwise, inline mdast nodes are wrapped when needed.
+Whether the given [*tree*][tree] is a complete document.
+Applies if the given `tree` is a [`root`][hast-root].
+First its [*children*][child] are transformed to [**mast**][mdast].
+By default, if one or more of the new mdast children are [*phrasing*][phrasing]
+nodes, and one or more are not, the phrasing nodes are wrapped in
+[*paragraphs*][mdast-paragraph].
+If `document: true`, all mdast phrasing children are wrapped in paragraphs.
 
 ###### `options.newlines`
 
-Whether to collapse to a newline (`\n`) instead of a single space (default) if
+Whether to collapse to a line feed (`\n`) instead of a single space (default) if
 a streak of white-space in a text node contains a newline.
 
 ##### Returns
 
-[`MDASTNode`][mdast].
+[`MDASTNode`][mdast-node].
 
 ##### Notes
 
-###### Implied sentences
+###### Implied paragraphs
 
-The algorithm supports implicit and explicit paragraphs, such as:
+The algorithm supports implicit and explicit paragraphs (see [HTML Standard,
+A. van Kesteren; et al. WHATWG § 3.2.5.4 Paragraphs][spec]), such as:
 
 ```html
 <article>
-  An implicit sentence.
-  <h1>An explicit sentence.</h1>
+  An implicit paragraphs.
+  <h1>An explicit paragraphs.</h1>
 </article>
 ```
 
 Yields:
 
 ```markdown
-An implicit sentence.
+An implicit paragraphs.
 
-# An explicit sentence.
+# An explicit paragraphs.
 ```
 
 ###### Ignoring nodes
 
-Some nodes are ignored and their content will not be present in mdast.
-To ignore custom elements, configure a handler for their tag-name or type that
-returns nothing.
-For example, to ignore `em` elements, pass `handlers: {'em': function () {}}`:
+Some [*nodes*][hast-node] are ignored and their content will not be present in
+the [**mdast**][mdast] [*tree*][tree].
+To ignore nodes, configure a [handler][] for their tag name or [*type*][type]
+that returns nothing.
+For example, to ignore `em` [*elements*][element], pass `handlers: {'em':
+function () {}}`:
 
 ```html
 <p><strong>Importance</strong> and <em>emphasis</em>.</p>
@@ -121,7 +132,8 @@ Yields:
 **Importance** and .
 ```
 
-To ignore a specific element from HTML, set `data-mdast` to `ignore`:
+To ignore a specific element from the HTML source, set `data-mdast` to
+`ignore`:
 
 ```html
 <p><strong>Importance</strong> and <em data-mdast="ignore">emphasis</em>.</p>
@@ -148,11 +160,13 @@ Yields:
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/hast`][contributing] for ways to get
+See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -172,9 +186,19 @@ repository, organisation, or community you agree to abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/hast-util-to-mdast
 
+[size-badge]: https://img.shields.io/bundlephobia/minzip/hast-util-to-mdast.svg
+
+[size]: https://bundlephobia.com/result?p=hast-util-to-mdast
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
 [chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
 
-[chat]: https://spectrum.chat/unified/rehype
+[chat]: https://spectrum.chat/unified/syntax-tree
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -182,14 +206,38 @@ repository, organisation, or community you agree to abide by its terms.
 
 [author]: https://wooorm.com
 
+[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
+
+[support]: https://github.com/syntax-tree/.github/blob/master/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md
+
+[tree]: https://github.com/syntax-tree/unist#tree
+
+[child]: https://github.com/syntax-tree/unist#child
+
+[type]: https://github.com/syntax-tree/unist#type
+
 [mdast]: https://github.com/syntax-tree/mdast
+
+[mdast-paragraph]: https://github.com/syntax-tree/mdast#paragraph
+
+[mdast-node]: https://github.com/syntax-tree/mdast#nodes
+
+[phrasing]: https://github.com/syntax-tree/mdast#phrasingcontent
 
 [hast]: https://github.com/syntax-tree/hast
 
+[hast-node]: https://github.com/syntax-tree/hast#nodes
+
+[hast-root]: https://github.com/syntax-tree/hast#root
+
+[element]: https://github.com/syntax-tree/hast#element
+
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
+
+[handler]: #optionshandlers
 
 [handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/master/lib/handlers
 
-[contributing]: https://github.com/syntax-tree/hast/blob/master/contributing.md
-
-[coc]: https://github.com/syntax-tree/hast/blob/master/code-of-conduct.md
+[spec]: https://html.spec.whatwg.org/#paragraphs
