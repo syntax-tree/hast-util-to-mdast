@@ -20,6 +20,12 @@ Welcome! [This is home of...](about.html)
 
 [The Lockheed Martin multirole jet fighter aircraft!](about.html) This page discusses the F-16 Fighting Falcon’s innermost secrets.
 
+## Even harder implicit paragraphs
+
+Alpha! [Bravo _emphasis_ charlie **importance**...](about.html)
+
+# [delta!](about.html)
+
 ## Explicit paragraphs
 
 Welcome! [This is home of...](about.html)
