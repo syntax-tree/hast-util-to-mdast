@@ -148,7 +148,7 @@ Yields:
 ###### HTML in Markdown
 
 We try our best to map any HTML (hast) to Markdown (mdast) and keep it readable.
-Readability is own of Markdown’s greatest features: it’s terser than HTML, such
+Readability is one of Markdown’s greatest features: it’s terser than HTML, such
 as allowing `# Alpha` instead of `<h1>Alpha</h1>`.
 
 Another awesome feature of Markdown is that you *can* author HTML inside it.
