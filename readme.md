@@ -145,6 +145,61 @@ Yields:
 **Importance** and .
 ```
 
+###### HTML in Markdown
+
+We try our best to map any HTML (hast) to Markdown (mdast) and keep it readable.
+Readability is one of Markdown’s greatest features: it’s terser than HTML, such
+as allowing `# Alpha` instead of `<h1>Alpha</h1>`.
+
+Another awesome feature of Markdown is that you *can* author HTML inside it.
+As we focus on readability we don’t do that, but you can by passing a handler.
+
+Say we for example have this HTML, and want to embed the SVG inside Markdown as
+well:
+
+```html
+<p>
+  Some text with
+  <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1" /></svg>
+  a graphic… Wait is that a dead pixel?
+</p>
+```
+
+This can be achieved with `example.js` like so:
+
+```js
+var unified = require('unified')
+var parse = require('rehype-parse')
+var stringify = require('remark-stringify')
+var vfile = require('to-vfile')
+var toHtml = require('hast-util-to-html')
+var toMdast = require('hast-util-to-mdast')
+
+var file = vfile.readSync('example.html')
+
+var hast = unified()
+  .use(parse)
+  .parse(file)
+
+var mdast = toMdast(hast, {handlers: {svg: svg}})
+
+var doc = unified()
+  .use(stringify)
+  .stringify(mdast)
+
+console.log(doc)
+
+function svg(h, node) {
+  return h.augment(node, {type: 'html', value: toHtml(node, {space: 'svg'})})
+}
+```
+
+Yields:
+
+```markdown
+Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1"></rect></svg> a graphic… Wait is that a dead pixel?
+```
+
 ## Related
 
 *   [`hast-util-to-nlcst`](https://github.com/syntax-tree/hast-util-to-nlcst)
