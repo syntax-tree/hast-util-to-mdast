@@ -200,6 +200,12 @@ Yields:
 Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1"></rect></svg> a graphic… Wait is that a dead pixel?
 ```
 
+## Security
+
+Use of `hast-util-to-mdast` can open you up to a
+[cross-site scripting (XSS)][xss] attack if the hast tree is unsafe.
+Use [`hast-util-santize`][sanitize] to make the hast tree safe.
+
 ## Related
 
 *   [`hast-util-to-nlcst`](https://github.com/syntax-tree/hast-util-to-nlcst)
@@ -290,6 +296,10 @@ abide by its terms.
 [element]: https://github.com/syntax-tree/hast#element
 
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+
+[sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
 [handler]: #optionshandlers
 
