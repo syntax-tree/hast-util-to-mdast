@@ -29,10 +29,10 @@
     "hast-util-to-text": "^1.0.0",
     "mdast-util-phrasing": "^1.0.0",
     "mdast-util-to-string": "^1.0.4",
-    "rehype-minify-whitespace": "^2.0.3",
+    "rehype-minify-whitespace": "^3.0.0",
     "repeat-string": "^1.6.1",
     "trim-trailing-lines": "^1.1.0",
-    "unist-util-visit": "^1.1.1",
+    "unist-util-visit": "^2.0.0",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
