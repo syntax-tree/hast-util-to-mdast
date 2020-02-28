@@ -1,15 +1,19 @@
 {
   "name": "hast-util-to-mdast",
   "version": "6.0.0",
-  "description": "Transform hast to mdast",
+  "description": "hast utility to transform to mdast",
   "license": "MIT",
   "keywords": [
+    "unist",
     "hast",
+    "hast-util",
     "mdast",
+    "hast-util",
     "rehype",
     "remark",
     "markdown",
-    "html"
+    "html",
+    "transform"
   ],
   "repository": "syntax-tree/hast-util-to-mdast",
   "bugs": "https://github.com/syntax-tree/hast-util-to-mdast/issues",
