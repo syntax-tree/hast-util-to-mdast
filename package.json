@@ -13,6 +13,10 @@
   ],
   "repository": "syntax-tree/hast-util-to-mdast",
   "bugs": "https://github.com/syntax-tree/hast-util-to-mdast/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
   "author": "Seth Vincent <sethvincent@gmail.com> (https://sethvincent.com)",
   "contributors": [
     "Seth Vincent <sethvincent@gmail.com> (https://sethvincent.com)",
