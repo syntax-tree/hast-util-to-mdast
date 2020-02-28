@@ -105,7 +105,7 @@ test('fixtures', function(t) {
         config = String(
           fs.readFileSync(path.join(fixtures, name, 'index.json'))
         )
-      } catch (error) {}
+      } catch (_) {}
 
       if (config) {
         config = JSON.parse(config)
