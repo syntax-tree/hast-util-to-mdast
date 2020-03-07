@@ -1,0 +1,40 @@
+<h1>Text Wrap</h1>
+
+<p>HTML is a insensitive to whitespace, whereas Markdown <em>is</em> sensitive.
+In some Markdown elements, it’s not possible to include line breaks (whether CR,
+LF, or CR+LF).
+To handle this, we need to remove them in certain scenario’s: headings and table
+cells.
+
+<p>Line breaks can be created in several ways, such as <code>br</code> elements:
+<h1>break<br>in h1</h1>
+<h2>break<br>in h2</h2>
+<h3>break<br>in h3</h3>
+<h4>break<br>in h4</h4>
+<h5>break<br>in h5</h5>
+<h6>break<br>in h6</h6>
+<table>
+  <tr><th>Heading<br>cell
+  <tr><td>Data<br>cell
+</table>
+
+<p>In <code>newlines: true</code> mode, line feeds such as this one:
+would normally also produce an line feed:
+<h1>break
+in h1</h1>
+<h2>break
+in h2</h2>
+<h3>break
+in h3</h3>
+<h4>break
+in h4</h4>
+<h5>break
+in h5</h5>
+<h6>break
+in h6</h6>
+<table>
+  <tr><th>Heading
+cell
+  <tr><td>Data
+cell
+</table>

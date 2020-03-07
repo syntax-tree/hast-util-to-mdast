@@ -190,7 +190,7 @@ var doc = unified()
 console.log(doc)
 
 function svg(h, node) {
-  return h.augment(node, {type: 'html', value: toHtml(node, {space: 'svg'})})
+  return h(node, 'html', toHtml(node, {space: 'svg'}))
 }
 ```
 

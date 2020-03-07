@@ -16,6 +16,7 @@ function toMdast(tree, options) {
   h.nodeById = byId
   h.baseFound = false
   h.frozenBaseUrl = null
+  h.wrapText = true
 
   h.handlers = xtend(handlers, settings.handlers || {})
   h.augment = augment
