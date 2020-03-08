@@ -72,6 +72,12 @@ Object mapping tag names or [*types*][type] to functions handling those
 [*elements*][element] or [*nodes*][hast-node].
 See [`handlers/`][handlers] for examples.
 
+In a handler, you have access to `h`, which should be used to create mdast nodes
+from hast nodes.
+On `h`, there are fields that may be of interest.
+Most interesting of them is `h.wrapText`, which is `true` if the mdast content
+can include newlines, and `false` if not (such as in headings or table cells).
+
 ###### `options.document`
 
 Whether the given [*tree*][tree] is a complete document.

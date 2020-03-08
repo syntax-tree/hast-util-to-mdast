@@ -20,8 +20,8 @@ function toMdast(tree, options) {
 
   h.handlers = xtend(handlers, settings.handlers || {})
   h.augment = augment
-  h.document = settings.document
 
+  h.document = settings.document
   h.checked = settings.checked || '[x]'
   h.unchecked = settings.unchecked || '[ ]'
   h.quotes = settings.quotes || ['"']
@@ -53,6 +53,7 @@ function toMdast(tree, options) {
     return augment(node, result)
   }
 
+  // To do: inline in a future major.
   // `right` is the finalized mdast node, created from `left`, a hast node.
   function augment(left, right) {
     if (left.position) {
