@@ -8,7 +8,7 @@
     "hast",
     "hast-util",
     "mdast",
-    "hast-util",
+    "mdast-util",
     "rehype",
     "remark",
     "markdown",
