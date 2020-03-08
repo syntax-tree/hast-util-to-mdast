@@ -97,6 +97,21 @@ default: `[x]`).
 Value to use when serializing an unchecked checkbox or radio input (`string`,
 default: `[ ]`).
 
+###### `options.quotes`
+
+List of quotes to use (`string[]`, default: `['"']`).
+Each value can be one or two characters.
+When two, the first character determines the opening quote and the second the
+closing quote at that level.
+When one, both the opening and closing quote are that character.
+The order in which the preferred quotes appear determines which quotes to use at
+which level of nesting.
+So, to prefer `‘’` at the first level of nesting, and `“”` at the second, pass:
+`['‘’', '“”']`.
+If `<q>`s are nested deeper than the given amount of quotes, the markers wrap
+around: a third level of nesting when using `['«»', '‹›']` should have double
+guillemets, a fourth single, a fifth double again, etc.
+
 ##### Returns
 
 [`MdastNode`][mdast-node].

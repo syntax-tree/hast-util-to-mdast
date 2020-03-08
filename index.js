@@ -16,6 +16,7 @@ function toMdast(tree, options) {
   h.baseFound = false
   h.frozenBaseUrl = null
   h.wrapText = true
+  h.qNesting = 0
 
   h.handlers = xtend(handlers, settings.handlers || {})
   h.augment = augment
@@ -23,6 +24,7 @@ function toMdast(tree, options) {
 
   h.checked = settings.checked || '[x]'
   h.unchecked = settings.unchecked || '[ ]'
+  h.quotes = settings.quotes || ['"']
 
   visit(tree, onvisit)
 
