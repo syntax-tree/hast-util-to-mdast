@@ -87,6 +87,16 @@ If `document: true`, all mdast phrasing children are wrapped in paragraphs.
 Whether to collapse to a line feed (`\n`) instead of a single space (default) if
 a streak of white-space in a text node contains a newline.
 
+###### `options.checked`
+
+Value to use when serializing a checked checkbox or radio input (`string`,
+default: `[x]`).
+
+###### `options.unchecked`
+
+Value to use when serializing an unchecked checkbox or radio input (`string`,
+default: `[ ]`).
+
 ##### Returns
 
 [`MdastNode`][mdast-node].

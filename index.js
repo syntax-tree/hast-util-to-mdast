@@ -10,7 +10,6 @@ var handlers = require('./lib/handlers')
 
 function toMdast(tree, options) {
   var settings = options || {}
-  var opts = {newlines: settings.newlines === true}
   var byId = {}
 
   h.nodeById = byId
@@ -22,9 +21,12 @@ function toMdast(tree, options) {
   h.augment = augment
   h.document = settings.document
 
+  h.checked = settings.checked || '[x]'
+  h.unchecked = settings.unchecked || '[ ]'
+
   visit(tree, onvisit)
 
-  return one(h, minify(opts)(tree), null)
+  return one(h, minify({newlines: settings.newlines === true})(tree), null)
 
   function h(node, type, props, children) {
     var result
