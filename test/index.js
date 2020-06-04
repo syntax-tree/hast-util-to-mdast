@@ -17,7 +17,7 @@ var toMdast = require('..')
 
 var fixtures = path.join(__dirname, 'fixtures')
 
-test('core', function(t) {
+test('core', function (t) {
   t.deepEqual(
     toMdast(u('root', [h('strong', 'Alpha')])),
     u('root', [u('strong', [u('text', 'Alpha')])]),
@@ -78,21 +78,17 @@ test('core', function(t) {
   t.end()
 })
 
-test('fixtures', function(t) {
-  var remark = unified()
-    .use(markdown)
-    .use(stringify)
+test('fixtures', function (t) {
+  var remark = unified().use(markdown).use(stringify)
 
-  fs.readdirSync(fixtures)
-    .filter(negate(hidden))
-    .forEach(check)
+  fs.readdirSync(fixtures).filter(negate(hidden)).forEach(check)
 
   t.end()
 
   function check(name) {
     var ignore = /^base\b/.test(name) && typeof URL === 'undefined'
 
-    t.test(name, function(st) {
+    t.test(name, function (st) {
       var input = String(
         fs.readFileSync(path.join(fixtures, name, 'index.html'))
       )
@@ -113,7 +109,7 @@ test('fixtures', function(t) {
 
       var fromHtml = unified()
         .use(html)
-        .use(function() {
+        .use(function () {
           return transformer
           function transformer(tree) {
             return toMdast(tree, config)
@@ -126,7 +122,7 @@ test('fixtures', function(t) {
       // Replace middots with spaces (useful for break nodes).
       output = output.replace(/·/g, ' ')
 
-      st.doesNotThrow(function() {
+      st.doesNotThrow(function () {
         assert(tree)
       }, 'should produce valid mdast nodes')
 
@@ -156,10 +152,10 @@ test('fixtures', function(t) {
   }
 })
 
-test('handlers option', function(t) {
+test('handlers option', function (t) {
   var options = {
     handlers: {
-      div: function(h, node) {
+      div: function (h, node) {
         node.children[0].value = 'Beta'
         node.type = 'paragraph'
         return h(node, 'paragraph', node.children)
@@ -207,7 +203,7 @@ test('handlers option', function(t) {
   t.end()
 })
 
-test('document option', function(t) {
+test('document option', function (t) {
   var tree = u('root', [
     h('b', 'Importance'),
     u('text', ' and '),
@@ -242,7 +238,7 @@ test('document option', function(t) {
   t.end()
 })
 
-test('newlines option', function(t) {
+test('newlines option', function (t) {
   t.deepEqual(
     toMdast({
       type: 'root',
