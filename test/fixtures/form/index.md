@@ -82,7 +82,7 @@ Course: Lecture 01: Powers of Ten (8.01.1)
 
 ▶ Play
 
- \+  =·
+ \+  =
 
 Comment:·
 

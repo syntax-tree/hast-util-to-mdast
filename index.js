@@ -28,7 +28,9 @@ function toMdast(tree, options) {
 
   visit(tree, onvisit)
 
-  return one(h, minify({newlines: settings.newlines === true})(tree), null)
+  minify({newlines: settings.newlines === true})(tree)
+
+  return one(h, tree, null)
 
   function h(node, type, props, children) {
     var result

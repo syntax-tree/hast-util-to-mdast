@@ -4,4 +4,4 @@ The `<ruby>`, `<rt>`, and `<rp>` elements:
 
 The legacy `<rbc>`, `<rtc>` and `<rb>` elements:
 
-10312002MonthDayYearExpiration Date
+10312002 MonthDayYear Expiration Date

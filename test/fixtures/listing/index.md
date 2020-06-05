@@ -24,7 +24,7 @@ hotel(); india
 ```
 
 ```
-juliett
+juliett·
 kilo();
-lima
+ lima
 ```

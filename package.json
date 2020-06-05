@@ -37,7 +37,7 @@
     "hast-util-to-text": "^2.0.0",
     "mdast-util-phrasing": "^2.0.0",
     "mdast-util-to-string": "^1.0.0",
-    "rehype-minify-whitespace": "^3.0.0",
+    "rehype-minify-whitespace": "^4.0.3",
     "repeat-string": "^1.6.1",
     "trim-trailing-lines": "^1.1.0",
     "unist-util-visit": "^2.0.0",
