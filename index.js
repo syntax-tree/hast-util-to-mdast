@@ -2,12 +2,14 @@
 
 module.exports = toMdast
 
+var has = require('hast-util-has-property')
 var minify = require('rehype-minify-whitespace')
 var convert = require('unist-util-is/convert')
 var visit = require('unist-util-visit')
 var xtend = require('xtend')
 var one = require('./lib/one')
 var handlers = require('./lib/handlers')
+var own = require('./lib/util/own')
 
 var block = convert(['heading', 'paragraph', 'root'])
 
@@ -22,7 +24,7 @@ function toMdast(tree, options) {
   h.wrapText = true
   h.qNesting = 0
 
-  h.handlers = xtend(handlers, settings.handlers || {})
+  h.handlers = settings.handlers ? xtend(handlers, settings.handlers) : handlers
   h.augment = augment
 
   h.document = settings.document
@@ -74,9 +76,9 @@ function toMdast(tree, options) {
   }
 
   function onelement(node) {
-    var id = node.properties.id
+    var id = has(node, 'id') && String(node.properties.id).toUpperCase()
 
-    if (id && !(id in byId)) {
+    if (id && !own.call(byId, id)) {
       byId[id] = node
     }
   }
@@ -114,6 +116,11 @@ function toMdast(tree, options) {
       if (index === parent.children.length - 1) {
         node.value = node.value.replace(/[\t ]+$/, '')
       }
+    }
+
+    if (!node.value) {
+      parent.children.splice(index, 1)
+      return index
     }
   }
 }

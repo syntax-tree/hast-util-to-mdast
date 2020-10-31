@@ -87,10 +87,13 @@
     "prettier": true,
     "esnext": false,
     "rules": {
+      "complexity": "off",
+      "no-multi-assign": "off",
+      "unicorn/escape-case": "off",
+      "unicorn/explicit-length-check": "off",
       "unicorn/no-fn-reference-in-iterator": "off",
       "unicorn/prefer-number-properties": "off",
-      "unicorn/prefer-optional-catch-binding": "off",
-      "no-multi-assign": "off"
+      "unicorn/prefer-optional-catch-binding": "off"
     }
   },
   "remarkConfig": {

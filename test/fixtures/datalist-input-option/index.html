@@ -1,7 +1,21 @@
-<label>
-  Choose a browser from this list:
-  <input list="browsers">
-</label>
+<p>
+  <label>
+    Choose a browser from this list:
+    <input list="browsers">
+  </label>
+</p>
+<p>
+  <label>
+    Missing:
+    <input list="missing">
+  </label>
+</p>
+<p>
+  <label>
+    Dangerous:
+    <input list="__proto__">
+  </label>
+</p>
 <datalist id="browsers">
   <option value="Chrome">
   <option value="Firefox">
@@ -9,4 +23,7 @@
   <option value="Opera">
   <option value="Safari">
   <option value="Microsoft Edge">
+</datalist>
+<datalist id="toString">
+  <option value="xss">
 </datalist>

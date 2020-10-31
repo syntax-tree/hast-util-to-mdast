@@ -1,7 +1,5 @@
 Bravo Charlie
 
-
-
 Delta
 
 Echo
