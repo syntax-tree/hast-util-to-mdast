@@ -2,6 +2,6 @@
 
 [example](http://example.com)
 
-[example](<>)
+[example]()
 
-[](<>)
+[]()

@@ -1,4 +1,4 @@
-If you have any short comments, please let us know:·
+If you have any short comments, please let us know:
 
 If you have any comments, please let us know: You rock!
 

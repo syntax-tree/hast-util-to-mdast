@@ -6,4 +6,4 @@
 
 [example](http://example.com/relative.html)
 
-[example](<>)
+[example]()

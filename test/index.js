@@ -9,6 +9,7 @@ var hidden = require('is-hidden')
 var negate = require('negate')
 var unified = require('unified')
 var markdown = require('remark-parse')
+var gfm = require('remark-gfm')
 var html = require('rehype-parse')
 var stringify = require('remark-stringify')
 var assert = require('mdast-util-assert')
@@ -79,7 +80,11 @@ test('core', function (t) {
 })
 
 test('fixtures', function (t) {
-  var remark = unified().use(markdown).use(stringify)
+  var remark = unified().use(markdown).use(gfm).use(stringify, {
+    emphasis: '_',
+    bullet: '-',
+    ruleSpaces: true
+  })
 
   fs.readdirSync(fixtures).filter(negate(hidden)).forEach(check)
 
@@ -119,7 +124,7 @@ test('fixtures', function (t) {
 
       var tree = remove(fromHtml.runSync(fromHtml.parse(input)), true)
 
-      // Replace middots with spaces (useful for break nodes).
+      // Replace middots with spaces (useful for trailing spaces).
       output = output.replace(/·/g, ' ')
 
       st.doesNotThrow(function () {
@@ -134,7 +139,7 @@ test('fixtures', function (t) {
       if (!config || config.stringify !== false) {
         st.deepEqual(
           remark.stringify(tree),
-          output || '\n',
+          output,
           'should produce the same documents'
         )
       }

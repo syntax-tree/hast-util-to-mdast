@@ -1,12 +1,12 @@
 <!-- Text -->
 
-Alpha:·
+Alpha:
 
-Bravo:·
+Bravo:
 
 Charlie: Delta
 
-Echo:·
+Echo:
 
 Golf: L
 
@@ -14,77 +14,77 @@ Hotel: L, N
 
 India: L, N
 
-Juliett:·
+Juliett:
 
-Kilo:·
+Kilo:
 
-Mike:·
+Mike:
 
-Oscar:·
+Oscar:
 
-Papa:·
+Papa:
 
 Romeo: Québec
 
-Sierra:·
+Sierra:
 
-Tango:·
+Tango:
 
-Uniform:·
+Uniform:
 
-Whiskey:·L
+Whiskey: L
 
-X-ray:·
+X-ray:
 
 <!-- Hidden -->
 
-Alpha:·
+Alpha:
 
-Bravo:·
+Bravo:
 
 <!-- Search -->
 
-Alpha:·
+Alpha:
 
 Bravo: Charlie
 
 <!-- Telephone -->
 
-Alpha:·
+Alpha:
 
 Bravo: Charlie
 
 <!-- Password -->
 
-Alpha:·
+Alpha:
 
 Bravo: •••••••
 
 Delta: ••••
 
-Foxtrot:·
+Foxtrot:
 
 <!-- Date -->
 
-Alpha:·
+Alpha:
 
 Bravo: 2000-11-22
 
 <!-- Month -->
 
-Alpha:·
+Alpha:
 
 Bravo: 2000-11
 
 <!-- Week -->
 
-Alpha:·
+Alpha:
 
 Bravo: 2000-w1
 
 <!-- Time -->
 
-Alpha:·
+Alpha:
 
 Bravo: 23:59
 
@@ -94,37 +94,37 @@ Delta: 23:59:59.999
 
 <!-- Datetime-local -->
 
-Alpha:·
+Alpha:
 
 Bravo: 2000-11-22T23:59
 
 <!-- Number -->
 
-Alpha:·
+Alpha:
 
 Bravo: 3
 
 <!-- Range -->
 
-Alpha:·
+Alpha:
 
 Bravo: 3
 
 <!-- Color -->
 
-Alpha:·
+Alpha:
 
 Bravo: #000000
 
 <!-- File -->
 
-Alpha:·
+Alpha:
 
-Bravo:·
+Bravo:
 
 <!-- URL -->
 
-Alpha:·
+Alpha:
 
 Bravo: <http://charlie.com>
 
@@ -136,15 +136,15 @@ Hotel: <https://l.com>, <https://n.com>
 
 <!-- Email -->
 
-Alpha:·
+Alpha:
 
-Bravo: [charlie@example.com](mailto:charlie@example.com)
+Bravo: <charlie@example.com>
 
-Delta: [echo@example.com](mailto:echo@example.com)
+Delta: <echo@example.com>
 
-Golf: [l@example.com](mailto:l@example.com)
+Golf: <l@example.com>
 
-Hotel: [l@example.com](mailto:l@example.com), [n@example.com](mailto:n@example.com)
+Hotel: <l@example.com>, <n@example.com>
 
 <!-- Checkbox -->
 
@@ -164,27 +164,27 @@ Hotel: [l@example.com](mailto:l@example.com), [n@example.com](mailto:n@example.c
 
 <!-- Submit -->
 
-Alpha:·
+Alpha:
 
 Bravo: Charlie
 
 <!-- Reset -->
 
-Alpha:·
+Alpha:
 
 Bravo: Charlie
 
 <!-- Button -->
 
-Alpha:·
+Alpha:
 
 Bravo: Charlie
 
 <!-- Image -->
 
-Alpha:·
+Alpha:
 
-Bravo: ![Charlie](<>)
+Bravo: ![Charlie]()
 
 Delta: ![Echo](foxtrot.svg)
 
@@ -196,6 +196,6 @@ Papa: ![Sierra](romeo.svg)
 
 Tango: ![Whiskey](uniform.svg)
 
-X-ray:·
+X-ray:
 
 <!-- Data lists -->

@@ -8,13 +8,13 @@ Expiry Date: 2020-02
 
 Security Code: 246
 
-Customer name:·
+Customer name:
 
-Telephone:·
+Telephone:
 
-Buzzer code:·
+Buzzer code:
 
-E-mail address:·
+E-mail address:
 
 Pizza Size
 
@@ -34,9 +34,9 @@ Pizza Toppings
 
 \[ ] Mushroom
 
-Preferred delivery time:·
+Preferred delivery time:
 
-Delivery instructions:·
+Delivery instructions:
 
 Submit order
 
@@ -52,11 +52,11 @@ Low (10)
 
 # Create new account
 
-E-mail address:·
+E-mail address:
 
-Password:·
+Password:
 
-Confirm password:·
+Confirm password:
 
 Create account
 
@@ -68,9 +68,9 @@ Mail Account
 
 Name: John Ratzenberger
 
-Address: [john@example.net](mailto:john@example.net)
+Address: <john@example.net>
 
-Password:·
+Password:
 
 Description: My Email Account
 
@@ -82,19 +82,19 @@ Course: Lecture 01: Powers of Ten (8.01.1)
 
 ▶ Play
 
- \+  =
+\+  =
 
-Comment:·
+Comment:
 
 Post Comment
 
-Search terms:·
+Search terms:
 
- Search
+Search
 
-Account:·
+Account:
 
-PIN:·
+PIN:
 
 Name & Extension:
 

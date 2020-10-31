@@ -16,12 +16,12 @@ Get browser details using navigator
 
 Edsger Dijkstra:
 
-"If debugging is the process of removing software bugs,··
+"If debugging is the process of removing software bugs,\
 then programming must be the process of putting them in"
 
-Depression is running through my head,··
-These thoughts make me think of death,··
-A darkness which blanks my mind,··
+Depression is running through my head,\
+These thoughts make me think of death,\
+A darkness which blanks my mind,\
 A walk through the graveyard, what can I find?…
 
 Depression. By: Darren Harris

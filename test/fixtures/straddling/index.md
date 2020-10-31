@@ -8,7 +8,7 @@ This is the second.
 
 ## Example of paragraphs with ins and del
 
-This is the _first_ paragraph in this example~~.~~
+This is the _first_ paragraph in this ~~example.~~
 
 ~~This is the second.~~
 

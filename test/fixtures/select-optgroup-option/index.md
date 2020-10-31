@@ -8,4 +8,4 @@ Or this: Value 1
 
 Or this: Value 2, Value 3
 
-Or this:·
+Or this:

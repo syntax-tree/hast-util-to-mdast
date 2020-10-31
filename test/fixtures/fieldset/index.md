@@ -12,7 +12,7 @@ Destination
 
 Airport: Atlanta (ATL)
 
-Departure time:·
+Departure time:
 
 Did the movie pass the Bechdel test?
 
@@ -30,16 +30,16 @@ Mail Account
 
 Name: John Ratzenberger
 
-Address: [john@example.net](mailto:john@example.net)
+Address: <john@example.net>
 
-Password:·
+Password:
 
 Description: My Email Account
 
 \[ ] Use Club Card
 
-Name on card:·
+Name on card:
 
-Card number:·
+Card number:
 
-Expiry date:·
+Expiry date:
