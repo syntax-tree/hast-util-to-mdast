@@ -1,11 +1,11 @@
 An **implicit** paragraph.
 
-# An _explicit_ paragraph
+# An *explicit* paragraph
 
-1.  _Emphasis_ and **importance**.
+1.  *Emphasis* and **importance**.
 
 > # Heading
 >
-> Another _implicit_ paragraph.
+> Another *implicit* paragraph.
 
-_Emphasis_, **importance**, and ~~strikethrough~~.
+*Emphasis*, **importance**, and ~~strikethrough~~.

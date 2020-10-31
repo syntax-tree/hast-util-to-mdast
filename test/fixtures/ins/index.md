@@ -1,3 +1,3 @@
 I like fruit.
 
-Apples are _tasty_. So are pears.
+Apples are *tasty*. So are pears.

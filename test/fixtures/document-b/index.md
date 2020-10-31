@@ -1,3 +1,3 @@
 # bar bar
 
-**foo** _bar_
+**foo** *bar*

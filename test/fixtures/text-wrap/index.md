@@ -1,6 +1,6 @@
 # Text Wrap
 
-HTML is a insensitive to whitespace, whereas Markdown _is_ sensitive.
+HTML is a insensitive to whitespace, whereas Markdown *is* sensitive.
 In some Markdown elements, it’s not possible to include line breaks (whether CR,
 LF, or CR+LF).
 To handle this, we need to remove them in certain scenario’s: headings and table

@@ -73,18 +73,14 @@ test('core', function (t) {
       ],
       position: pos
     },
-    'should ignore unknown voids'
+    'should support positional information'
   )
 
   t.end()
 })
 
 test('fixtures', function (t) {
-  var remark = unified().use(markdown).use(gfm).use(stringify, {
-    emphasis: '_',
-    bullet: '-',
-    ruleSpaces: true
-  })
+  var remark = unified().use(markdown).use(gfm).use(stringify)
 
   fs.readdirSync(fixtures).filter(negate(hidden)).forEach(check)
 
@@ -177,12 +173,7 @@ test('handlers option', function (t) {
             type: 'element',
             tagName: 'div',
             properties: {},
-            children: [
-              {
-                type: 'text',
-                value: 'Alpha'
-              }
-            ]
+            children: [{type: 'text', value: 'Alpha'}]
           }
         ]
       },
@@ -190,17 +181,7 @@ test('handlers option', function (t) {
     ),
     {
       type: 'root',
-      children: [
-        {
-          type: 'paragraph',
-          children: [
-            {
-              type: 'text',
-              value: 'Beta'
-            }
-          ]
-        }
-      ]
+      children: [{type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}]
     },
     'use handlers passed as option'
   )
@@ -252,27 +233,14 @@ test('newlines option', function (t) {
           type: 'element',
           tagName: 'p',
           properties: {},
-          children: [
-            {
-              type: 'text',
-              value: 'Alpha\nBeta'
-            }
-          ]
+          children: [{type: 'text', value: 'Alpha\nBeta'}]
         }
       ]
     }),
     {
       type: 'root',
       children: [
-        {
-          type: 'paragraph',
-          children: [
-            {
-              type: 'text',
-              value: 'Alpha Beta'
-            }
-          ]
-        }
+        {type: 'paragraph', children: [{type: 'text', value: 'Alpha Beta'}]}
       ]
     },
     'should collapse newline to a single space'
@@ -287,12 +255,7 @@ test('newlines option', function (t) {
             type: 'element',
             tagName: 'p',
             properties: {},
-            children: [
-              {
-                type: 'text',
-                value: 'Alpha\nBeta'
-              }
-            ]
+            children: [{type: 'text', value: 'Alpha\nBeta'}]
           }
         ]
       },
@@ -301,15 +264,7 @@ test('newlines option', function (t) {
     {
       type: 'root',
       children: [
-        {
-          type: 'paragraph',
-          children: [
-            {
-              type: 'text',
-              value: 'Alpha\nBeta'
-            }
-          ]
-        }
+        {type: 'paragraph', children: [{type: 'text', value: 'Alpha\nBeta'}]}
       ]
     },
     'should contain newlines'

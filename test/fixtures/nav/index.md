@@ -1,3 +1,3 @@
--   [Home](#)
--   [About](#)
--   [Contact](#)
+*   [Home](#)
+*   [About](#)
+*   [Contact](#)

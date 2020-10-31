@@ -6,4 +6,4 @@ Delta
 
 Echo
 
-**Foxtrot** _and_ `Golf`
+**Foxtrot** *and* `Golf`

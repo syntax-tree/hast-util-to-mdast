@@ -1,1 +1,1 @@
-The `mark` element is used to _highlight_ text.
+The `mark` element is used to *highlight* text.

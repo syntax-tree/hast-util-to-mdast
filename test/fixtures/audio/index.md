@@ -1,6 +1,6 @@
 [Alpha](example.ogg)
 
-[Bravo `code` _emphasis_.](example.ogg)
+[Bravo `code` *emphasis*.](example.ogg)
 
 [Charlie](example.wav)
 

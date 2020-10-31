@@ -33,7 +33,7 @@ Here’s a Sudoku:
 |   |   |   |   | 7 |   |   |   |   |
 | 9 |   |   | 8 |   | 2 |   |   | 5 |
 
-Here’s a table with a `thead` with _two_ rows:
+Here’s a table with a `thead` with *two* rows:
 
 | Name           | Product               | Price              |
 | -------------- | --------------------- | ------------------ |

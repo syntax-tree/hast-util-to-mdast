@@ -1,5 +1,5 @@
 New Products
 
--   Mini Ketchup
--   Jumbo Ketchup
--   Mega Jumbo Ketchup
+*   Mini Ketchup
+*   Jumbo Ketchup
+*   Mega Jumbo Ketchup
