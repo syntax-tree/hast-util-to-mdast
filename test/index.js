@@ -82,7 +82,9 @@ test('core', function (t) {
 test('fixtures', function (t) {
   var remark = unified().use(markdown).use(gfm).use(stringify)
 
-  fs.readdirSync(fixtures).filter(negate(hidden)).forEach(check)
+  fs.readdirSync(fixtures)
+    .filter(negate(hidden))
+    .forEach((d) => check(d))
 
   t.end()
 
