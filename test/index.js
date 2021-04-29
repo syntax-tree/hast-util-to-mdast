@@ -1,22 +1,20 @@
-'use strict'
+import fs from 'fs'
+import path from 'path'
+import test from 'tape'
+import {u} from 'unist-builder'
+import {h} from 'hastscript'
+import {isHidden} from 'is-hidden'
+import negate from 'negate'
+import unified from 'unified'
+import remarkParse from 'remark-parse'
+import remarkGfm from 'remark-gfm'
+import rehypeStringify from 'rehype-parse'
+import remarkStringify from 'remark-stringify'
+import assert from 'mdast-util-assert'
+import {removePosition} from 'unist-util-remove-position'
+import {toMdast} from '../index.js'
 
-var fs = require('fs')
-var path = require('path')
-var u = require('unist-builder')
-var h = require('hastscript')
-var test = require('tape')
-var hidden = require('is-hidden')
-var negate = require('negate')
-var unified = require('unified')
-var markdown = require('remark-parse')
-var gfm = require('remark-gfm')
-var html = require('rehype-parse')
-var stringify = require('remark-stringify')
-var assert = require('mdast-util-assert')
-var remove = require('unist-util-remove-position')
-var toMdast = require('..')
-
-var fixtures = path.join(__dirname, 'fixtures')
+var fixtures = path.join('test', 'fixtures')
 
 test('core', function (t) {
   t.deepEqual(
@@ -80,10 +78,11 @@ test('core', function (t) {
 })
 
 test('fixtures', function (t) {
-  var remark = unified().use(markdown).use(gfm).use(stringify)
+  var remark = unified().use(remarkParse).use(remarkGfm).use(remarkStringify)
 
   fs.readdirSync(fixtures)
-    .filter(negate(hidden))
+    .filter(negate(isHidden))
+    // eslint-disable-next-line unicorn/no-array-for-each
     .forEach((d) => check(d))
 
   t.end()
@@ -104,23 +103,23 @@ test('fixtures', function (t) {
         config = String(
           fs.readFileSync(path.join(fixtures, name, 'index.json'))
         )
-      } catch (_) {}
+      } catch {}
 
       if (config) {
         config = JSON.parse(config)
       }
 
       var fromHtml = unified()
-        .use(html)
+        .use(rehypeStringify)
         .use(function () {
           return transformer
           function transformer(tree) {
             return toMdast(tree, config)
           }
         })
-        .use(stringify)
+        .use(remarkStringify)
 
-      var tree = remove(fromHtml.runSync(fromHtml.parse(input)), true)
+      var tree = removePosition(fromHtml.runSync(fromHtml.parse(input)), true)
 
       // Replace middots with spaces (useful for trailing spaces).
       output = output.replace(/·/g, ' ')
@@ -145,7 +144,7 @@ test('fixtures', function (t) {
       if (!config || config.tree !== false) {
         st.deepEqual(
           tree,
-          remove(remark.runSync(remark.parse(output)), true),
+          removePosition(remark.runSync(remark.parse(output)), true),
           'should produce the same tree as remark'
         )
       }
@@ -158,7 +157,7 @@ test('fixtures', function (t) {
 test('handlers option', function (t) {
   var options = {
     handlers: {
-      div: function (h, node) {
+      div(h, node) {
         node.children[0].value = 'Beta'
         node.type = 'paragraph'
         return h(node, 'paragraph', node.children)

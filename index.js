@@ -1,19 +1,14 @@
-'use strict'
-
-module.exports = toMdast
-
-var has = require('hast-util-has-property')
-var minify = require('rehype-minify-whitespace')
-var convert = require('unist-util-is/convert')
-var visit = require('unist-util-visit')
-var xtend = require('xtend')
-var one = require('./lib/one')
-var handlers = require('./lib/handlers')
-var own = require('./lib/util/own')
+import {hasProperty} from 'hast-util-has-property'
+import minify from 'rehype-minify-whitespace'
+import {convert} from 'unist-util-is'
+import {visit} from 'unist-util-visit'
+import {one} from './lib/one.js'
+import {handlers} from './lib/handlers/index.js'
+import {own} from './lib/util/own.js'
 
 var block = convert(['heading', 'paragraph', 'root'])
 
-function toMdast(tree, options) {
+export function toMdast(tree, options) {
   var settings = options || {}
   var byId = {}
   var mdast
@@ -24,7 +19,9 @@ function toMdast(tree, options) {
   h.wrapText = true
   h.qNesting = 0
 
-  h.handlers = settings.handlers ? xtend(handlers, settings.handlers) : handlers
+  h.handlers = settings.handlers
+    ? {...handlers, ...settings.handlers}
+    : handlers
   h.augment = augment
 
   h.document = settings.document
@@ -54,7 +51,7 @@ function toMdast(tree, options) {
       props = {}
     }
 
-    result = xtend({type: type}, props)
+    result = {type, ...props}
 
     if (typeof children === 'string') {
       result.value = children
@@ -76,7 +73,7 @@ function toMdast(tree, options) {
   }
 
   function onelement(node) {
-    var id = has(node, 'id') && String(node.properties.id).toUpperCase()
+    var id = hasProperty(node, 'id') && String(node.properties.id).toUpperCase()
 
     if (id && !own.call(byId, id)) {
       byId[id] = node
