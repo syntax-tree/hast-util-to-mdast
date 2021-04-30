@@ -34,22 +34,22 @@ Say we have the following `example.html`:
 …and next to it, `example.js`:
 
 ```js
-var unified = require('unified')
-var parse = require('rehype-parse')
-var stringify = require('remark-stringify')
-var vfile = require('to-vfile')
-var toMdast = require('hast-util-to-mdast')
+import unified from 'unified'
+import remarkParse from 'rehype-parse'
+import remarkStringify from 'remark-stringify'
+import vfile from 'to-vfile'
+import {toMdast} from 'hast-util-to-mdast'
 
 var file = vfile.readSync('example.html')
 
 var hast = unified()
-  .use(parse)
+  .use(remarkParse)
   .parse(file)
 
 var mdast = toMdast(hast)
 
 var doc = unified()
-  .use(stringify)
+  .use(remarkStringify)
   .stringify(mdast)
 
 console.log(doc)
