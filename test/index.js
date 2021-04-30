@@ -1,3 +1,9 @@
+/**
+ * @typedef {import('../lib/types.js').Node} Node
+ * @typedef {import('../lib/types.js').Options} Options
+ * @typedef {import('../lib/types.js').Handle} Handle
+ */
+
 import fs from 'fs'
 import path from 'path'
 import test from 'tape'
@@ -24,26 +30,41 @@ test('core', function (t) {
   )
 
   t.deepEqual(
+    toMdast(u('doctype', {name: 'html'})),
+    u('root', []),
+    'should transform a node w/o mdast representation to an empty root'
+  )
+
+  t.deepEqual(
+    toMdast(h('q', 'things')),
+    {type: 'root', children: [{type: 'text', value: '"things"'}]},
+    'should transform a node w/o multiple representations to a root'
+  )
+
+  t.deepEqual(
+    // @ts-ignore runtime.
     toMdast(u('root', [u('unknown', 'text')])),
     u('root', [u('text', 'text')]),
     'should transform unknown texts to `text`'
   )
 
   t.deepEqual(
+    // @ts-ignore runtime.
     toMdast(u('root', [u('unknown', [h('em')])])),
     u('root', [u('emphasis', [])]),
     'should unwrap unknown parents'
   )
 
   t.deepEqual(
+    // @ts-ignore runtime.
     toMdast(u('root', [u('unknown')])),
     u('root', []),
     'should ignore unknown voids'
   )
 
   var pos = {
-    left: {line: 1, column: 1, offset: 0},
-    right: {line: 1, column: 6, offset: 5}
+    start: {line: 1, column: 1, offset: 0},
+    end: {line: 1, column: 6, offset: 5}
   }
 
   t.deepEqual(
@@ -87,8 +108,8 @@ test('fixtures', function (t) {
 
   t.end()
 
-  function check(name) {
-    var ignore = /^base\b/.test(name) && typeof URL === 'undefined'
+  function check(/** @type {string} */ name) {
+    var ignore = /^base\b/.test(name)
 
     t.test(name, function (st) {
       var input = String(
@@ -97,23 +118,20 @@ test('fixtures', function (t) {
       var output = String(
         fs.readFileSync(path.join(fixtures, name, 'index.md'))
       )
+      /** @type {{stringify?: boolean, tree?: boolean} & Options} */
       var config
 
       try {
-        config = String(
-          fs.readFileSync(path.join(fixtures, name, 'index.json'))
+        config = JSON.parse(
+          String(fs.readFileSync(path.join(fixtures, name, 'index.json')))
         )
       } catch {}
-
-      if (config) {
-        config = JSON.parse(config)
-      }
 
       var fromHtml = unified()
         .use(rehypeStringify)
         .use(function () {
           return transformer
-          function transformer(tree) {
+          function transformer(/** @type {Node} */ tree) {
             return toMdast(tree, config)
           }
         })
@@ -135,6 +153,7 @@ test('fixtures', function (t) {
 
       if (!config || config.stringify !== false) {
         st.deepEqual(
+          // @ts-ignore Types are wrong.
           remark.stringify(tree),
           output,
           'should produce the same documents'
@@ -155,11 +174,12 @@ test('fixtures', function (t) {
 })
 
 test('handlers option', function (t) {
+  /** @type {Options} */
   var options = {
     handlers: {
       div(h, node) {
         node.children[0].value = 'Beta'
-        node.type = 'paragraph'
+        // @ts-ignore only a text.
         return h(node, 'paragraph', node.children)
       }
     }

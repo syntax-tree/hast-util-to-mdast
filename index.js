@@ -1,5 +1,19 @@
+/**
+ * @typedef {import('./lib/types.js').Node} Node
+ * @typedef {import('./lib/types.js').Element} Element
+ * @typedef {import('./lib/types.js').Text} Text
+ * @typedef {import('./lib/types.js').Options} Options
+ * @typedef {import('./lib/types.js').Context} Context
+ * @typedef {import('./lib/types.js').Properties} Properties
+ * @typedef {import('./lib/types.js').H} H
+ * @typedef {import('./lib/types.js').HWithoutProps} HWithoutProps
+ * @typedef {import('./lib/types.js').HWithProps} HWithProps
+ * @typedef {import('./lib/types.js').MdastNode} MdastNode
+ * @typedef {import('./lib/types.js').MdastRoot} MdastRoot
+ */
+
 import {hasProperty} from 'hast-util-has-property'
-import minify from 'rehype-minify-whitespace'
+import minifyWhitespace from 'rehype-minify-whitespace'
 import {convert} from 'unist-util-is'
 import {visit} from 'unist-util-visit'
 import {one} from './lib/one.js'
@@ -8,70 +22,97 @@ import {own} from './lib/util/own.js'
 
 var block = convert(['heading', 'paragraph', 'root'])
 
-export function toMdast(tree, options) {
-  var settings = options || {}
+/**
+ * @param {Node} tree
+ * @param {Options} [options]
+ */
+export function toMdast(tree, options = {}) {
+  /** @type {Object.<string, Element>} */
   var byId = {}
+  /** @type {MdastNode|Array.<MdastNode>|void} */
+  var result
+  /** @type {MdastNode|MdastRoot} */
   var mdast
 
-  h.nodeById = byId
-  h.baseFound = false
-  h.frozenBaseUrl = null
-  h.wrapText = true
-  h.qNesting = 0
+  /**
+   * @type {H}
+   */
+  var h = Object.assign(
+    /**
+     * @type {HWithProps & HWithoutProps}
+     */
+    (
+      /**
+       * @param {Node} node
+       * @param {string} type
+       * @param {Properties|string|Array.<Node>} [props]
+       * @param {string|Array.<Node>} [children]
+       */
+      function (node, type, props, children) {
+        /** @type {Node} */
+        var result
+        /** @type {Properties} */
+        var properties
 
-  h.handlers = settings.handlers
-    ? {...handlers, ...settings.handlers}
-    : handlers
-  h.augment = augment
+        if (typeof props === 'string' || Array.isArray(props)) {
+          children = props
+          properties = {}
+        } else {
+          properties = props
+        }
 
-  h.document = settings.document
-  h.checked = settings.checked || '[x]'
-  h.unchecked = settings.unchecked || '[ ]'
-  h.quotes = settings.quotes || ['"']
+        // @ts-ignore Assume valid `type` and `children`/`value`.
+        result = {type, ...properties}
+
+        if (typeof children === 'string') {
+          result.value = children
+        } else if (children) {
+          result.children = children
+        }
+
+        if (node.position) {
+          result.position = node.position
+        }
+
+        return result
+      }
+    ),
+    {
+      nodeById: byId,
+      baseFound: false,
+      wrapText: true,
+      /** @type {string|null} */
+      frozenBaseUrl: null,
+      qNesting: 0,
+      handlers: options.handlers
+        ? {...handlers, ...options.handlers}
+        : handlers,
+      document: options.document,
+      checked: options.checked || '[x]',
+      unchecked: options.unchecked || '[ ]',
+      quotes: options.quotes || ['"']
+    }
+  )
 
   visit(tree, 'element', onelement)
 
-  minify({newlines: settings.newlines === true})(tree)
+  minifyWhitespace({newlines: options.newlines === true})(tree)
 
-  mdast = one(h, tree, null)
+  result = one(h, tree, null)
+
+  if (!result) {
+    mdast = {type: 'root', children: []}
+  } else if (Array.isArray(result)) {
+    mdast = {type: 'root', children: result}
+  } else {
+    mdast = result
+  }
 
   visit(mdast, 'text', ontext)
 
   return mdast
 
-  function h(node, type, props, children) {
-    var result
-
-    if (
-      !children &&
-      (typeof props === 'string' ||
-        (typeof props === 'object' && 'length' in props))
-    ) {
-      children = props
-      props = {}
-    }
-
-    result = {type, ...props}
-
-    if (typeof children === 'string') {
-      result.value = children
-    } else if (children) {
-      result.children = children
-    }
-
-    return augment(node, result)
-  }
-
-  // To do: inline in a future major.
-  // `right` is the finalized mdast node, created from `left`, a hast node.
-  function augment(left, right) {
-    if (left.position) {
-      right.position = left.position
-    }
-
-    return right
-  }
-
+  /** @type {import('unist-util-visit').Visitor<Element>} */
   function onelement(node) {
     var id = hasProperty(node, 'id') && String(node.properties.id).toUpperCase()
 
@@ -80,11 +121,15 @@ export function toMdast(tree, options) {
     }
   }
 
-  // Collapse text nodes, and fix whitespace.
-  // Most of this is taken care of by `rehype-minify-whitespace`, but
-  // we’re generating some whitespace too, and some nodes are in the end
-  // ignored.
-  // So clean up:
+  /**
+   * Collapse text nodes, and fix whitespace.
+   * Most of this is taken care of by `rehype-minify-whitespace`, but
+   * we’re generating some whitespace too, and some nodes are in the end
+   * ignored.
+   * So clean up.
+   *
+   * @type {import('unist-util-visit').Visitor<Text>}
+   */
   function ontext(node, index, parent) {
     var previous = parent.children[index - 1]
 
