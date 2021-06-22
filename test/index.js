@@ -16,22 +16,16 @@ import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import rehypeStringify from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
-import assert from 'mdast-util-assert'
+import {assert} from 'mdast-util-assert'
 import {removePosition} from 'unist-util-remove-position'
 import {one, all, toMdast} from '../index.js'
 
 var fixtures = path.join('test', 'fixtures')
 
 test('exports', function (t) {
-  t.assert(
-    one,
-    'should export `one`'
-  )
+  t.assert(one, 'should export `one`')
 
-  t.assert(
-    all,
-    'should export `all`'
-  )
+  t.assert(all, 'should export `all`')
 
   t.end()
 })
