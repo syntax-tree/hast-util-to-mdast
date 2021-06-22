@@ -18,9 +18,23 @@ import rehypeStringify from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
 import assert from 'mdast-util-assert'
 import {removePosition} from 'unist-util-remove-position'
-import {toMdast} from '../index.js'
+import {one, all, toMdast} from '../index.js'
 
 var fixtures = path.join('test', 'fixtures')
+
+test('exports', function (t) {
+  t.assert(
+    one,
+    'should export `one`'
+  )
+
+  t.assert(
+    all,
+    'should export `all`'
+  )
+
+  t.end()
+})
 
 test('core', function (t) {
   t.deepEqual(

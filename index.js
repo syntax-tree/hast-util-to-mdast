@@ -20,6 +20,9 @@ import {one} from './lib/one.js'
 import {handlers} from './lib/handlers/index.js'
 import {own} from './lib/util/own.js'
 
+export {one} from './lib/one.js'
+export {all} from './lib/all.js'
+
 var block = convert(['heading', 'paragraph', 'root'])
 
 /**
