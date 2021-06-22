@@ -237,6 +237,18 @@ Yields:
 Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1"></rect></svg> a graphic… Wait is that a dead pixel?
 ```
 
+### `all(h, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h` and a parent node (hast) and it will turn the node’s children into
+an array of transformed nodes (mdast).
+
+### `one(h, node, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h`, a `node`, and its `parent` (hast) and it will turn `node` into
+mdast content.
+
 ## Security
 
 Use of `hast-util-to-mdast` can open you up to a
