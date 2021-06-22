@@ -13,6 +13,7 @@
  */
 
 import {hasProperty} from 'hast-util-has-property'
+// @ts-expect-error: next.
 import minifyWhitespace from 'rehype-minify-whitespace'
 import {convert} from 'unist-util-is'
 import {visit} from 'unist-util-visit'
@@ -50,7 +51,7 @@ export function toMdast(tree, options = {}) {
        * @param {string|Array.<Node>} [children]
        */
       (node, type, props, children) => {
-        /** @type {Properties} */
+        /** @type {Properties|undefined} */
         let properties
 
         if (typeof props === 'string' || Array.isArray(props)) {
@@ -61,7 +62,7 @@ export function toMdast(tree, options = {}) {
         }
 
         /** @type {Node} */
-        // @ts-ignore Assume valid `type` and `children`/`value`.
+        // @ts-expect-error Assume valid `type` and `children`/`value`.
         const result = {type, ...properties}
 
         if (typeof children === 'string') {
@@ -98,7 +99,7 @@ export function toMdast(tree, options = {}) {
 
   minifyWhitespace({newlines: options.newlines === true})(tree)
 
-  const result = one(h, tree, null)
+  const result = one(h, tree, undefined)
 
   if (!result) {
     mdast = {type: 'root', children: []}
@@ -115,6 +116,7 @@ export function toMdast(tree, options = {}) {
   /** @type {import('unist-util-visit').Visitor<Element>} */
   function onelement(node) {
     const id =
+      // @ts-expect-error: `hasProperty` just checked it.
       hasProperty(node, 'id') && String(node.properties.id).toUpperCase()
 
     if (id && !own.call(byId, id)) {
@@ -132,11 +134,15 @@ export function toMdast(tree, options = {}) {
    * @type {import('unist-util-visit').Visitor<Text>}
    */
   function ontext(node, index, parent) {
+    /* c8 ignore next 3 */
+    if (index === null || !parent) {
+      return
+    }
+
     const previous = parent.children[index - 1]
 
-    if (previous && node.type === previous.type) {
+    if (previous && previous.type === node.type) {
       previous.value += node.value
-
       parent.children.splice(index, 1)
 
       if (previous.position && node.position) {
@@ -151,7 +157,7 @@ export function toMdast(tree, options = {}) {
 
     // We don’t care about other phrasing nodes in between (e.g., `[ asd ]()`),
     // as there the whitespace matters.
-    if (block(parent)) {
+    if (parent && block(parent)) {
       if (!index) {
         node.value = node.value.replace(/^[\t ]+/, '')
       }

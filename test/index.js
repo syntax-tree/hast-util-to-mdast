@@ -1,5 +1,6 @@
 /**
  * @typedef {import('../lib/types.js').Node} Node
+ * @typedef {import('../lib/types.js').Element} Element
  * @typedef {import('../lib/types.js').Options} Options
  * @typedef {import('../lib/types.js').Handle} Handle
  */
@@ -10,7 +11,6 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {h} from 'hastscript'
 import {isHidden} from 'is-hidden'
-import negate from 'negate'
 import unified from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
@@ -50,21 +50,21 @@ test('core', (t) => {
   )
 
   t.deepEqual(
-    // @ts-ignore runtime.
+    // @ts-expect-error runtime.
     toMdast(u('root', [u('unknown', 'text')])),
     u('root', [u('text', 'text')]),
     'should transform unknown texts to `text`'
   )
 
   t.deepEqual(
-    // @ts-ignore runtime.
+    // @ts-expect-error runtime.
     toMdast(u('root', [u('unknown', [h('em')])])),
     u('root', [u('emphasis', [])]),
     'should unwrap unknown parents'
   )
 
   t.deepEqual(
-    // @ts-ignore runtime.
+    // @ts-expect-error runtime.
     toMdast(u('root', [u('unknown')])),
     u('root', []),
     'should ignore unknown voids'
@@ -110,7 +110,7 @@ test('fixtures', (t) => {
   const remark = unified().use(remarkParse).use(remarkGfm).use(remarkStringify)
 
   fs.readdirSync(fixtures)
-    .filter(negate(isHidden))
+    .filter((d) => !isHidden(d))
     // eslint-disable-next-line unicorn/no-array-for-each
     .forEach((d) => check(d))
 
@@ -126,7 +126,7 @@ test('fixtures', (t) => {
       let output = String(
         fs.readFileSync(path.join(fixtures, name, 'index.md'))
       )
-      /** @type {{stringify?: boolean, tree?: boolean} & Options} */
+      /** @type {({stringify?: boolean, tree?: boolean} & Options)|undefined} */
       let config
 
       try {
@@ -137,6 +137,7 @@ test('fixtures', (t) => {
 
       const fromHtml = unified()
         .use(rehypeStringify)
+        // @ts-expect-error: turn into different tree..
         .use(() => {
           return transformer
           function transformer(/** @type {Node} */ tree) {
@@ -161,7 +162,7 @@ test('fixtures', (t) => {
 
       if (!config || config.stringify !== false) {
         st.deepEqual(
-          // @ts-ignore Types are wrong.
+          // @ts-expect-error Types are wrong.
           remark.stringify(tree),
           output,
           'should produce the same documents'
@@ -185,9 +186,9 @@ test('handlers option', (t) => {
   /** @type {Options} */
   const options = {
     handlers: {
-      div(h, node) {
+      div(h, /** @type {Element} */ node) {
         node.children[0].value = 'Beta'
-        // @ts-ignore only a text.
+        // @ts-expect-error: fine, it’s just a child.
         return h(node, 'paragraph', node.children)
       }
     }
