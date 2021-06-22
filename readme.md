@@ -37,20 +37,16 @@ Say we have the following `example.html`:
 import unified from 'unified'
 import remarkParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
-import vfile from 'to-vfile'
+import {toVFile} from 'to-vfile'
 import {toMdast} from 'hast-util-to-mdast'
 
-var file = vfile.readSync('example.html')
+const file = toVFile.readSync('example.html')
 
-var hast = unified()
-  .use(remarkParse)
-  .parse(file)
+const hast = unified().use(remarkParse).parse(file)
 
-var mdast = toMdast(hast)
+const mdast = toMdast(hast)
 
-var doc = unified()
-  .use(remarkStringify)
-  .stringify(mdast)
+const doc = unified().use(remarkStringify).stringify(mdast)
 
 console.log(doc)
 ```
@@ -205,24 +201,20 @@ well:
 This can be achieved with `example.js` like so:
 
 ```js
-var unified = require('unified')
-var parse = require('rehype-parse')
-var stringify = require('remark-stringify')
-var vfile = require('to-vfile')
-var toHtml = require('hast-util-to-html')
-var toMdast = require('hast-util-to-mdast')
+import unified from 'unified'
+import rehypeParse from 'rehype-parse'
+import remarkStringify from 'remark-stringify'
+import {toVFfile} from 'to-vfile'
+import {toHtml} from 'hast-util-to-html'
+import {toMdast} from 'hast-util-to-mdast'
 
-var file = vfile.readSync('example.html')
+const file = toVFfile.readSync('example.html')
 
-var hast = unified()
-  .use(parse)
-  .parse(file)
+const hast = unified().use(rehypeParse).parse(file)
 
-var mdast = toMdast(hast, {handlers: {svg: svg}})
+const mdast = toMdast(hast, {handlers: {svg}})
 
-var doc = unified()
-  .use(stringify)
-  .stringify(mdast)
+const doc = unified().use(remarkStringify).stringify(mdast)
 
 console.log(doc)
 

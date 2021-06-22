@@ -20,9 +20,9 @@ import {assert} from 'mdast-util-assert'
 import {removePosition} from 'unist-util-remove-position'
 import {one, all, toMdast} from '../index.js'
 
-var fixtures = path.join('test', 'fixtures')
+const fixtures = path.join('test', 'fixtures')
 
-test('exports', function (t) {
+test('exports', (t) => {
   t.assert(one, 'should export `one`')
 
   t.assert(all, 'should export `all`')
@@ -30,7 +30,7 @@ test('exports', function (t) {
   t.end()
 })
 
-test('core', function (t) {
+test('core', (t) => {
   t.deepEqual(
     toMdast(u('root', [h('strong', 'Alpha')])),
     u('root', [u('strong', [u('text', 'Alpha')])]),
@@ -70,7 +70,7 @@ test('core', function (t) {
     'should ignore unknown voids'
   )
 
-  var pos = {
+  const pos = {
     start: {line: 1, column: 1, offset: 0},
     end: {line: 1, column: 6, offset: 5}
   }
@@ -106,8 +106,8 @@ test('core', function (t) {
   t.end()
 })
 
-test('fixtures', function (t) {
-  var remark = unified().use(remarkParse).use(remarkGfm).use(remarkStringify)
+test('fixtures', (t) => {
+  const remark = unified().use(remarkParse).use(remarkGfm).use(remarkStringify)
 
   fs.readdirSync(fixtures)
     .filter(negate(isHidden))
@@ -117,17 +117,17 @@ test('fixtures', function (t) {
   t.end()
 
   function check(/** @type {string} */ name) {
-    var ignore = /^base\b/.test(name)
+    const ignore = /^base\b/.test(name)
 
-    t.test(name, function (st) {
-      var input = String(
+    t.test(name, (st) => {
+      const input = String(
         fs.readFileSync(path.join(fixtures, name, 'index.html'))
       )
-      var output = String(
+      let output = String(
         fs.readFileSync(path.join(fixtures, name, 'index.md'))
       )
       /** @type {{stringify?: boolean, tree?: boolean} & Options} */
-      var config
+      let config
 
       try {
         config = JSON.parse(
@@ -135,9 +135,9 @@ test('fixtures', function (t) {
         )
       } catch {}
 
-      var fromHtml = unified()
+      const fromHtml = unified()
         .use(rehypeStringify)
-        .use(function () {
+        .use(() => {
           return transformer
           function transformer(/** @type {Node} */ tree) {
             return toMdast(tree, config)
@@ -145,12 +145,12 @@ test('fixtures', function (t) {
         })
         .use(remarkStringify)
 
-      var tree = removePosition(fromHtml.runSync(fromHtml.parse(input)), true)
+      const tree = removePosition(fromHtml.runSync(fromHtml.parse(input)), true)
 
       // Replace middots with spaces (useful for trailing spaces).
       output = output.replace(/·/g, ' ')
 
-      st.doesNotThrow(function () {
+      st.doesNotThrow(() => {
         assert(tree)
       }, 'should produce valid mdast nodes')
 
@@ -181,9 +181,9 @@ test('fixtures', function (t) {
   }
 })
 
-test('handlers option', function (t) {
+test('handlers option', (t) => {
   /** @type {Options} */
-  var options = {
+  const options = {
     handlers: {
       div(h, node) {
         node.children[0].value = 'Beta'
@@ -218,8 +218,8 @@ test('handlers option', function (t) {
   t.end()
 })
 
-test('document option', function (t) {
-  var tree = u('root', [
+test('document option', (t) => {
+  const tree = u('root', [
     h('b', 'Importance'),
     u('text', ' and '),
     h('i', 'emphasis'),
@@ -253,7 +253,7 @@ test('document option', function (t) {
   t.end()
 })
 
-test('newlines option', function (t) {
+test('newlines option', (t) => {
   t.deepEqual(
     toMdast({
       type: 'root',

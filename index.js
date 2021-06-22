@@ -23,7 +23,7 @@ import {own} from './lib/util/own.js'
 export {one} from './lib/one.js'
 export {all} from './lib/all.js'
 
-var block = convert(['heading', 'paragraph', 'root'])
+const block = convert(['heading', 'paragraph', 'root'])
 
 /**
  * @param {Node} tree
@@ -31,16 +31,14 @@ var block = convert(['heading', 'paragraph', 'root'])
  */
 export function toMdast(tree, options = {}) {
   /** @type {Object.<string, Element>} */
-  var byId = {}
-  /** @type {MdastNode|Array.<MdastNode>|void} */
-  var result
+  const byId = {}
   /** @type {MdastNode|MdastRoot} */
-  var mdast
+  let mdast
 
   /**
    * @type {H}
    */
-  var h = Object.assign(
+  const h = Object.assign(
     /**
      * @type {HWithProps & HWithoutProps}
      */
@@ -51,11 +49,9 @@ export function toMdast(tree, options = {}) {
        * @param {Properties|string|Array.<Node>} [props]
        * @param {string|Array.<Node>} [children]
        */
-      function (node, type, props, children) {
-        /** @type {Node} */
-        var result
+      (node, type, props, children) => {
         /** @type {Properties} */
-        var properties
+        let properties
 
         if (typeof props === 'string' || Array.isArray(props)) {
           children = props
@@ -64,8 +60,9 @@ export function toMdast(tree, options = {}) {
           properties = props
         }
 
+        /** @type {Node} */
         // @ts-ignore Assume valid `type` and `children`/`value`.
-        result = {type, ...properties}
+        const result = {type, ...properties}
 
         if (typeof children === 'string') {
           result.value = children
@@ -101,7 +98,7 @@ export function toMdast(tree, options = {}) {
 
   minifyWhitespace({newlines: options.newlines === true})(tree)
 
-  result = one(h, tree, null)
+  const result = one(h, tree, null)
 
   if (!result) {
     mdast = {type: 'root', children: []}
@@ -117,7 +114,8 @@ export function toMdast(tree, options = {}) {
 
   /** @type {import('unist-util-visit').Visitor<Element>} */
   function onelement(node) {
-    var id = hasProperty(node, 'id') && String(node.properties.id).toUpperCase()
+    const id =
+      hasProperty(node, 'id') && String(node.properties.id).toUpperCase()
 
     if (id && !own.call(byId, id)) {
       byId[id] = node
@@ -134,7 +132,7 @@ export function toMdast(tree, options = {}) {
    * @type {import('unist-util-visit').Visitor<Text>}
    */
   function ontext(node, index, parent) {
-    var previous = parent.children[index - 1]
+    const previous = parent.children[index - 1]
 
     if (previous && node.type === previous.type) {
       previous.value += node.value
