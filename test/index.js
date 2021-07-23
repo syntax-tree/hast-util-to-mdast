@@ -162,7 +162,6 @@ test('fixtures', (t) => {
 
       if (!config || config.stringify !== false) {
         st.deepEqual(
-          // @ts-expect-error Types are wrong.
           remark.stringify(tree),
           output,
           'should produce the same documents'
@@ -187,6 +186,7 @@ test('handlers option', (t) => {
   const options = {
     handlers: {
       div(h, /** @type {Element} */ node) {
+        // @ts-expect-error Fine.
         node.children[0].value = 'Beta'
         // @ts-expect-error: fine, it’s just a child.
         return h(node, 'paragraph', node.children)
