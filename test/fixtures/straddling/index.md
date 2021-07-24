@@ -55,3 +55,9 @@ To see the cat simulator, use one of the following links:
 Alternatively, upgrade to the Mellblom Browser.
 
 I’m quite proud of it.
+
+[a](#url)
+
+***
+
+[b](#url)
