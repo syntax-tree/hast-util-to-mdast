@@ -34,13 +34,13 @@ Say we have the following `example.html`:
 …and next to it, `example.js`:
 
 ```js
-import unified from 'unified'
+import {unified} from 'unified'
 import remarkParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
-import {toVFile} from 'to-vfile'
+import {readSync} from 'to-vfile'
 import {toMdast} from 'hast-util-to-mdast'
 
-const file = toVFile.readSync('example.html')
+const file = readSync('example.html')
 
 const hast = unified().use(remarkParse).parse(file)
 
