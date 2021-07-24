@@ -5,8 +5,8 @@
  * @typedef {import('../lib/types.js').Handle} Handle
  */
 
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import test from 'tape'
 import {u} from 'unist-builder'
 import {h} from 'hastscript'
