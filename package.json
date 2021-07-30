@@ -50,7 +50,7 @@
     "repeat-string": "^1.0.0",
     "trim-trailing-lines": "^2.0.0",
     "unist-util-is": "^5.0.0",
-    "unist-util-visit": "^3.0.0"
+    "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {
     "@types/tape": "^4.0.0",
