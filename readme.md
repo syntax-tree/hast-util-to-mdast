@@ -59,7 +59,7 @@ Now, running `node example.js` yields:
 
 ## API
 
-This package exports the following identifiers: `toMdast`.
+This package exports the following identifiers: `toMdast`, `one`, `all`.
 There is no default export.
 
 ### `toMdast(tree[, options])`
