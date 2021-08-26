@@ -35,14 +35,14 @@ Say we have the following `example.html`:
 
 ```js
 import {unified} from 'unified'
-import remarkParse from 'rehype-parse'
+import rehypeParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
 import {readSync} from 'to-vfile'
 import {toMdast} from 'hast-util-to-mdast'
 
 const file = readSync('example.html')
 
-const hast = unified().use(remarkParse).parse(file)
+const hast = unified().use(rehypeParse).parse(file)
 
 const mdast = toMdast(hast)
 
