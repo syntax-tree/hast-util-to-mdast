@@ -1,4 +1,4 @@
-This arabic word ARABIC_PLACEHOLDER is automatically displayed right-to-left.
+This arabic word ARABIC\_PLACEHOLDER is automatically displayed right-to-left.
 
 This text will go left to right.
 
