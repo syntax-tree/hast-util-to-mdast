@@ -192,7 +192,8 @@ test('handlers option', (t) => {
         return h(node, 'paragraph', node.children)
       },
       pre(h, /** @type {Element} */ node, parent) {
-        t.not(h.defaultHandlers.pre, options.handlers?.pre)
+        // @ts-expect-error Fine.
+        t.not(h.defaultHandlers.pre, options.handlers.pre)
         return h.defaultHandlers.pre(h, node, parent)
       }
     }
