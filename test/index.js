@@ -190,6 +190,10 @@ test('handlers option', (t) => {
         node.children[0].value = 'Beta'
         // @ts-expect-error: fine, it’s just a child.
         return h(node, 'paragraph', node.children)
+      },
+      pre(h, /** @type {Element} */ node, parent) {
+        t.not(h.defaultHandlers.pre, options.handlers?.pre)
+        return h.defaultHandlers.pre(h, node, parent)
       }
     }
   }
@@ -204,6 +208,26 @@ test('handlers option', (t) => {
             tagName: 'div',
             properties: {},
             children: [{type: 'text', value: 'Alpha'}]
+          },
+          {
+            type: 'element',
+            tagName: 'pre',
+            properties: {},
+            children: [
+              {
+                type: 'element',
+                tagName: 'code',
+                properties: {
+                  className: ['language-markdown']
+                },
+                children: [
+                  {
+                    type: 'text',
+                    value: '# Heading'
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -211,7 +235,15 @@ test('handlers option', (t) => {
     ),
     {
       type: 'root',
-      children: [{type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}]
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'Beta'}]},
+        {
+          type: 'code',
+          lang: 'markdown',
+          meta: null,
+          value: '# Heading'
+        }
+      ]
     },
     'use handlers passed as option'
   )
