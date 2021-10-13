@@ -5,4 +5,4 @@
  * @typedef {import('./lib/types.js').Handle} Handle
  */
 
-export {one, all, toMdast} from './lib/index.js'
+export {one, all, defaultHandlers, toMdast} from './lib/index.js'
