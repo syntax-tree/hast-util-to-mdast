@@ -59,7 +59,8 @@ Now, running `node example.js` yields:
 
 ## API
 
-This package exports the following identifiers: `toMdast`, `one`, `all`.
+This package exports the following identifiers: `toMdast`, `defaultHandlers`,
+`one`, `all`.
 There is no default export.
 
 ### `toMdast(tree[, options])`
@@ -229,6 +230,12 @@ Yields:
 Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1"></rect></svg> a graphic… Wait is that a dead pixel?
 ```
 
+### `defaultHandlers`
+
+Object mapping HTML tag names (and node types) to functions that can handle
+them.
+See [`lib/handlers/index.js`][default-handlers]
+
 ### `all(h, parent)`
 
 Helper function for writing custom handlers passed to `options.handlers`.
@@ -349,3 +356,5 @@ abide by its terms.
 [handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/main/lib/handlers
 
 [spec]: https://html.spec.whatwg.org/#paragraphs
+
+[default-handlers]: https://github.com/syntax-tree/hast-util-to-mdast/blob/main/lib/handlers/index.js
