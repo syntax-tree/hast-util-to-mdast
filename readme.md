@@ -8,19 +8,68 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**hast**][hast] utility to transform to [**mdast**][mdast].
+[hast][] utility to transform to [mdast][].
 
-> **Note**: You probably want to use [rehype-remark][].
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`toMdast(tree[, options])`](#tomdasttree-options)
+    *   [`defaultHandlers`](#defaulthandlers)
+    *   [`all(h, parent)`](#allh-parent)
+    *   [`one(h, node, parent)`](#oneh-node-parent)
+*   [Examples](#examples)
+    *   [Example: ignoring things](#example-ignoring-things)
+*   [Algorithm](#algorithm)
+*   [Syntax](#syntax)
+*   [Syntax tree](#syntax-tree)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Security](#security)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a utility that takes a [hast][] (HTML) syntax tree as input and
+turns it into an [mdast][] (markdown) syntax tree.
+
+## When should I use this?
+
+This project is useful when you want to turn HTML to markdown.
+
+The mdast utility [`mdast-util-to-hast`][mdast-util-to-hast] does the inverse of
+this utility.
+It turns markdown into HTML.
+
+The rehype plugin [`rehype-remark`][rehype-remark] wraps this utility to also
+turn HTML to markdown at a higher-level (easier) abstraction.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install hast-util-to-mdast
+```
+
+In Deno with [Skypack][]:
+
+```js
+import {toMdast} from 'https://cdn.skypack.dev/hast-util-to-mdast@8?dts'
+```
+
+In browsers with [Skypack][]:
+
+```html
+<script type="module">
+  import {toMdast} from 'https://cdn.skypack.dev/hast-util-to-mdast@8?min'
+</script>
 ```
 
 ## Use
@@ -31,27 +80,30 @@ Say we have the following `example.html`:
 <h2>Hello <strong>world!</strong></h2>
 ```
 
-…and next to it, `example.js`:
+…and next to it a module `example.js`:
 
 ```js
-import {unified} from 'unified'
-import rehypeParse from 'rehype-parse'
-import remarkStringify from 'remark-stringify'
-import {readSync} from 'to-vfile'
+import {promises as fs} from 'node:fs'
+import {parseFragment} from 'parse5'
+import {fromParse5} from 'hast-util-from-parse5'
 import {toMdast} from 'hast-util-to-mdast'
+import {toMarkdown} from 'mdast-util-to-markdown'
 
-const file = readSync('example.html')
+main()
 
-const hast = unified().use(rehypeParse).parse(file)
+async function main() {
+  const html = String(await fs.readFile('example.html'))
 
-const mdast = toMdast(hast)
+  const parse5 = parseFragment(html)
+  const hast = fromParse5(parse5)
+  const mdast = toMdast(hast)
+  const markdown = toMarkdown(mdast)
 
-const doc = unified().use(remarkStringify).stringify(mdast)
-
-console.log(doc)
+  console.log(markdown)
+}
 ```
 
-Now, running `node example.js` yields:
+…now running `node example.js` yields:
 
 ```markdown
 ## Hello **world!**
@@ -60,77 +112,187 @@ Now, running `node example.js` yields:
 ## API
 
 This package exports the following identifiers: `toMdast`, `defaultHandlers`,
-`one`, `all`.
+`all`, `one`.
 There is no default export.
 
 ### `toMdast(tree[, options])`
 
-Transform the given [**hast**][hast] [*tree*][tree] to [**mdast**][mdast].
+Transform [hast][] to [mdast][].
 
-##### Options
+##### `options`
 
-###### `options.handlers`
-
-Object mapping tag names or [*types*][type] to functions handling those
-[*elements*][element] or [*nodes*][hast-node].
-See [`handlers/`][handlers] for examples.
-
-In a handler, you have access to `h`, which should be used to create mdast nodes
-from hast nodes.
-On `h`, there are fields that may be of interest.
-Most interesting of them is `h.wrapText`, which is `true` if the mdast content
-can include newlines, and `false` if not (such as in headings or table cells).
-
-###### `options.document`
-
-Whether the given [*tree*][tree] is a complete document.
-Applies if the given `tree` is a [`root`][hast-root].
-First its [*children*][child] are transformed to [**mdast**][mdast].
-By default, if one or more of the new mdast children are [*phrasing*][phrasing]
-nodes, and one or more are not, the phrasing nodes are wrapped in
-[*paragraphs*][mdast-paragraph].
-If `document: true`, all mdast phrasing children are wrapped in paragraphs.
+Configuration (optional).
 
 ###### `options.newlines`
 
-Whether to collapse to a line feed (`\n`) instead of a single space (default) if
-a streak of white-space in a text node contains a newline.
+Keep line endings when collapsing whitespace (`boolean`, default: `false`).
+The default collapses to a single space.
 
 ###### `options.checked`
 
-Value to use when serializing a checked checkbox or radio input (`string`,
-default: `[x]`).
+Value to use for a checked checkbox or radio input (`string`, default: `[x]`).
 
 ###### `options.unchecked`
 
-Value to use when serializing an unchecked checkbox or radio input (`string`,
-default: `[ ]`).
+Value to use for an unchecked checkbox or radio input (`string`, default:
+`[ ]`).
 
 ###### `options.quotes`
 
-List of quotes to use (`string[]`, default: `['"']`).
+List of quotes to use (`Array<string>`, default: `['"']`).
 Each value can be one or two characters.
 When two, the first character determines the opening quote and the second the
 closing quote at that level.
 When one, both the opening and closing quote are that character.
 The order in which the preferred quotes appear determines which quotes to use at
 which level of nesting.
-So, to prefer `‘’` at the first level of nesting, and `“”` at the second, pass:
+So, to prefer `‘’` at the first level of nesting, and `“”` at the second, pass
 `['‘’', '“”']`.
 If `<q>`s are nested deeper than the given amount of quotes, the markers wrap
 around: a third level of nesting when using `['«»', '‹›']` should have double
 guillemets, a fourth single, a fifth double again, etc.
 
+###### `options.document`
+
+Whether the given tree represents a complete document (`boolean?`, default:
+`undefined`).
+Applies when the `tree` is a `root` node.
+When the tree represents a complete document, then things are wrapped in
+paragraphs when needed, and otherwise they’re left as-is.
+The default checks for whether there’s mixed content: some *[phrasing][]* nodes
+*and* some non-phrasing nodes.
+
+###### `options.handlers`
+
+Object mapping tag names or node types to functions handling the corresponding
+nodes.
+See [`handlers/`][handlers] for examples.
+
+In a handler, you have access to `h`, which should be used to create mdast nodes
+from hast nodes.
+On `h`, there are several fields that may be of interest.
+Most interesting of them is `h.wrapText`, which is `true` if the mdast content
+can include newlines, and `false` if not (such as in headings or table cells).
+
 ##### Returns
 
 [`MdastNode`][mdast-node].
 
-##### Notes
+### `defaultHandlers`
 
-###### Implied paragraphs
+Object mapping HTML tag names and node types to functions that can handle
+them.
+See [`lib/handlers/index.js`][default-handlers].
 
-The algorithm supports implicit and explicit paragraphs (see [HTML Standard,
-A. van Kesteren; et al. WHATWG § 3.2.5.4 Paragraphs][spec]), such as:
+### `all(h, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h` and a parent node (hast) and it will turn the node’s children into
+an array of transformed nodes (mdast).
+
+### `one(h, node, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h`, a `node`, and its `parent` (hast) and it will turn `node` into
+mdast content.
+
+## Examples
+
+### Example: ignoring things
+
+It’s possible to exclude something from within HTML when turning it into
+markdown, by wrapping it in an element with a `data-mdast` attribute set to
+`'ignore'`.
+For example:
+
+```html
+<p><strong>Strong</strong> and <em data-mdast="ignore">emphasis</em>.</p>
+```
+
+Yields:
+
+```markdown
+**Strong** and .
+```
+
+It’s also possible to pass a handler to ignore nodes.
+For example, to ignore `em` elements, pass `handlers: {'em': function () {}}`:
+
+```html
+<p><strong>Strong</strong> and <em>emphasis</em>.</p>
+```
+
+Yields:
+
+```markdown
+**Strong** and .
+```
+
+###### HTML in Markdown
+
+The goal of this project is to map HTML to plain and readable markdown.
+That means that certain elements are ignored (such as `<svg>`) or “downgraded”
+(such as `<video>` to links).
+You can change this by passing handlers.
+
+Say we have the following file `example.html`:
+
+```html
+<p>
+  Some text with
+  <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1" /></svg>
+  a graphic… Wait is that a dead pixel?
+</p>
+```
+
+This can be achieved with `example.js` like so:
+
+```js
+import {promises as fs} from 'node:fs'
+import {parseFragment} from 'parse5'
+import {fromParse5} from 'hast-util-from-parse5'
+import {toMdast} from 'hast-util-to-mdast'
+import {toHtml} from 'hast-util-to-html'
+import {toMarkdown} from 'mdast-util-to-markdown'
+
+main()
+
+async function main() {
+  const html = String(await fs.readFile('example.html'))
+
+  const parse5 = parseFragment(html)
+  const hast = fromParse5(parse5)
+  const mdast = toMdast(hast, {
+    handlers: {
+      svg(h, node) {
+        return h(node, 'html', toHtml(node, {space: 'svg'}))
+      }
+    }
+  })
+  const markdown = toMarkdown(mdast)
+
+  console.log(markdown)
+}
+```
+
+Yields:
+
+```markdown
+Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1"></rect></svg> a graphic… Wait is that a dead pixel?
+```
+
+<!-- Old ID of this section. -->
+
+<a name="implied-paragraphs"></a>
+
+## Algorithm
+
+The algorithm used in this project is very powerful.
+It supports all HTML elements, including ancient elements (`xmp`) and obscure
+ones (`base`).
+It’s particularly good at forms, media, and around implicit and explicit
+paragraphs (see [HTML Standard, A. van Kesteren; et al. WHATWG § 3.2.5.4
+Paragraphs][html-paragraphs]), such as:
 
 ```html
 <article>
@@ -147,112 +309,40 @@ An implicit paragraph.
 # An explicit paragraph.
 ```
 
-###### Ignoring nodes
+## Syntax
 
-Some [*nodes*][hast-node] are ignored and their content will not be present in
-the [**mdast**][mdast] [*tree*][tree].
-To ignore nodes, configure a [handler][] for their tag name or [*type*][type]
-that returns nothing.
-For example, to ignore `em` [*elements*][element], pass `handlers: {'em':
-function () {}}`:
+HTML is handled according to [WHATWG HTML][html] (the living standard), which is
+also followed by browsers such as Chrome and Firefox.
 
-```html
-<p><strong>Importance</strong> and <em>emphasis</em>.</p>
-```
+This project creates markdown according to [GFM][], which is a standard that’s
+based on [CommonMark][] but adds the strikethrough (`~like so~`) and tables
+(`| Table header | …`) amongst some alternative syntaxes.
 
-Yields:
+## Syntax tree
 
-```markdown
-**Importance** and .
-```
+The input syntax tree format is [hast][].
+Any HTML that can be represented in hast is accepted as input.
+The input syntax tree format is [mdast][].
+When `<table>` elements, or `<del>`, `<s>`, and `<strike>` exist in the
+HTML, then the GFM nodes `table` and `delete` are used.
+This utility does not generate definitions or references, or syntax extensions
+such as footnotes, frontmatter, or math.
 
-To ignore a specific element from the HTML source, set `data-mdast` to
-`ignore`:
+## Types
 
-```html
-<p><strong>Importance</strong> and <em data-mdast="ignore">emphasis</em>.</p>
-```
+This package is fully typed with [TypeScript][].
+The extra types `Options`, `Context`, `H`, and `Handle` are exported.
 
-Yields:
+## Compatibility
 
-```markdown
-**Importance** and .
-```
-
-###### HTML in Markdown
-
-We try our best to map any HTML (hast) to Markdown (mdast) and keep it readable.
-Readability is one of Markdown’s greatest features: it’s terser than HTML, such
-as allowing `# Alpha` instead of `<h1>Alpha</h1>`.
-
-Another awesome feature of Markdown is that you *can* author HTML inside it.
-As we focus on readability we don’t do that, but you can by passing a handler.
-
-Say we for example have this HTML, and want to embed the SVG inside Markdown as
-well:
-
-```html
-<p>
-  Some text with
-  <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1" /></svg>
-  a graphic… Wait is that a dead pixel?
-</p>
-```
-
-This can be achieved with `example.js` like so:
-
-```js
-import unified from 'unified'
-import rehypeParse from 'rehype-parse'
-import remarkStringify from 'remark-stringify'
-import {toVFfile} from 'to-vfile'
-import {toHtml} from 'hast-util-to-html'
-import {toMdast} from 'hast-util-to-mdast'
-
-const file = toVFfile.readSync('example.html')
-
-const hast = unified().use(rehypeParse).parse(file)
-
-const mdast = toMdast(hast, {handlers: {svg}})
-
-const doc = unified().use(remarkStringify).stringify(mdast)
-
-console.log(doc)
-
-function svg(h, node) {
-  return h(node, 'html', toHtml(node, {space: 'svg'}))
-}
-```
-
-Yields:
-
-```markdown
-Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x="0" y="0" width="1" height="1"></rect></svg> a graphic… Wait is that a dead pixel?
-```
-
-### `defaultHandlers`
-
-Object mapping HTML tag names (and node types) to functions that can handle
-them.
-See [`lib/handlers/index.js`][default-handlers]
-
-### `all(h, parent)`
-
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h` and a parent node (hast) and it will turn the node’s children into
-an array of transformed nodes (mdast).
-
-### `one(h, node, parent)`
-
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h`, a `node`, and its `parent` (hast) and it will turn `node` into
-mdast content.
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Security
 
-Use of `hast-util-to-mdast` can open you up to a
-[cross-site scripting (XSS)][xss] attack if the hast tree is unsafe.
-Use [`hast-util-santize`][sanitize] to make the hast tree safe.
+Use of `hast-util-to-mdast` is safe by default.
 
 ## Related
 
@@ -260,14 +350,6 @@ Use [`hast-util-santize`][sanitize] to make the hast tree safe.
     — transform hast to nlcst
 *   [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
     — transform hast to xast
-*   [`mdast-util-to-hast`](https://github.com/syntax-tree/mdast-util-to-hast)
-    — transform mdast to hast
-*   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
-    — transform mdast to nlcst
-*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
-    — rehype support for remark
-*   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
-    — remark support for rehype
 
 ## Contribute
 
@@ -311,27 +393,25 @@ abide by its terms.
 
 [chat]: https://github.com/syntax-tree/unist/discussions
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
 [npm]: https://docs.npmjs.com/cli/install
+
+[skypack]: https://www.skypack.dev
 
 [license]: license
 
 [author]: https://wooorm.com
 
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
+[typescript]: https://www.typescriptlang.org
 
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
 
-[tree]: https://github.com/syntax-tree/unist#tree
-
-[child]: https://github.com/syntax-tree/unist#child
-
-[type]: https://github.com/syntax-tree/unist#type
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
 [mdast]: https://github.com/syntax-tree/mdast
-
-[mdast-paragraph]: https://github.com/syntax-tree/mdast#paragraph
 
 [mdast-node]: https://github.com/syntax-tree/mdast#nodes
 
@@ -339,22 +419,18 @@ abide by its terms.
 
 [hast]: https://github.com/syntax-tree/hast
 
-[hast-node]: https://github.com/syntax-tree/hast#nodes
-
-[hast-root]: https://github.com/syntax-tree/hast#root
-
-[element]: https://github.com/syntax-tree/hast#element
-
-[rehype-remark]: https://github.com/rehypejs/rehype-remark
-
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
-
-[sanitize]: https://github.com/syntax-tree/hast-util-sanitize
-
-[handler]: #optionshandlers
-
 [handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/main/lib/handlers
 
-[spec]: https://html.spec.whatwg.org/#paragraphs
+[html]: https://html.spec.whatwg.org/multipage/
+
+[gfm]: https://github.github.com/gfm/
+
+[commonmark]: https://commonmark.org
+
+[html-paragraphs]: https://html.spec.whatwg.org/#paragraphs
 
 [default-handlers]: https://github.com/syntax-tree/hast-util-to-mdast/blob/main/lib/handlers/index.js
+
+[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
+[rehype-remark]: https://github.com/rehypejs/rehype-remark
