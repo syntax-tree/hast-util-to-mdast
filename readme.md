@@ -94,7 +94,6 @@ main()
 
 async function main() {
   const html = String(await fs.readFile('example.html'))
-
   const parse5 = parseFragment(html)
   const hast = fromParse5(parse5)
   const mdast = toMdast(hast)
@@ -260,7 +259,6 @@ main()
 
 async function main() {
   const html = String(await fs.readFile('example.html'))
-
   const parse5 = parseFragment(html)
   const hast = fromParse5(parse5)
   const mdast = toMdast(hast, {
