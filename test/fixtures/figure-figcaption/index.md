@@ -1,4 +1,4 @@
-![The Pulpit Rock](img\_pulpit.jpg)
+![The Pulpit Rock](img_pulpit.jpg)
 
 Fig1. - A view of the pulpit rock in Norway.
 
