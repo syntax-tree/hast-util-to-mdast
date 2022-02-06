@@ -23,6 +23,7 @@
     *   [`one(h, node, parent)`](#oneh-node-parent)
 *   [Examples](#examples)
     *   [Example: ignoring things](#example-ignoring-things)
+    *   [Example: keeping some HTML](#example-keeping-some-html)
 *   [Algorithm](#algorithm)
 *   [Syntax](#syntax)
 *   [Syntax tree](#syntax-tree)
@@ -228,7 +229,7 @@ Yields:
 **Strong** and .
 ```
 
-###### HTML in Markdown
+### Example: keeping some HTML
 
 The goal of this project is to map HTML to plain and readable markdown.
 That means that certain elements are ignored (such as `<svg>`) or “downgraded”
