@@ -62,7 +62,7 @@ npm install hast-util-to-mdast
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {toMdast} from 'https://esm.sh/hast-util-to-mdast@8
+import {toMdast} from 'https://esm.sh/hast-util-to-mdast@8'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
