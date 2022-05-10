@@ -321,7 +321,7 @@ based on [CommonMark][] but adds the strikethrough (`~like so~`) and tables
 
 The input syntax tree format is [hast][].
 Any HTML that can be represented in hast is accepted as input.
-The input syntax tree format is [mdast][].
+The output syntax tree format is [mdast][].
 When `<table>` elements, or `<del>`, `<s>`, and `<strike>` exist in the
 HTML, then the GFM nodes `table` and `delete` are used.
 This utility does not generate definitions or references, or syntax extensions
