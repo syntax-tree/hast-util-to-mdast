@@ -31,11 +31,18 @@ test('custom nodes', (t) => {
         // @ts-ignore - custom node type
         type: 'superscript',
         data: {hName: 'sup'},
-        children: [{type: 'text', value: 'superscript'}]
+        children: [{type: 'text', value: 'test'}]
       },
       {type: 'text', value: ' text'}
     ]),
-    false,
+    wrapNeeded([
+      {type: 'text', value: 'some '},
+      {
+        type: 'emphasis',
+        children: [{type: 'text', value: 'test'}]
+      },
+      {type: 'text', value: ' text'}
+    ]),
     'check both hast.phrasing() with node.data.hName and mdast.phrasing()'
   )
 
