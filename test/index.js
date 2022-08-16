@@ -28,7 +28,7 @@ test('custom nodes', (t) => {
     wrapNeeded([
       {type: 'text', value: 'some '},
       {
-        // @ts-ignore - custom node type
+        // @ts-expect-error - custom node type
         type: 'superscript',
         data: {hName: 'sup'},
         children: [{type: 'text', value: 'test'}]
