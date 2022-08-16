@@ -90,17 +90,13 @@ import {fromParse5} from 'hast-util-from-parse5'
 import {toMdast} from 'hast-util-to-mdast'
 import {toMarkdown} from 'mdast-util-to-markdown'
 
-main()
+const html = String(await fs.readFile('example.html'))
+const parse5 = parseFragment(html)
+const hast = fromParse5(parse5)
+const mdast = toMdast(hast)
+const markdown = toMarkdown(mdast)
 
-async function main() {
-  const html = String(await fs.readFile('example.html'))
-  const parse5 = parseFragment(html)
-  const hast = fromParse5(parse5)
-  const mdast = toMdast(hast)
-  const markdown = toMarkdown(mdast)
-
-  console.log(markdown)
-}
+console.log(markdown)
 ```
 
 …now running `node example.js` yields:
@@ -255,23 +251,19 @@ import {toMdast} from 'hast-util-to-mdast'
 import {toHtml} from 'hast-util-to-html'
 import {toMarkdown} from 'mdast-util-to-markdown'
 
-main()
-
-async function main() {
-  const html = String(await fs.readFile('example.html'))
-  const parse5 = parseFragment(html)
-  const hast = fromParse5(parse5)
-  const mdast = toMdast(hast, {
-    handlers: {
-      svg(h, node) {
-        return h(node, 'html', toHtml(node, {space: 'svg'}))
-      }
+const html = String(await fs.readFile('example.html'))
+const parse5 = parseFragment(html)
+const hast = fromParse5(parse5)
+const mdast = toMdast(hast, {
+  handlers: {
+    svg(h, node) {
+      return h(node, 'html', toHtml(node, {space: 'svg'}))
     }
-  })
-  const markdown = toMarkdown(mdast)
+  }
+})
+const markdown = toMarkdown(mdast)
 
-  console.log(markdown)
-}
+console.log(markdown)
 ```
 
 Yields:
