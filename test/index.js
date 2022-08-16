@@ -43,7 +43,7 @@ test('custom nodes', (t) => {
       },
       {type: 'text', value: ' text'}
     ]),
-    'check both hast.phrasing() with node.data.hName and mdast.phrasing()'
+    'should support `node.data.hName` to infer phrasing'
   )
 
   t.end()
