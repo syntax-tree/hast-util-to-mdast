@@ -19,8 +19,35 @@ import remarkStringify from 'remark-stringify'
 import {assert} from 'mdast-util-assert'
 import {removePosition} from 'unist-util-remove-position'
 import {one, all, defaultHandlers, toMdast} from '../index.js'
+import {wrapNeeded} from '../lib/util/wrap.js'
 
 const fixtures = path.join('test', 'fixtures')
+
+test('custom nodes', (t) => {
+  t.deepEqual(
+    wrapNeeded([
+      {type: 'text', value: 'some '},
+      {
+        // @ts-expect-error - custom node type
+        type: 'superscript',
+        data: {hName: 'sup'},
+        children: [{type: 'text', value: 'test'}]
+      },
+      {type: 'text', value: ' text'}
+    ]),
+    wrapNeeded([
+      {type: 'text', value: 'some '},
+      {
+        type: 'emphasis',
+        children: [{type: 'text', value: 'test'}]
+      },
+      {type: 'text', value: ' text'}
+    ]),
+    'should support `node.data.hName` to infer phrasing'
+  )
+
+  t.end()
+})
 
 test('exports', (t) => {
   t.assert(one, 'should export `one`')
