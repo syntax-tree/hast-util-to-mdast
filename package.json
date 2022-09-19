@@ -1,6 +1,6 @@
 {
   "name": "hast-util-to-mdast",
-  "version": "8.4.0",
+  "version": "8.4.1",
   "description": "hast utility to transform to mdast",
   "license": "MIT",
   "keywords": [
