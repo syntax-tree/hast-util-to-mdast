@@ -19,3 +19,7 @@ juliett
 # kilo
 
 # lima
+
+mike
+
+november
