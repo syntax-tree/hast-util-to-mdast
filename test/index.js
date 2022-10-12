@@ -166,13 +166,13 @@ test('fixtures', (t) => {
 
       const fromHtml = unified()
         .use(rehypeStringify)
-        // @ts-expect-error: turn into different tree..
-        .use(() => {
-          return transformer
-          function transformer(/** @type {Node} */ tree) {
-            return toMdast(tree, config)
+        .use(
+          /** @type {import('unified').Plugin<void[], import('hast').Root, import('mdast').Root>} */
+          () => {
+            // @ts-expect-error: root in -> root out.
+            return (tree) => toMdast(tree, config)
           }
-        })
+        )
         .use(remarkStringify)
 
       const tree = removePosition(fromHtml.runSync(fromHtml.parse(input)), true)
