@@ -85,14 +85,12 @@ Say we have the following `example.html`:
 
 ```js
 import {promises as fs} from 'node:fs'
-import {parseFragment} from 'parse5'
-import {fromParse5} from 'hast-util-from-parse5'
+import {fromHtml} from 'hast-util-from-html'
 import {toMdast} from 'hast-util-to-mdast'
 import {toMarkdown} from 'mdast-util-to-markdown'
 
 const html = String(await fs.readFile('example.html'))
-const parse5 = parseFragment(html)
-const hast = fromParse5(parse5)
+const hast = fromHtml(html, {fragment: true})
 const mdast = toMdast(hast)
 const markdown = toMarkdown(mdast)
 
@@ -245,15 +243,13 @@ This can be achieved with `example.js` like so:
 
 ```js
 import {promises as fs} from 'node:fs'
-import {parseFragment} from 'parse5'
-import {fromParse5} from 'hast-util-from-parse5'
+import {fromHtml} from 'hast-util-from-html'
 import {toMdast} from 'hast-util-to-mdast'
 import {toHtml} from 'hast-util-to-html'
 import {toMarkdown} from 'mdast-util-to-markdown'
 
 const html = String(await fs.readFile('example.html'))
-const parse5 = parseFragment(html)
-const hast = fromParse5(parse5)
+const hast = fromHtml(html, {fragment: true})
 const mdast = toMdast(hast, {
   handlers: {
     svg(h, node) {
