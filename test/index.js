@@ -1,21 +1,18 @@
 /**
- * @typedef {import('hast').Root} Root
- * @typedef {import('hast').Element} Element
  * @typedef {import('../index.js').Options} Options
  */
 
-import fs from 'node:fs'
-import path from 'node:path'
+import fs from 'node:fs/promises'
 import test from 'tape'
-import {u} from 'unist-builder'
-import {h} from 'hastscript'
 import {isHidden} from 'is-hidden'
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
-import rehypeParse from 'rehype-parse'
-import remarkStringify from 'remark-stringify'
-import {assert} from 'mdast-util-assert'
+import {h} from 'hastscript'
+import {fromHtml} from 'hast-util-from-html'
+import {assert as mdastAssert} from 'mdast-util-assert'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {gfmFromMarkdown, gfmToMarkdown} from 'mdast-util-gfm'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {gfm} from 'micromark-extension-gfm'
+import {u} from 'unist-builder'
 import {removePosition} from 'unist-util-remove-position'
 import {one, all, defaultHandlers, toMdast} from '../index.js'
 import {wrapNeeded} from '../lib/util/wrap.js'
@@ -47,9 +44,9 @@ test('custom nodes', (t) => {
 })
 
 test('exports', (t) => {
-  t.assert(one, 'should export `one`')
-  t.assert(all, 'should export `all`')
-  t.assert(defaultHandlers, 'should export `defaultHandlers`')
+  t.ok(one, 'should export `one`')
+  t.ok(all, 'should export `all`')
+  t.ok(defaultHandlers, 'should export `defaultHandlers`')
   t.end()
 })
 
@@ -190,54 +187,41 @@ test('core', (t) => {
   t.end()
 })
 
-test('fixtures', (t) => {
-  const fixtures = path.join('test', 'fixtures')
-  const remark = unified().use(remarkParse).use(remarkGfm).use(remarkStringify)
+test('fixtures', async (t) => {
+  const fixtures = new URL('fixtures/', import.meta.url)
+  const folders = await fs.readdir(fixtures)
 
-  fs.readdirSync(fixtures)
-    .filter((d) => !isHidden(d))
-    // eslint-disable-next-line unicorn/no-array-for-each
-    .forEach((d) => check(d))
+  for (const folder of folders) {
+    if (isHidden(folder)) {
+      continue
+    }
 
-  t.end()
+    const ignore = /^base\b/.test(folder)
 
-  function check(/** @type {string} */ name) {
-    const ignore = /^base\b/.test(name)
-
-    t.test(name, (st) => {
+    t.test(folder, async (st) => {
       const input = String(
-        fs.readFileSync(path.join(fixtures, name, 'index.html'))
+        await fs.readFile(new URL(folder + '/index.html', fixtures))
       )
-      let output = String(
-        fs.readFileSync(path.join(fixtures, name, 'index.md'))
+      const expected = String(
+        await fs.readFile(new URL(folder + '/index.md', fixtures))
       )
+        // Replace middots with spaces (useful for trailing spaces).
+        .replace(/·/g, ' ')
       /** @type {({stringify?: boolean, tree?: boolean} & Options) | undefined} */
       let config
 
       try {
         config = JSON.parse(
-          String(fs.readFileSync(path.join(fixtures, name, 'index.json')))
+          String(await fs.readFile(new URL(folder + '/index.json', fixtures)))
         )
       } catch {}
 
-      const fromHtml = unified()
-        .use(rehypeParse)
-        // @ts-expect-error: turn into different tree..
-        .use(() => {
-          return transformer
-          function transformer(/** @type {Root} */ tree) {
-            return toMdast(tree, config)
-          }
-        })
-        .use(remarkStringify)
-
-      const tree = removePosition(fromHtml.runSync(fromHtml.parse(input)), true)
-
-      // Replace middots with spaces (useful for trailing spaces).
-      output = output.replace(/·/g, ' ')
+      const hast = fromHtml(input)
+      const mdast = toMdast(hast, config)
+      removePosition(mdast, true)
 
       st.doesNotThrow(() => {
-        assert(tree)
+        mdastAssert(mdast)
       }, 'should produce valid mdast nodes')
 
       if (ignore) {
@@ -247,16 +231,21 @@ test('fixtures', (t) => {
 
       if (!config || config.stringify !== false) {
         st.deepEqual(
-          remark.stringify(tree),
-          output,
+          toMarkdown(mdast, {extensions: [gfmToMarkdown()]}),
+          expected,
           'should produce the same documents'
         )
       }
 
       if (!config || config.tree !== false) {
+        const expectedMdast = fromMarkdown(expected, {
+          extensions: [gfm()],
+          mdastExtensions: [gfmFromMarkdown()]
+        })
+        removePosition(expectedMdast, true)
         st.deepEqual(
-          tree,
-          removePosition(remark.runSync(remark.parse(output)), true),
+          mdast,
+          expectedMdast,
           'should produce the same tree as remark'
         )
       }
@@ -264,6 +253,8 @@ test('fixtures', (t) => {
       st.end()
     })
   }
+
+  t.end()
 })
 
 test('handlers option', (t) => {
