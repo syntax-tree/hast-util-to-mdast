@@ -111,7 +111,7 @@ There is no default export.
 
 ### `toMdast(tree[, options])`
 
-Transform [hast][] to [mdast][].
+Transform hast to mdast.
 
 ##### `options`
 
@@ -120,6 +120,7 @@ Configuration (optional).
 ###### `options.newlines`
 
 Keep line endings when collapsing whitespace (`boolean`, default: `false`).
+
 The default collapses to a single space.
 
 ###### `options.checked`
@@ -134,10 +135,12 @@ Value to use for an unchecked checkbox or radio input (`string`, default:
 ###### `options.quotes`
 
 List of quotes to use (`Array<string>`, default: `['"']`).
+
 Each value can be one or two characters.
 When two, the first character determines the opening quote and the second the
 closing quote at that level.
 When one, both the opening and closing quote are that character.
+
 The order in which the preferred quotes appear determines which quotes to use at
 which level of nesting.
 So, to prefer `‘’` at the first level of nesting, and `“”` at the second, pass
@@ -150,6 +153,7 @@ guillemets, a fourth single, a fifth double again, etc.
 
 Whether the given tree represents a complete document (`boolean?`, default:
 `undefined`).
+
 Applies when the `tree` is a `root` node.
 When the tree represents a complete document, then things are wrapped in
 paragraphs when needed, and otherwise they’re left as-is.
@@ -160,6 +164,7 @@ The default checks for whether there’s mixed content: some *[phrasing][]* node
 
 Object mapping tag names or node types to functions handling the corresponding
 nodes.
+
 See [`handlers/`][handlers] for examples.
 
 In a handler, you have access to `h`, which should be used to create mdast nodes
@@ -170,7 +175,7 @@ can include newlines, and `false` if not (such as in headings or table cells).
 
 ##### Returns
 
-[`MdastNode`][mdast-node].
+mdast tree ([`MdastNode`][mdast-node]).
 
 ### `defaultHandlers`
 

@@ -1,8 +1,7 @@
 /**
- * @typedef {import('../lib/types.js').Node} Node
- * @typedef {import('../lib/types.js').Element} Element
- * @typedef {import('../lib/types.js').Options} Options
- * @typedef {import('../lib/types.js').Handle} Handle
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('../index.js').Options} Options
  */
 
 import fs from 'node:fs'
@@ -14,14 +13,12 @@ import {isHidden} from 'is-hidden'
 import {unified} from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
-import rehypeStringify from 'rehype-parse'
+import rehypeParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
 import {assert} from 'mdast-util-assert'
 import {removePosition} from 'unist-util-remove-position'
 import {one, all, defaultHandlers, toMdast} from '../index.js'
 import {wrapNeeded} from '../lib/util/wrap.js'
-
-const fixtures = path.join('test', 'fixtures')
 
 test('custom nodes', (t) => {
   t.deepEqual(
@@ -51,11 +48,8 @@ test('custom nodes', (t) => {
 
 test('exports', (t) => {
   t.assert(one, 'should export `one`')
-
   t.assert(all, 'should export `all`')
-
   t.assert(defaultHandlers, 'should export `defaultHandlers`')
-
   t.end()
 })
 
@@ -132,10 +126,72 @@ test('core', (t) => {
     'should support positional information'
   )
 
+  t.deepEqual(
+    toMdast({type: 'element', tagName: 'a', children: []}),
+    {type: 'link', url: '', title: null, children: []},
+    'should support an `a` w/o `properties`'
+  )
+
+  t.deepEqual(
+    toMdast({type: 'element', tagName: 'iframe', children: []}),
+    {type: 'root', children: []},
+    'should support an `iframe` w/o `properties`'
+  )
+
+  t.deepEqual(
+    toMdast({type: 'element', tagName: 'img', children: []}),
+    {type: 'image', url: '', title: null, alt: ''},
+    'should support an `img` w/o `properties`'
+  )
+
+  t.deepEqual(
+    toMdast({type: 'element', tagName: 'input', children: []}),
+    {type: 'root', children: []},
+    'should support an `input` w/o `properties`'
+  )
+
+  t.deepEqual(
+    toMdast({type: 'element', tagName: 'select', children: []}),
+    {type: 'root', children: []},
+    'should support a `select` w/o `properties`'
+  )
+
+  t.deepEqual(
+    toMdast({
+      type: 'element',
+      tagName: 'select',
+      properties: {},
+      children: [{type: 'element', tagName: 'option', children: []}]
+    }),
+    {type: 'text', value: ''},
+    'should support an `option` w/o `properties`'
+  )
+
+  t.deepEqual(
+    toMdast({type: 'element', tagName: 'video', children: []}),
+    {type: 'link', title: null, url: '', children: []},
+    'should support a `video` w/o `properties`'
+  )
+
+  t.deepEqual(
+    // @ts-expect-error: `children` missing.
+    toMdast({type: 'root'}),
+    {type: 'root', children: []},
+    'should support a `root` node w/o `children`'
+  )
+
+  t.deepEqual(
+    // @ts-expect-error: `children` missing.
+    toMdast({type: 'element', tagName: 'div'}),
+    {type: 'root', children: []},
+    'should support an `element` node w/o `children`'
+  )
+
   t.end()
 })
 
 test('fixtures', (t) => {
+  const fixtures = path.join('test', 'fixtures')
   const remark = unified().use(remarkParse).use(remarkGfm).use(remarkStringify)
 
   fs.readdirSync(fixtures)
@@ -155,7 +211,7 @@ test('fixtures', (t) => {
       let output = String(
         fs.readFileSync(path.join(fixtures, name, 'index.md'))
       )
-      /** @type {({stringify?: boolean, tree?: boolean} & Options)|undefined} */
+      /** @type {({stringify?: boolean, tree?: boolean} & Options) | undefined} */
       let config
 
       try {
@@ -165,11 +221,11 @@ test('fixtures', (t) => {
       } catch {}
 
       const fromHtml = unified()
-        .use(rehypeStringify)
+        .use(rehypeParse)
         // @ts-expect-error: turn into different tree..
         .use(() => {
           return transformer
-          function transformer(/** @type {Node} */ tree) {
+          function transformer(/** @type {Root} */ tree) {
             return toMdast(tree, config)
           }
         })
@@ -214,11 +270,8 @@ test('handlers option', (t) => {
   /** @type {Options} */
   const options = {
     handlers: {
-      div(h, /** @type {Element} */ node) {
-        // @ts-expect-error Fine.
-        node.children[0].value = 'Beta'
-        // @ts-expect-error: fine, it’s just a child.
-        return h(node, 'paragraph', node.children)
+      div() {
+        return {type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}
       }
     }
   }
