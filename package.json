@@ -48,6 +48,7 @@
     "mdast-util-to-string": "^3.0.0",
     "rehype-minify-whitespace": "^5.0.0",
     "trim-trailing-lines": "^2.0.0",
+    "unist-util-position": "^4.0.0",
     "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {
