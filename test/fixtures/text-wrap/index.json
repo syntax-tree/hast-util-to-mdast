@@ -1,4 +1,5 @@
 {
   "fragment": true,
-  "newlines": true
+  "newlines": true,
+  "tree": false
 }

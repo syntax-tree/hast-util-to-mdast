@@ -3,6 +3,7 @@
  */
 
 import fs from 'node:fs/promises'
+import process from 'node:process'
 import test from 'tape'
 import {isHidden} from 'is-hidden'
 import {h} from 'hastscript'
@@ -196,24 +197,18 @@ test('fixtures', async (t) => {
       continue
     }
 
-    const ignore = /^base\b/.test(folder)
-
     t.test(folder, async (st) => {
-      const input = String(
-        await fs.readFile(new URL(folder + '/index.html', fixtures))
-      )
-      const expected = String(
-        await fs.readFile(new URL(folder + '/index.md', fixtures))
-      )
+      const configUrl = new URL(folder + '/index.json', fixtures)
+      const inputUrl = new URL(folder + '/index.html', fixtures)
+      const expectedUrl = new URL(folder + '/index.md', fixtures)
+      const input = String(await fs.readFile(inputUrl))
         // Replace middots with spaces (useful for trailing spaces).
         .replace(/·/g, ' ')
       /** @type {({stringify?: boolean, tree?: boolean} & Options) | undefined} */
       let config
 
       try {
-        config = JSON.parse(
-          String(await fs.readFile(new URL(folder + '/index.json', fixtures)))
-        )
+        config = JSON.parse(String(await fs.readFile(configUrl)))
       } catch {}
 
       const hast = fromHtml(input)
@@ -224,17 +219,31 @@ test('fixtures', async (t) => {
         mdastAssert(mdast)
       }, 'should produce valid mdast nodes')
 
-      if (ignore) {
+      if (/^base\b/.test(folder)) {
         st.end()
         return
       }
 
+      const actual = toMarkdown(mdast, {
+        extensions: [gfmToMarkdown()],
+        fences: true
+      })
+      /** @type {string} */
+      let expected
+
+      try {
+        if ('UPDATE' in process.env) {
+          throw new Error('Update!')
+        }
+
+        expected = String(await fs.readFile(expectedUrl))
+      } catch {
+        expected = actual
+        await fs.writeFile(expectedUrl, actual)
+      }
+
       if (!config || config.stringify !== false) {
-        st.deepEqual(
-          toMarkdown(mdast, {extensions: [gfmToMarkdown()]}),
-          expected,
-          'should produce the same documents'
-        )
+        st.deepEqual(actual, expected, 'should produce the same documents')
       }
 
       if (!config || config.tree !== false) {

@@ -6,7 +6,6 @@ alpha();
 bravo();
 ```
 
-
 ```js
 charlie();
 ```
@@ -31,7 +30,7 @@ lima(); mike
 ```
 
 ```
-november·
+november 
 oscar();
  papa
 ```

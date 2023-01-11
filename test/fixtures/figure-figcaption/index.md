@@ -4,15 +4,17 @@ Fig1. - A view of the pulpit rock in Norway.
 
 Get browser details using navigator
 
-    function example() {
-      var txt;
-      txt = "Browser CodeName: " + navigator.appCodeName;
-      txt+= "Browser Name: " + navigator.appName;
-      txt+= "Browser Version: " + navigator.appVersion ;
-      txt+= "Cookies Enabled: " + navigator.cookieEnabled;
-      txt+= "Platform: " + navigator.platform;
-      txt+= "User-agent header: " + navigator.userAgent;
-    }
+```
+function example() {
+  var txt;
+  txt = "Browser CodeName: " + navigator.appCodeName;
+  txt+= "Browser Name: " + navigator.appName;
+  txt+= "Browser Version: " + navigator.appVersion ;
+  txt+= "Cookies Enabled: " + navigator.cookieEnabled;
+  txt+= "Platform: " + navigator.platform;
+  txt+= "User-agent header: " + navigator.userAgent;
+}
+```
 
 Edsger Dijkstra:
 

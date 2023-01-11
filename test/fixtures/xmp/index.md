@@ -6,7 +6,6 @@ alpha();
 <code>bravo();</code>
 ```
 
-
 ```
 charlie <code>delta();</code> echo
 ```

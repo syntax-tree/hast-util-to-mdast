@@ -8,9 +8,13 @@ cells.
 
 Line breaks can be created in several ways, such as `br` elements:
 
-# break in h1
+break\
+in h1
+=====
 
-## break in h2
+break\
+in h2
+-----
 
 ### break in h3
 
@@ -27,18 +31,22 @@ Line breaks can be created in several ways, such as `br` elements:
 In `newlines: true` mode, line feeds such as this one:
 would normally also produce an line feed:
 
-# break in h1
+break
+in h1
+=====
 
-## break in h2
+break
+in h2
+-----
 
-### break in h3
+### break&#xA;in h3
 
-#### break in h4
+#### break&#xA;in h4
 
-##### break in h5
+##### break&#xA;in h5
 
-###### break in h6
+###### break&#xA;in h6
 
-| Heading cell |
-| ------------ |
-| Data cell    |
+| Heading&#xA;cell |
+| ---------------- |
+| Data&#xA;cell    |

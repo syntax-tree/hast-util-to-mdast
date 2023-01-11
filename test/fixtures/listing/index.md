@@ -6,7 +6,6 @@ alpha();
 bravo();
 ```
 
-
 ```
 charlie delta(); echo
 ```
@@ -20,11 +19,10 @@ hotel(); india
 ```
 
 ```
-
 ```
 
 ```
-juliett·
+juliett 
 kilo();
  lima
 ```
