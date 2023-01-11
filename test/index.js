@@ -15,7 +15,7 @@ import {toMarkdown} from 'mdast-util-to-markdown'
 import {gfm} from 'micromark-extension-gfm'
 import {u} from 'unist-builder'
 import {removePosition} from 'unist-util-remove-position'
-import {one, all, defaultHandlers, toMdast} from '../index.js'
+import {one, defaultHandlers, toMdast} from '../index.js'
 import {wrapNeeded} from '../lib/util/wrap.js'
 
 test('custom nodes', (t) => {
@@ -46,7 +46,6 @@ test('custom nodes', (t) => {
 
 test('exports', (t) => {
   t.ok(one, 'should export `one`')
-  t.ok(all, 'should export `all`')
   t.ok(defaultHandlers, 'should export `defaultHandlers`')
   t.end()
 })

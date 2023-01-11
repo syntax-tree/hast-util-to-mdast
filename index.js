@@ -4,4 +4,4 @@
  * @typedef {import('./lib/types.js').Options} Options
  */
 
-export {one, all, defaultHandlers, toMdast} from './lib/index.js'
+export {one, defaultHandlers, toMdast} from './lib/index.js'
