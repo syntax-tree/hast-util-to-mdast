@@ -323,7 +323,7 @@ such as footnotes, frontmatter, or math.
 ## Types
 
 This package is fully typed with [TypeScript][].
-The extra types `Options`, `Context`, `H`, and `Handle` are exported.
+The extra types `Options`, `State`, and `Handle` are exported.
 
 ## Compatibility
 
