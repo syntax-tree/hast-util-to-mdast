@@ -15,41 +15,16 @@ import {toMarkdown} from 'mdast-util-to-markdown'
 import {gfm} from 'micromark-extension-gfm'
 import {u} from 'unist-builder'
 import {removePosition} from 'unist-util-remove-position'
-import {defaultHandlers, toMdast} from '../index.js'
-import {wrapNeeded} from '../lib/util/wrap.js'
-
-test('custom nodes', (t) => {
-  t.deepEqual(
-    wrapNeeded([
-      {type: 'text', value: 'some '},
-      {
-        // @ts-expect-error - custom node type
-        type: 'superscript',
-        data: {hName: 'sup'},
-        children: [{type: 'text', value: 'test'}]
-      },
-      {type: 'text', value: ' text'}
-    ]),
-    wrapNeeded([
-      {type: 'text', value: 'some '},
-      {
-        type: 'emphasis',
-        children: [{type: 'text', value: 'test'}]
-      },
-      {type: 'text', value: ' text'}
-    ]),
-    'should support `node.data.hName` to infer phrasing'
-  )
-
-  t.end()
-})
-
-test('exports', (t) => {
-  t.ok(defaultHandlers, 'should export `defaultHandlers`')
-  t.end()
-})
+import {toMdast} from '../index.js'
+import * as mod from '../index.js'
 
 test('core', (t) => {
+  t.deepEqual(
+    Object.keys(mod).sort(),
+    ['defaultHandlers', 'defaultNodeHandlers', 'toMdast'],
+    'should expose the public api'
+  )
+
   t.deepEqual(
     toMdast(u('root', [h('strong', 'Alpha')])),
     u('root', [u('strong', [u('text', 'Alpha')])]),
@@ -183,6 +158,105 @@ test('core', (t) => {
     'should support an `element` node w/o `children`'
   )
 
+  t.deepEqual(
+    toMdast(h(null, [h('div', 'Alpha')]), {
+      handlers: {
+        div() {
+          return {type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}
+        }
+      }
+    }),
+    u('root', [u('paragraph', [u('text', 'Beta')])]),
+    'should support `handlers`'
+  )
+
+  t.deepEqual(
+    toMdast(h(null, h('p', 'Alpha\nBeta'))),
+    u('root', [u('paragraph', [u('text', 'Alpha Beta')])]),
+    'should collapse newline to a single space'
+  )
+
+  t.deepEqual(
+    toMdast(h(null, h('p', 'Alpha\nBeta')), {newlines: true}),
+    u('root', [u('paragraph', [u('text', 'Alpha\nBeta')])]),
+    'should support `newlines: true`'
+  )
+
+  const phrasingTree = h(null, [
+    h('b', 'Importance'),
+    ' and ',
+    h('i', 'emphasis'),
+    '.'
+  ])
+
+  t.deepEqual(
+    toMdast(phrasingTree),
+    u('root', [
+      u('strong', [u('text', 'Importance')]),
+      u('text', ' and '),
+      u('emphasis', [u('text', 'emphasis')]),
+      u('text', '.')
+    ]),
+    'should infer document if not needed'
+  )
+
+  t.deepEqual(
+    toMdast(phrasingTree, {document: true}),
+    u('root', [
+      u('paragraph', [
+        u('strong', [u('text', 'Importance')]),
+        u('text', ' and '),
+        u('emphasis', [u('text', 'emphasis')]),
+        u('text', '.')
+      ])
+    ]),
+    'should support an explicit `document: true`'
+  )
+
+  const referenceTree = toMdast(h(null, ['some ', h('sup', 'test'), ' text']), {
+    handlers: {
+      // @ts-expect-error - custom node type
+      sup(state, element) {
+        return {
+          type: 'superscript',
+          data: {},
+          children: state.all(element)
+        }
+      }
+    }
+  })
+  const explicitTree = toMdast(h(null, ['some ', h('sup', 'test'), ' text']), {
+    handlers: {
+      // @ts-expect-error - custom node type
+      sup(state, element) {
+        return {
+          type: 'superscript',
+          data: {hName: 'sup'},
+          children: state.all(element)
+        }
+      }
+    }
+  })
+
+  // Reference check: `text`s are wrapped in `paragraph`s because the unknown
+  // node is seen as “block”
+  t.deepEqual(
+    referenceTree.type === 'root' &&
+      referenceTree.children.length === 3 &&
+      referenceTree.children[0].type === 'paragraph',
+    true,
+    'should support `node.data.hName` to infer phrasing (1)'
+  )
+
+  // Actual check: no `paragraph` is added because `hName` is added.
+  t.deepEqual(
+    explicitTree.type === 'root' &&
+      explicitTree.children.length === 3 &&
+      explicitTree.children[0].type !== 'paragraph',
+    true,
+    'should support `node.data.hName` to infer phrasing (2)'
+  )
+
   t.end()
 })
 
@@ -195,7 +269,7 @@ test('fixtures', async (t) => {
       continue
     }
 
-    t.test(folder, async (st) => {
+    t.test(folder, async (t) => {
       const configUrl = new URL(folder + '/index.json', fixtures)
       const inputUrl = new URL(folder + '/index.html', fixtures)
       const expectedUrl = new URL(folder + '/index.md', fixtures)
@@ -213,12 +287,13 @@ test('fixtures', async (t) => {
       const mdast = toMdast(hast, config)
       removePosition(mdast, true)
 
-      st.doesNotThrow(() => {
+      t.doesNotThrow(() => {
         mdastAssert(mdast)
       }, 'should produce valid mdast nodes')
 
-      if (/^base\b/.test(folder)) {
-        st.end()
+      // Ignore the invalid base test.
+      if (folder === 'base-invalid') {
+        t.end()
         return
       }
 
@@ -241,7 +316,7 @@ test('fixtures', async (t) => {
       }
 
       if (!config || config.stringify !== false) {
-        st.deepEqual(actual, expected, 'should produce the same documents')
+        t.deepEqual(actual, expected, 'should produce the same documents')
       }
 
       if (!config || config.tree !== false) {
@@ -250,135 +325,16 @@ test('fixtures', async (t) => {
           mdastExtensions: [gfmFromMarkdown()]
         })
         removePosition(expectedMdast, true)
-        st.deepEqual(
+        t.deepEqual(
           mdast,
           expectedMdast,
           'should produce the same tree as remark'
         )
       }
 
-      st.end()
+      t.end()
     })
   }
-
-  t.end()
-})
-
-test('handlers option', (t) => {
-  /** @type {Options} */
-  const options = {
-    handlers: {
-      div() {
-        return {type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}
-      }
-    }
-  }
-
-  t.deepEqual(
-    toMdast(
-      {
-        type: 'root',
-        children: [
-          {
-            type: 'element',
-            tagName: 'div',
-            properties: {},
-            children: [{type: 'text', value: 'Alpha'}]
-          }
-        ]
-      },
-      options
-    ),
-    {
-      type: 'root',
-      children: [{type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}]
-    },
-    'use handlers passed as option'
-  )
-
-  t.end()
-})
-
-test('document option', (t) => {
-  const tree = u('root', [
-    h('b', 'Importance'),
-    u('text', ' and '),
-    h('i', 'emphasis'),
-    u('text', '.')
-  ])
-
-  t.deepEqual(
-    toMdast(tree),
-    u('root', [
-      u('strong', [u('text', 'Importance')]),
-      u('text', ' and '),
-      u('emphasis', [u('text', 'emphasis')]),
-      u('text', '.')
-    ]),
-    'should infer document if not needed'
-  )
-
-  t.deepEqual(
-    toMdast(tree, {document: true}),
-    u('root', [
-      u('paragraph', [
-        u('strong', [u('text', 'Importance')]),
-        u('text', ' and '),
-        u('emphasis', [u('text', 'emphasis')]),
-        u('text', '.')
-      ])
-    ]),
-    'should support an explicit `document: true`'
-  )
-
-  t.end()
-})
-
-test('newlines option', (t) => {
-  t.deepEqual(
-    toMdast({
-      type: 'root',
-      children: [
-        {
-          type: 'element',
-          tagName: 'p',
-          properties: {},
-          children: [{type: 'text', value: 'Alpha\nBeta'}]
-        }
-      ]
-    }),
-    {
-      type: 'root',
-      children: [
-        {type: 'paragraph', children: [{type: 'text', value: 'Alpha Beta'}]}
-      ]
-    },
-    'should collapse newline to a single space'
-  )
-
-  t.deepEqual(
-    toMdast(
-      {
-        type: 'root',
-        children: [
-          {
-            type: 'element',
-            tagName: 'p',
-            properties: {},
-            children: [{type: 'text', value: 'Alpha\nBeta'}]
-          }
-        ]
-      },
-      {newlines: true}
-    ),
-    {
-      type: 'root',
-      children: [
-        {type: 'paragraph', children: [{type: 'text', value: 'Alpha\nBeta'}]}
-      ]
-    },
-    'should contain newlines'
-  )
 
   t.end()
 })
