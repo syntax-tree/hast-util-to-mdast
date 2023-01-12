@@ -246,14 +246,14 @@ Info passed around about the current state (TypeScript type).
 
 *   `patch` (`(from: HastNode, to: MdastNode) => void`)
     — copy a node’s positional info
+*   `one` (`(node: HastNode, parent: HastParent | undefined) => MdastNode | Array<MdastNode> | void`)
+    — transform a hast node to mdast
 *   `all` (`(parent: HastParent) => Array<MdastContent>`)
     — transform the children of a hast parent to mdast
 *   `toFlow` (`(nodes: Array<MdastContent>) => Array<MdastFlowContent>`)
-    — transform the children of a hast parent to mdast
+    — transform a list of mdast nodes to flow
 *   `toSpecificContent` (`<ParentType>(nodes: Array<MdastContent>, build: (() => ParentType)) => Array<ParentType>`)
     — turn arbitrary content into a list of a particular node type
-*   `one` (`(node: HastNode, parent: HastParent | undefined) => MdastNode | Array<MdastNode> | void`)
-    — transform a hast node to mdast
 *   `resolve` (`(url: string | null | undefined) => string`)
     — resolve a URL relative to a base
 *   `options` ([`Options`][options])
@@ -510,7 +510,7 @@ abide by its terms.
 
 [commonmark]: https://commonmark.org
 
-[html-paragraphs]: https://html.spec.whatwg.org/#paragraphs
+[html-paragraphs]: https://html.spec.whatwg.org/multipage/dom.html#paragraphs
 
 [mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
