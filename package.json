@@ -42,6 +42,7 @@
     "@types/unist": "^2.0.0",
     "extend": "^3.0.0",
     "hast-util-phrasing": "^2.0.0",
+    "hast-util-to-html": "^8.0.4",
     "hast-util-to-text": "^3.0.0",
     "hast-util-whitespace": "^2.0.0",
     "mdast-util-phrasing": "^3.0.0",

@@ -19,8 +19,11 @@
 *   [API](#api)
     *   [`toMdast(tree[, options])`](#tomdasttree-options)
     *   [`defaultHandlers`](#defaulthandlers)
-    *   [`all(h, parent)`](#allh-parent)
-    *   [`one(h, node, parent)`](#oneh-node-parent)
+    *   [`defaultNodeHandlers`](#defaultnodehandlers)
+    *   [`Handle`](#handle)
+    *   [`NodeHandle`](#nodehandle)
+    *   [`Options`](#options)
+    *   [`State`](#state)
 *   [Examples](#examples)
     *   [Example: ignoring things](#example-ignoring-things)
     *   [Example: keeping some HTML](#example-keeping-some-html)
@@ -53,7 +56,7 @@ turn HTML to markdown at a higher-level (easier) abstraction.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install hast-util-to-mdast
@@ -84,7 +87,7 @@ Say we have the following `example.html`:
 …and next to it a module `example.js`:
 
 ```js
-import {promises as fs} from 'node:fs'
+import fs from 'node:fs/promises'
 import {fromHtml} from 'hast-util-from-html'
 import {toMdast} from 'hast-util-to-mdast'
 import {toMarkdown} from 'mdast-util-to-markdown'
@@ -105,34 +108,93 @@ console.log(markdown)
 
 ## API
 
-This package exports the following identifiers: `toMdast`, `defaultHandlers`,
-`all`, `one`.
+This package exports the identifiers [`defaultHandlers`][defaulthandlers],
+[`defaultNodeHandlers`][defaultnodehandlers], and [`toMdast`][tomdast].
 There is no default export.
 
 ### `toMdast(tree[, options])`
 
 Transform hast to mdast.
 
-##### `options`
+###### Parameters
 
-Configuration (optional).
+*   `tree` ([`HastNode`][hast-node])
+    — hast tree to transform
+*   `options` ([`Options`][options], optional)
+    — configuration
 
-###### `options.newlines`
+###### Returns
+
+mdast tree ([`MdastNode`][mdast-node]).
+
+### `defaultHandlers`
+
+Default handlers for elements (`Record<string, Handle>`).
+
+Each key is an element name, each value is a [`Handle`][handle].
+
+### `defaultNodeHandlers`
+
+Default handlers for nodes (`Record<string, NodeHandle>`).
+
+Each key is a node type, each value is a [`NodeHandle`][nodehandle].
+
+### `Handle`
+
+Handle a particular element (TypeScript type).
+
+###### Parameters
+
+*   `state` ([`State`][state])
+    — info passed around about the current state
+*   `element` ([`Element`][element])
+    — element to transform
+*   `parent` ([`HastParent`][hast-parent])
+    — parent of `element`
+
+###### Returns
+
+mdast node or nodes (`MdastNode | Array<MdastNode> | void`).
+
+### `NodeHandle`
+
+Handle a particular node (TypeScript type).
+
+###### Parameters
+
+*   `state` ([`State`][state])
+    — info passed around about the current state
+*   `node` (`any`)
+    — node to transform
+*   `parent` ([`HastParent`][hast-parent])
+    — parent of `node`
+
+###### Returns
+
+mdast node or nodes (`MdastNode | Array<MdastNode> | void`).
+
+### `Options`
+
+Configuration (TypeScript type).
+
+##### Fields
+
+###### `newlines`
 
 Keep line endings when collapsing whitespace (`boolean`, default: `false`).
 
 The default collapses to a single space.
 
-###### `options.checked`
+###### `checked`
 
 Value to use for a checked checkbox or radio input (`string`, default: `[x]`).
 
-###### `options.unchecked`
+###### `unchecked`
 
 Value to use for an unchecked checkbox or radio input (`string`, default:
 `[ ]`).
 
-###### `options.quotes`
+###### `quotes`
 
 List of quotes to use (`Array<string>`, default: `['"']`).
 
@@ -149,7 +211,7 @@ If `<q>`s are nested deeper than the given amount of quotes, the markers wrap
 around: a third level of nesting when using `['«»', '‹›']` should have double
 guillemets, a fourth single, a fifth double again, etc.
 
-###### `options.document`
+###### `document`
 
 Whether the given tree represents a complete document (`boolean?`, default:
 `undefined`).
@@ -160,40 +222,56 @@ paragraphs when needed, and otherwise they’re left as-is.
 The default checks for whether there’s mixed content: some *[phrasing][]* nodes
 *and* some non-phrasing nodes.
 
-###### `options.handlers`
+###### `handlers`
 
-Object mapping tag names or node types to functions handling the corresponding
-nodes.
+Object mapping tag names to functions handling the corresponding elements
+(`Record<string, Handle>`).
 
-See [`handlers/`][handlers] for examples.
+Merged into the defaults.
+See [`Handle`][handle].
 
-In a handler, you have access to `h`, which should be used to create mdast nodes
-from hast nodes.
-On `h`, there are several fields that may be of interest.
-Most interesting of them is `h.wrapText`, which is `true` if the mdast content
-can include newlines, and `false` if not (such as in headings or table cells).
+###### `nodeHandlers`
 
-##### Returns
+Object mapping node types to functions handling the corresponding nodes
+(`Record<string, NodeHandle>`).
 
-mdast tree ([`MdastNode`][mdast-node]).
+Merged into the defaults.
+See [`NodeHandle`][nodehandle].
 
-### `defaultHandlers`
+### `State`
 
-Object mapping HTML tag names and node types to functions that can handle
-them.
-See [`lib/handlers/index.js`][default-handlers].
+Info passed around about the current state (TypeScript type).
 
-### `all(h, parent)`
+###### Fields
 
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h` and a parent node (hast) and it will turn the node’s children into
-an array of transformed nodes (mdast).
-
-### `one(h, node, parent)`
-
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h`, a `node`, and its `parent` (hast) and it will turn `node` into
-mdast content.
+*   `patch` (`(from: HastNode, to: MdastNode) => void`)
+    — copy a node’s positional info
+*   `all` (`(parent: HastParent) => Array<MdastContent>`)
+    — transform the children of a hast parent to mdast
+*   `toFlow` (`(nodes: Array<MdastContent>) => Array<MdastFlowContent>`)
+    — transform the children of a hast parent to mdast
+*   `toSpecificContent` (`<ParentType>(nodes: Array<MdastContent>, build: (() => ParentType)) => Array<ParentType>`)
+    — turn arbitrary content into a list of a particular node type
+*   `one` (`(node: HastNode, parent: HastParent | undefined) => MdastNode | Array<MdastNode> | void`)
+    — transform a hast node to mdast
+*   `resolve` (`(url: string | null | undefined) => string`)
+    — resolve a URL relative to a base
+*   `options` ([`Options`][options])
+    — user configuration
+*   `elementById` (`Map<string, Element>`)
+    — elements by their `id`
+*   `handlers` (`Record<string, Handle>`)
+    — applied element handlers (see [`Handle`][handle])
+*   `nodeHandlers` (`Record<string, NodeHandle>`)
+    — applied node handlers (see [`NodeHandle`][nodehandle])
+*   `baseFound` (`boolean`)
+    — whether a `<base>` element was seen
+*   `frozenBaseUrl` (`string | undefined`)
+    — `href` of `<base>`, if any
+*   `inTable` (`boolean`)
+    — whether we’re in a table
+*   `qNesting` (`number`)
+    — how deep we’re in `<q>`s
 
 ## Examples
 
@@ -247,7 +325,11 @@ Say we have the following file `example.html`:
 This can be achieved with `example.js` like so:
 
 ```js
-import {promises as fs} from 'node:fs'
+/**
+ * @typedef {import('mdast').HTML} HTML
+ */
+
+import fs from 'node:fs/promises'
 import {fromHtml} from 'hast-util-from-html'
 import {toMdast} from 'hast-util-to-mdast'
 import {toHtml} from 'hast-util-to-html'
@@ -257,8 +339,11 @@ const html = String(await fs.readFile('example.html'))
 const hast = fromHtml(html, {fragment: true})
 const mdast = toMdast(hast, {
   handlers: {
-    svg(h, node) {
-      return h(node, 'html', toHtml(node, {space: 'svg'}))
+    svg(state, node) {
+      /** @type {HTML} */
+      const result = {type: 'html', value: toHtml(node, {space: 'svg'})}
+      state.patch(node, result)
+      return result
     }
   }
 })
@@ -315,21 +400,23 @@ based on [CommonMark][] but adds the strikethrough (`~like so~`) and tables
 The input syntax tree format is [hast][].
 Any HTML that can be represented in hast is accepted as input.
 The output syntax tree format is [mdast][].
-When `<table>` elements, or `<del>`, `<s>`, and `<strike>` exist in the
-HTML, then the GFM nodes `table` and `delete` are used.
+
+When `<table>` elements or `<del>`, `<s>`, and `<strike>` exist in the HTML,
+then the GFM nodes `table` and `delete` are used.
 This utility does not generate definitions or references, or syntax extensions
 such as footnotes, frontmatter, or math.
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-The extra types `Options`, `State`, and `Handle` are exported.
+It exports the additional types [`Handle`][handle], [`NodeHandle`][nodehandle],
+[`Options`][options], and [`State`][state].
 
 ## Compatibility
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Security
@@ -411,7 +498,11 @@ abide by its terms.
 
 [hast]: https://github.com/syntax-tree/hast
 
-[handlers]: https://github.com/syntax-tree/hast-util-to-mdast/tree/main/lib/handlers
+[hast-node]: https://github.com/syntax-tree/hast#nodes
+
+[hast-parent]: https://github.com/syntax-tree/hast#parent
+
+[element]: https://github.com/syntax-tree/hast#element
 
 [html]: https://html.spec.whatwg.org/multipage/
 
@@ -421,8 +512,20 @@ abide by its terms.
 
 [html-paragraphs]: https://html.spec.whatwg.org/#paragraphs
 
-[default-handlers]: https://github.com/syntax-tree/hast-util-to-mdast/blob/main/lib/handlers/index.js
-
 [mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
+
+[defaulthandlers]: #defaulthandlers
+
+[defaultnodehandlers]: #defaultnodehandlers
+
+[tomdast]: #tomdasttree-options
+
+[options]: #options
+
+[state]: #state
+
+[handle]: #handle
+
+[nodehandle]: #nodehandle
