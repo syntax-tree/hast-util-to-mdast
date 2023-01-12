@@ -22,7 +22,9 @@ Charlie.
 *   Firefox
 
     *   A web browser.
+
     *   A Red Panda.
+
     *   ```js
         charlie();
         ```

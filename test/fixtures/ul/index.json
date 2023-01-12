@@ -1,3 +1,5 @@
 {
+  "": "spread can’t be losslessly translated between HTML <> markdown",
+  "tree": false,
   "fragment": true
 }
