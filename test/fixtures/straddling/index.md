@@ -38,8 +38,8 @@ Welcome! [This is home of...](about.html)
 
 You can play with my cat simulator. To see the cat simulator, use one of the following links:
 
-*   [Download simulator file](cats.sim)
-*   [Use online simulator](https://sims.example.com/watch?v=LYds5xY4INU)
+* [Download simulator file](cats.sim)
+* [Use online simulator](https://sims.example.com/watch?v=LYds5xY4INU)
 
 Alternatively, upgrade to the Mellblom Browser.  I’m quite proud of it.
 
@@ -49,8 +49,8 @@ You can play with my cat simulator.
 
 To see the cat simulator, use one of the following links:
 
-*   [Download simulator file](cats.sim)
-*   [Use online simulator](https://sims.example.com/watch?v=LYds5xY4INU)
+* [Download simulator file](cats.sim)
+* [Use online simulator](https://sims.example.com/watch?v=LYds5xY4INU)
 
 Alternatively, upgrade to the Mellblom Browser.
 

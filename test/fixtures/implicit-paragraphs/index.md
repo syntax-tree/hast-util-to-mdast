@@ -2,7 +2,7 @@ An **implicit** paragraph.
 
 # An *explicit* paragraph
 
-1.  *Emphasis* and **importance**.
+1. *Emphasis* and **importance**.
 
 > # Heading
 >

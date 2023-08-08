@@ -1,68 +1,68 @@
-*   Firefox
+* Firefox
 
-    A web browser.
+  A web browser.
 
 Alpha.
 
-*   *   Firefox
-    *   Mozilla Firefox
-    *   Fx
+* * Firefox
+  * Mozilla Firefox
+  * Fx
 
-    A web browser.
+  A web browser.
 
 Bravo.
 
-*   Firefox
+* Firefox
 
-    *   A web browser.
-    *   A Red Panda.
+  * A web browser.
+  * A Red Panda.
 
 Charlie.
 
-*   Firefox
+* Firefox
 
-    *   A web browser.
+  * A web browser.
 
-    *   A Red Panda.
+  * A Red Panda.
 
-    *   ```js
-        charlie();
-        ```
+  * ```js
+    charlie();
+    ```
 
 Delta.
 
-*   Firefox
+* Firefox
 
-    *   A web browser.
-    *   A Red Panda.
+  * A web browser.
+  * A Red Panda.
 
-*   Chrome
+* Chrome
 
-    *   A web browser.
-    *   A chemical element.
+  * A web browser.
+  * A chemical element.
 
 Echo.
 
 Foxtrot.
 
-*   Chrome
+* Chrome
 
-    A web browser.
+  A web browser.
 
 Golf.
 
-*   Chrome
+* Chrome
 
-    A web browser.
+  A web browser.
 
 Hotel.
 
-*   Firefox
+* Firefox
 
 India.
 
-*   Firefox.
+* Firefox.
 
 Juliett.
 
-*   A web browser.
+* A web browser.

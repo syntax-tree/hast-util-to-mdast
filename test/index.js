@@ -99,31 +99,46 @@ test('core', () => {
   )
 
   assert.deepEqual(
-    toMdast({type: 'element', tagName: 'a', children: []}),
+    toMdast(
+      // @ts-expect-error: check how the runtime handles missing `properties`.
+      {type: 'element', tagName: 'a', children: []}
+    ),
     {type: 'link', url: '', title: null, children: []},
     'should support an `a` w/o `properties`'
   )
 
   assert.deepEqual(
-    toMdast({type: 'element', tagName: 'iframe', children: []}),
+    toMdast(
+      // @ts-expect-error: check how the runtime handles missing `properties`.
+      {type: 'element', tagName: 'iframe', children: []}
+    ),
     {type: 'root', children: []},
     'should support an `iframe` w/o `properties`'
   )
 
   assert.deepEqual(
-    toMdast({type: 'element', tagName: 'img', children: []}),
+    toMdast(
+      // @ts-expect-error: check how the runtime handles missing `properties`.
+      {type: 'element', tagName: 'img', children: []}
+    ),
     {type: 'image', url: '', title: null, alt: ''},
     'should support an `img` w/o `properties`'
   )
 
   assert.deepEqual(
-    toMdast({type: 'element', tagName: 'input', children: []}),
+    toMdast(
+      // @ts-expect-error: check how the runtime handles missing `properties`.
+      {type: 'element', tagName: 'input', children: []}
+    ),
     {type: 'root', children: []},
     'should support an `input` w/o `properties`'
   )
 
   assert.deepEqual(
-    toMdast({type: 'element', tagName: 'select', children: []}),
+    toMdast(
+      // @ts-expect-error: check how the runtime handles missing `properties`.
+      {type: 'element', tagName: 'select', children: []}
+    ),
     {type: 'root', children: []},
     'should support a `select` w/o `properties`'
   )
@@ -133,14 +148,20 @@ test('core', () => {
       type: 'element',
       tagName: 'select',
       properties: {},
-      children: [{type: 'element', tagName: 'option', children: []}]
+      children: [
+        // @ts-expect-error: check how the runtime handles missing `properties`.
+        {type: 'element', tagName: 'option', children: []}
+      ]
     }),
     {type: 'text', value: ''},
     'should support an `option` w/o `properties`'
   )
 
   assert.deepEqual(
-    toMdast({type: 'element', tagName: 'video', children: []}),
+    toMdast(
+      // @ts-expect-error: check how the runtime handles missing `properties`.
+      {type: 'element', tagName: 'video', children: []}
+    ),
     {type: 'link', title: null, url: '', children: []},
     'should support a `video` w/o `properties`'
   )
@@ -283,7 +304,7 @@ test('fixtures', async () => {
 
     const hast = fromHtml(input)
     const mdast = toMdast(hast, config)
-    removePosition(mdast, true)
+    removePosition(mdast, {force: true})
 
     assert.doesNotThrow(() => {
       mdastAssert(mdast)
@@ -325,7 +346,7 @@ test('fixtures', async () => {
         extensions: [gfm()],
         mdastExtensions: [gfmFromMarkdown()]
       })
-      removePosition(expectedMdast, true)
+      removePosition(expectedMdast, {force: true})
       assert.deepEqual(
         mdast,
         expectedMdast,

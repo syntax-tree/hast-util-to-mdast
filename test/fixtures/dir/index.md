@@ -1,3 +1,3 @@
-*   html
-*   xhtml
-*   css
+* html
+* xhtml
+* css

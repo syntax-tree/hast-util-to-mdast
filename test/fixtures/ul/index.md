@@ -1,59 +1,59 @@
-*   Alpha
+* Alpha
 
-*   Bravo
+* Bravo
 
-*   ```js
-    charlie();
-    ```
+* ```js
+  charlie();
+  ```
 
 Foo.
 
-*   Alpha
-*   Bravo
-*   Charlie
+* Alpha
+* Bravo
+* Charlie
 
 Bar.
 
-*   Alpha
+* Alpha
 
-    Bravo
+  Bravo
 
-*   Charlie
+* Charlie
 
-    Delta
+  Delta
 
-*   Echo
+* Echo
 
-    Foxtrot
+  Foxtrot
 
 Baz.
 
 *
 
-*   Something else
+* Something else
 
 Qux.
 
-*   Something else
+* Something else
 
 *
 
 Quux.
 
-*   Something else
+* Something else
 
 *
 
 Quuux.
 
-*   [x] Bravo
+* [x] Bravo
 
-*   [ ] Charlie
+* [ ] Charlie
 
-*   [x] Delta
+* [x] Delta
 
-*   [ ] Echo
+* [ ] Echo
 
-*   [ ] **Foxtrot**
+* [ ] **Foxtrot**
 
-*   [ ] **Golf**
+* [ ] **Golf**

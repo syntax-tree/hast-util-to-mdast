@@ -1,3 +1,3 @@
-1.  `something` Hello World? And now `channel`.
+1. `something` Hello World? And now `channel`.
 
 A `for` loop… ye?
