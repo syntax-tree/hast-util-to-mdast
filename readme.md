@@ -56,7 +56,7 @@ turn HTML to markdown at a higher-level (easier) abstraction.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install hast-util-to-mdast
@@ -108,8 +108,9 @@ console.log(markdown)
 
 ## API
 
-This package exports the identifiers [`defaultHandlers`][defaulthandlers],
-[`defaultNodeHandlers`][defaultnodehandlers], and [`toMdast`][tomdast].
+This package exports the identifiers [`defaultHandlers`][api-default-handlers],
+[`defaultNodeHandlers`][api-default-node-handlers], and
+[`toMdast`][api-to-mdast].
 There is no default export.
 
 ### `toMdast(tree[, options])`
@@ -120,7 +121,7 @@ Transform hast to mdast.
 
 *   `tree` ([`HastNode`][hast-node])
     — hast tree to transform
-*   `options` ([`Options`][options], optional)
+*   `options` ([`Options`][api-options], optional)
     — configuration
 
 ###### Returns
@@ -131,13 +132,13 @@ mdast tree ([`MdastNode`][mdast-node]).
 
 Default handlers for elements (`Record<string, Handle>`).
 
-Each key is an element name, each value is a [`Handle`][handle].
+Each key is an element name, each value is a [`Handle`][api-handle].
 
 ### `defaultNodeHandlers`
 
 Default handlers for nodes (`Record<string, NodeHandle>`).
 
-Each key is a node type, each value is a [`NodeHandle`][nodehandle].
+Each key is a node type, each value is a [`NodeHandle`][api-node-handle].
 
 ### `Handle`
 
@@ -145,7 +146,7 @@ Handle a particular element (TypeScript type).
 
 ###### Parameters
 
-*   `state` ([`State`][state])
+*   `state` ([`State`][api-state])
     — info passed around about the current state
 *   `element` ([`Element`][element])
     — element to transform
@@ -154,7 +155,7 @@ Handle a particular element (TypeScript type).
 
 ###### Returns
 
-mdast node or nodes (`MdastNode | Array<MdastNode> | undefined`).
+mdast node or nodes (`Array<MdastNode> | MdastNode | undefined`).
 
 ### `NodeHandle`
 
@@ -162,7 +163,7 @@ Handle a particular node (TypeScript type).
 
 ###### Parameters
 
-*   `state` ([`State`][state])
+*   `state` ([`State`][api-state])
     — info passed around about the current state
 *   `node` (`any`)
     — node to transform
@@ -171,7 +172,7 @@ Handle a particular node (TypeScript type).
 
 ###### Returns
 
-mdast node or nodes (`MdastNode | Array<MdastNode> | undefined`).
+mdast node or nodes (`Array<MdastNode> | MdastNode | undefined`).
 
 ### `Options`
 
@@ -213,7 +214,7 @@ guillemets, a fourth single, a fifth double again, etc.
 
 ###### `document`
 
-Whether the given tree represents a complete document (`boolean?`, default:
+Whether the given tree represents a complete document (`boolean`, default:
 `undefined`).
 
 Applies when the `tree` is a `root` node.
@@ -228,7 +229,7 @@ Object mapping tag names to functions handling the corresponding elements
 (`Record<string, Handle>`).
 
 Merged into the defaults.
-See [`Handle`][handle].
+See [`Handle`][api-handle].
 
 ###### `nodeHandlers`
 
@@ -236,7 +237,7 @@ Object mapping node types to functions handling the corresponding nodes
 (`Record<string, NodeHandle>`).
 
 Merged into the defaults.
-See [`NodeHandle`][nodehandle].
+See [`NodeHandle`][api-node-handle].
 
 ### `State`
 
@@ -246,7 +247,7 @@ Info passed around about the current state (TypeScript type).
 
 *   `patch` (`(from: HastNode, to: MdastNode) => undefined`)
     — copy a node’s positional info
-*   `one` (`(node: HastNode, parent: HastParent | undefined) => MdastNode | Array<MdastNode> | undefined`)
+*   `one` (`(node: HastNode, parent: HastParent | undefined) => Array<MdastNode> | MdastNode | undefined`)
     — transform a hast node to mdast
 *   `all` (`(parent: HastParent) => Array<MdastContent>`)
     — transform the children of a hast parent to mdast
@@ -256,14 +257,14 @@ Info passed around about the current state (TypeScript type).
     — turn arbitrary content into a list of a particular node type
 *   `resolve` (`(url: string | null | undefined) => string`)
     — resolve a URL relative to a base
-*   `options` ([`Options`][options])
+*   `options` ([`Options`][api-options])
     — user configuration
 *   `elementById` (`Map<string, Element>`)
     — elements by their `id`
 *   `handlers` (`Record<string, Handle>`)
-    — applied element handlers (see [`Handle`][handle])
+    — applied element handlers (see [`Handle`][api-handle])
 *   `nodeHandlers` (`Record<string, NodeHandle>`)
-    — applied node handlers (see [`NodeHandle`][nodehandle])
+    — applied node handlers (see [`NodeHandle`][api-node-handle])
 *   `baseFound` (`boolean`)
     — whether a `<base>` element was seen
 *   `frozenBaseUrl` (`string | undefined`)
@@ -331,8 +332,8 @@ This can be achieved with `example.js` like so:
 
 import fs from 'node:fs/promises'
 import {fromHtml} from 'hast-util-from-html'
-import {toMdast} from 'hast-util-to-mdast'
 import {toHtml} from 'hast-util-to-html'
+import {toMdast} from 'hast-util-to-mdast'
 import {toMarkdown} from 'mdast-util-to-markdown'
 
 const html = String(await fs.readFile('example.html'))
@@ -409,15 +410,20 @@ such as footnotes, frontmatter, or math.
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional types [`Handle`][handle], [`NodeHandle`][nodehandle],
-[`Options`][options], and [`State`][state].
+It exports the additional types [`Handle`][api-handle],
+[`NodeHandle`][api-node-handle],
+[`Options`][api-options],
+and [`State`][api-state].
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `hast-util-to-mdast@^9`,
+compatible with Node.js 12.
 
 ## Security
 
@@ -458,9 +464,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/hast-util-to-mdast
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/hast-util-to-mdast.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=hast-util-to-mdast
 
-[size]: https://bundlephobia.com/result?p=hast-util-to-mdast
+[size]: https://bundlejs.com/?q=hast-util-to-mdast
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -516,16 +522,16 @@ abide by its terms.
 
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
 
-[defaulthandlers]: #defaulthandlers
+[api-default-handlers]: #defaulthandlers
 
-[defaultnodehandlers]: #defaultnodehandlers
+[api-default-node-handlers]: #defaultnodehandlers
 
-[tomdast]: #tomdasttree-options
+[api-to-mdast]: #tomdasttree-options
 
-[options]: #options
+[api-options]: #options
 
-[state]: #state
+[api-state]: #state
 
-[handle]: #handle
+[api-handle]: #handle
 
-[nodehandle]: #nodehandle
+[api-node-handle]: #nodehandle
