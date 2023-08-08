@@ -154,7 +154,7 @@ Handle a particular element (TypeScript type).
 
 ###### Returns
 
-mdast node or nodes (`MdastNode | Array<MdastNode> | void`).
+mdast node or nodes (`MdastNode | Array<MdastNode> | undefined`).
 
 ### `NodeHandle`
 
@@ -171,7 +171,7 @@ Handle a particular node (TypeScript type).
 
 ###### Returns
 
-mdast node or nodes (`MdastNode | Array<MdastNode> | void`).
+mdast node or nodes (`MdastNode | Array<MdastNode> | undefined`).
 
 ### `Options`
 
@@ -244,9 +244,9 @@ Info passed around about the current state (TypeScript type).
 
 ###### Fields
 
-*   `patch` (`(from: HastNode, to: MdastNode) => void`)
+*   `patch` (`(from: HastNode, to: MdastNode) => undefined`)
     — copy a node’s positional info
-*   `one` (`(node: HastNode, parent: HastParent | undefined) => MdastNode | Array<MdastNode> | void`)
+*   `one` (`(node: HastNode, parent: HastParent | undefined) => MdastNode | Array<MdastNode> | undefined`)
     — transform a hast node to mdast
 *   `all` (`(parent: HastParent) => Array<MdastContent>`)
     — transform the children of a hast parent to mdast
@@ -326,7 +326,7 @@ This can be achieved with `example.js` like so:
 
 ```js
 /**
- * @typedef {import('mdast').HTML} HTML
+ * @typedef {import('mdast').Html} Html
  */
 
 import fs from 'node:fs/promises'
@@ -340,7 +340,7 @@ const hast = fromHtml(html, {fragment: true})
 const mdast = toMdast(hast, {
   handlers: {
     svg(state, node) {
-      /** @type {HTML} */
+      /** @type {Html} */
       const result = {type: 'html', value: toHtml(node, {space: 'svg'})}
       state.patch(node, result)
       return result
