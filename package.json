@@ -45,7 +45,7 @@
     "mdast-util-phrasing": "^4.0.0",
     "mdast-util-to-hast": "^13.0.0",
     "mdast-util-to-string": "^4.0.0",
-    "rehype-minify-whitespace": "^5.0.0",
+    "rehype-minify-whitespace": "^6.0.0",
     "trim-trailing-lines": "^2.0.0",
     "unist-util-position": "^5.0.0",
     "unist-util-visit": "^5.0.0"
