@@ -57,3 +57,9 @@ Quuux.
 5. [ ] **Foxtrot**
 
 6. [ ] **Golf**
+
+7. [ ] Hotel
+
+8. [ ] India
+
+9. [ ] Juliet
