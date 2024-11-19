@@ -12,30 +12,30 @@
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`toMdast(tree[, options])`](#tomdasttree-options)
-    *   [`defaultHandlers`](#defaulthandlers)
-    *   [`defaultNodeHandlers`](#defaultnodehandlers)
-    *   [`Handle`](#handle)
-    *   [`NodeHandle`](#nodehandle)
-    *   [`Options`](#options)
-    *   [`State`](#state)
-*   [Examples](#examples)
-    *   [Example: ignoring things](#example-ignoring-things)
-    *   [Example: keeping some HTML](#example-keeping-some-html)
-*   [Algorithm](#algorithm)
-*   [Syntax](#syntax)
-*   [Syntax tree](#syntax-tree)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When should I use this?](#when-should-i-use-this)
+* [Install](#install)
+* [Use](#use)
+* [API](#api)
+  * [`toMdast(tree[, options])`](#tomdasttree-options)
+  * [`defaultHandlers`](#defaulthandlers)
+  * [`defaultNodeHandlers`](#defaultnodehandlers)
+  * [`Handle`](#handle)
+  * [`NodeHandle`](#nodehandle)
+  * [`Options`](#options)
+  * [`State`](#state)
+* [Examples](#examples)
+  * [Example: ignoring things](#example-ignoring-things)
+  * [Example: keeping some HTML](#example-keeping-some-html)
+* [Algorithm](#algorithm)
+* [Syntax](#syntax)
+* [Syntax tree](#syntax-tree)
+* [Types](#types)
+* [Compatibility](#compatibility)
+* [Security](#security)
+* [Related](#related)
+* [Contribute](#contribute)
+* [License](#license)
 
 ## What is this?
 
@@ -119,10 +119,10 @@ Transform hast to mdast.
 
 ###### Parameters
 
-*   `tree` ([`HastNode`][hast-node])
-    — hast tree to transform
-*   `options` ([`Options`][api-options], optional)
-    — configuration
+* `tree` ([`HastNode`][hast-node])
+  — hast tree to transform
+* `options` ([`Options`][api-options], optional)
+  — configuration
 
 ###### Returns
 
@@ -146,12 +146,12 @@ Handle a particular element (TypeScript type).
 
 ###### Parameters
 
-*   `state` ([`State`][api-state])
-    — info passed around about the current state
-*   `element` ([`Element`][element])
-    — element to transform
-*   `parent` ([`HastParent`][hast-parent])
-    — parent of `element`
+* `state` ([`State`][api-state])
+  — info passed around about the current state
+* `element` ([`Element`][element])
+  — element to transform
+* `parent` ([`HastParent`][hast-parent])
+  — parent of `element`
 
 ###### Returns
 
@@ -163,12 +163,12 @@ Handle a particular node (TypeScript type).
 
 ###### Parameters
 
-*   `state` ([`State`][api-state])
-    — info passed around about the current state
-*   `node` (`any`)
-    — node to transform
-*   `parent` ([`HastParent`][hast-parent])
-    — parent of `node`
+* `state` ([`State`][api-state])
+  — info passed around about the current state
+* `node` (`any`)
+  — node to transform
+* `parent` ([`HastParent`][hast-parent])
+  — parent of `node`
 
 ###### Returns
 
@@ -245,34 +245,34 @@ Info passed around about the current state (TypeScript type).
 
 ###### Fields
 
-*   `patch` (`(from: HastNode, to: MdastNode) => undefined`)
-    — copy a node’s positional info
-*   `one` (`(node: HastNode, parent: HastParent | undefined) => Array<MdastNode> | MdastNode | undefined`)
-    — transform a hast node to mdast
-*   `all` (`(parent: HastParent) => Array<MdastContent>`)
-    — transform the children of a hast parent to mdast
-*   `toFlow` (`(nodes: Array<MdastContent>) => Array<MdastFlowContent>`)
-    — transform a list of mdast nodes to flow
-*   `toSpecificContent` (`<ParentType>(nodes: Array<MdastContent>, build: (() => ParentType)) => Array<ParentType>`)
-    — turn arbitrary content into a list of a particular node type
-*   `resolve` (`(url: string | null | undefined) => string`)
-    — resolve a URL relative to a base
-*   `options` ([`Options`][api-options])
-    — user configuration
-*   `elementById` (`Map<string, Element>`)
-    — elements by their `id`
-*   `handlers` (`Record<string, Handle>`)
-    — applied element handlers (see [`Handle`][api-handle])
-*   `nodeHandlers` (`Record<string, NodeHandle>`)
-    — applied node handlers (see [`NodeHandle`][api-node-handle])
-*   `baseFound` (`boolean`)
-    — whether a `<base>` element was seen
-*   `frozenBaseUrl` (`string | undefined`)
-    — `href` of `<base>`, if any
-*   `inTable` (`boolean`)
-    — whether we’re in a table
-*   `qNesting` (`number`)
-    — how deep we’re in `<q>`s
+* `patch` (`(from: HastNode, to: MdastNode) => undefined`)
+  — copy a node’s positional info
+* `one` (`(node: HastNode, parent: HastParent | undefined) => Array<MdastNode> | MdastNode | undefined`)
+  — transform a hast node to mdast
+* `all` (`(parent: HastParent) => Array<MdastContent>`)
+  — transform the children of a hast parent to mdast
+* `toFlow` (`(nodes: Array<MdastContent>) => Array<MdastFlowContent>`)
+  — transform a list of mdast nodes to flow
+* `toSpecificContent` (`<ParentType>(nodes: Array<MdastContent>, build: (() => ParentType)) => Array<ParentType>`)
+  — turn arbitrary content into a list of a particular node type
+* `resolve` (`(url: string | null | undefined) => string`)
+  — resolve a URL relative to a base
+* `options` ([`Options`][api-options])
+  — user configuration
+* `elementById` (`Map<string, Element>`)
+  — elements by their `id`
+* `handlers` (`Record<string, Handle>`)
+  — applied element handlers (see [`Handle`][api-handle])
+* `nodeHandlers` (`Record<string, NodeHandle>`)
+  — applied node handlers (see [`NodeHandle`][api-node-handle])
+* `baseFound` (`boolean`)
+  — whether a `<base>` element was seen
+* `frozenBaseUrl` (`string | undefined`)
+  — `href` of `<base>`, if any
+* `inTable` (`boolean`)
+  — whether we’re in a table
+* `qNesting` (`number`)
+  — how deep we’re in `<q>`s
 
 ## Examples
 
@@ -431,10 +431,10 @@ Use of `hast-util-to-mdast` is safe by default.
 
 ## Related
 
-*   [`hast-util-to-nlcst`](https://github.com/syntax-tree/hast-util-to-nlcst)
-    — transform hast to nlcst
-*   [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
-    — transform hast to xast
+* [`hast-util-to-nlcst`](https://github.com/syntax-tree/hast-util-to-nlcst)
+  — transform hast to nlcst
+* [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
+  — transform hast to xast
 
 ## Contribute
 
