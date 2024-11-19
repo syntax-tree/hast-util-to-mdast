@@ -27,7 +27,7 @@
     "@types/ungap__structured-clone": "^1.0.0",
     "c8": "^10.0.0",
     "hast-util-from-html": "^2.0.0",
-    "hastscript": "^8.0.0",
+    "hastscript": "^9.0.0",
     "is-hidden": "^2.0.0",
     "mdast-util-assert": "^5.0.0",
     "mdast-util-from-markdown": "^2.0.0",
