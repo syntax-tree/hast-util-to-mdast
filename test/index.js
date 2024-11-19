@@ -1,5 +1,5 @@
 /**
- * @typedef {import('hast-util-to-mdast').Options} Options
+ * @import {Options} from 'hast-util-to-mdast'
  */
 
 /**

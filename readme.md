@@ -327,7 +327,7 @@ This can be achieved with `example.js` like so:
 
 ```js
 /**
- * @typedef {import('mdast').Html} Html
+ * @import {Html} from 'mdast'
  */
 
 import fs from 'node:fs/promises'
