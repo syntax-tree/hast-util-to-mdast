@@ -103,7 +103,7 @@
     "strict": true
   },
   "type": "module",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "xo": {
     "overrides": [
       {
