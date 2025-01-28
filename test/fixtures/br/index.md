@@ -25,3 +25,10 @@ juliett
 mike
 
 november
+
+oscar\
+papa
+
+quebec
+
+romeo
