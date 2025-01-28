@@ -438,69 +438,67 @@ Use of `hast-util-to-mdast` is safe by default.
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
-See [`support.md`][support] for ways to get help.
+See [`contributing.md` in `syntax-tree/.github`][health-contributing] for ways
+to get started.
+See [`support.md`][health-support] for ways to get help.
 
-This project has a [code of conduct][coc].
+This project has a [code of conduct][health-coc].
 By interacting with this repository, organization, or community you agree to
 abide by its terms.
 
 ## License
 
-[MIT][license] © [Titus Wormer][author]
+[MIT][file-license] © [Titus Wormer][author]
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/syntax-tree/hast-util-to-mdast/workflows/main/badge.svg
+[api-default-handlers]: #defaulthandlers
 
-[build]: https://github.com/syntax-tree/hast-util-to-mdast/actions
+[api-default-node-handlers]: #defaultnodehandlers
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-mdast.svg
+[api-handle]: #handle
 
-[coverage]: https://codecov.io/github/syntax-tree/hast-util-to-mdast
+[api-node-handle]: #nodehandle
 
-[downloads-badge]: https://img.shields.io/npm/dm/hast-util-to-mdast.svg
+[api-options]: #options
 
-[downloads]: https://www.npmjs.com/package/hast-util-to-mdast
+[api-state]: #state
 
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=hast-util-to-mdast
-
-[size]: https://bundlejs.com/?q=hast-util-to-mdast
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/syntax-tree/unist/discussions
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[esmsh]: https://esm.sh
-
-[license]: license
+[api-to-mdast]: #tomdasttree-options
 
 [author]: https://wooorm.com
 
-[typescript]: https://www.typescriptlang.org
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
 
-[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+[build]: https://github.com/syntax-tree/hast-util-to-mdast/actions
 
-[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+[build-badge]: https://github.com/syntax-tree/hast-util-to-mdast/workflows/main/badge.svg
 
-[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
+[chat]: https://github.com/syntax-tree/unist/discussions
 
-[mdast]: https://github.com/syntax-tree/mdast
+[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
 
-[mdast-node]: https://github.com/syntax-tree/mdast#nodes
+[collective]: https://opencollective.com/unified
 
-[phrasing]: https://github.com/syntax-tree/mdast#phrasingcontent
+[commonmark]: https://commonmark.org
+
+[coverage]: https://codecov.io/github/syntax-tree/hast-util-to-mdast
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-mdast.svg
+
+[downloads]: https://www.npmjs.com/package/hast-util-to-mdast
+
+[downloads-badge]: https://img.shields.io/npm/dm/hast-util-to-mdast.svg
+
+[element]: https://github.com/syntax-tree/hast#element
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[file-license]: license
+
+[gfm]: https://github.github.com/gfm/
 
 [hast]: https://github.com/syntax-tree/hast
 
@@ -508,30 +506,32 @@ abide by its terms.
 
 [hast-parent]: https://github.com/syntax-tree/hast#parent
 
-[element]: https://github.com/syntax-tree/hast#element
+[health-coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
+
+[health-contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+
+[health-support]: https://github.com/syntax-tree/.github/blob/main/support.md
 
 [html]: https://html.spec.whatwg.org/multipage/
 
-[gfm]: https://github.github.com/gfm/
-
-[commonmark]: https://commonmark.org
-
 [html-paragraphs]: https://html.spec.whatwg.org/multipage/dom.html#paragraphs
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[mdast-node]: https://github.com/syntax-tree/mdast#nodes
 
 [mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
+[npm]: https://docs.npmjs.com/cli/install
+
+[phrasing]: https://github.com/syntax-tree/mdast#phrasingcontent
+
 [rehype-remark]: https://github.com/rehypejs/rehype-remark
 
-[api-default-handlers]: #defaulthandlers
+[size]: https://bundlejs.com/?q=hast-util-to-mdast
 
-[api-default-node-handlers]: #defaultnodehandlers
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=hast-util-to-mdast
 
-[api-to-mdast]: #tomdasttree-options
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
-[api-options]: #options
-
-[api-state]: #state
-
-[api-handle]: #handle
-
-[api-node-handle]: #nodehandle
+[typescript]: https://www.typescriptlang.org
