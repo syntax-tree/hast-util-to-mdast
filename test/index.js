@@ -199,6 +199,20 @@ test('core', async function (t) {
     }
   )
 
+  await t.test(
+    'should support an ordered list starting at 0',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('ol', {start: 0}, [h('li', 'zero')])),
+        u('list', {ordered: true, start: 0, spread: false}, [
+          u('listItem', {spread: false, checked: null}, [
+            u('paragraph', [u('text', 'zero')])
+          ])
+        ])
+      )
+    }
+  )
+
   await t.test('should support a `video` w/o `properties`', async function () {
     assert.deepEqual(
       toMdast(
