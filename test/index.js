@@ -283,6 +283,30 @@ test('core', async function (t) {
     )
   })
 
+  await t.test('should support an `ol` starting at `0`', async function () {
+    assert.deepEqual(
+      toMdast(h('ol', {start: 0})),
+      u('list', {ordered: true, start: 0, spread: false}, [])
+    )
+  })
+
+  await t.test('should support an `ol` w/o `properties`', async function () {
+    assert.deepEqual(
+      toMdast(
+        // @ts-expect-error: check how the runtime handles missing `properties`.
+        {type: 'element', tagName: 'ol', children: []}
+      ),
+      u('list', {ordered: true, start: 1, spread: false}, [])
+    )
+  })
+
+  await t.test('should ignore an invalid `start` on `ol`', async function () {
+    assert.deepEqual(
+      toMdast(h('ol', {start: 'a'})),
+      u('list', {ordered: true, start: 1, spread: false}, [])
+    )
+  })
+
   await t.test('should support a `video` w/o `properties`', async function () {
     assert.deepEqual(
       toMdast(
