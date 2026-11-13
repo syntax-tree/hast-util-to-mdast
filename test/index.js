@@ -201,6 +201,88 @@ test('core', async function (t) {
     }
   )
 
+  await t.test(
+    'should turn a line ending in a `textarea` into a break',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('textarea', 'a\nb')),
+        u('root', [u('text', 'a'), u('break'), u('text', 'b')])
+      )
+    }
+  )
+
+  await t.test(
+    'should turn a blank line in a `textarea` into two breaks',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('textarea', 'a\n\nb')),
+        u('root', [u('text', 'a'), u('break'), u('break'), u('text', 'b')])
+      )
+    }
+  )
+
+  await t.test(
+    'should turn blank lines in a `textarea` into two breaks',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('textarea', 'a\n\n\nb')),
+        u('root', [u('text', 'a'), u('break'), u('break'), u('text', 'b')])
+      )
+    }
+  )
+
+  await t.test(
+    'should drop line endings at the edges of a `textarea`',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('textarea', '\na\n')),
+        u('root', [u('text', 'a')])
+      )
+    }
+  )
+
+  await t.test('should collapse whitespace in a `textarea`', async function () {
+    assert.deepEqual(
+      toMdast(h('textarea', ' a \t b ')),
+      u('root', [u('text', 'a b')])
+    )
+  })
+
+  await t.test(
+    'should treat whitespace-only lines in a `textarea` as blank',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('textarea', 'a\n \nb')),
+        u('root', [u('text', 'a'), u('break'), u('break'), u('text', 'b')])
+      )
+    }
+  )
+
+  await t.test('should support CR + LF in a `textarea`', async function () {
+    assert.deepEqual(
+      toMdast(h('textarea', 'a\r\nb')),
+      u('root', [u('text', 'a'), u('break'), u('text', 'b')])
+    )
+  })
+
+  await t.test('should support CR in a `textarea`', async function () {
+    assert.deepEqual(
+      toMdast(h('textarea', 'a\rb')),
+      u('root', [u('text', 'a'), u('break'), u('text', 'b')])
+    )
+  })
+
+  await t.test('should collapse whitespace in an `input`', async function () {
+    assert.deepEqual(toMdast(h('input', {value: ' a \t b '})), u('text', 'a b'))
+  })
+
+  await t.test('should collapse whitespace in an `option`', async function () {
+    assert.deepEqual(
+      toMdast(h('select', h('option', {value: ' a \t b '}, ' c \t d '))),
+      u('text', 'c d (a b)')
+    )
+  })
+
   await t.test('should support a `video` w/o `properties`', async function () {
     assert.deepEqual(
       toMdast(

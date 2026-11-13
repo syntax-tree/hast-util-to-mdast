@@ -36,6 +36,7 @@ const xoConfig = [
       'unicorn/no-computed-property-existence-check': 'off',
       'unicorn/no-immediate-mutation': 'off',
       'unicorn/prefer-at': 'off',
+      'unicorn/prefer-code-point': 'off',
       'unicorn/prefer-continue': 'off',
       'unicorn/prefer-early-return': 'off',
       'unicorn/prefer-includes-over-repeated-comparisons': 'off',
