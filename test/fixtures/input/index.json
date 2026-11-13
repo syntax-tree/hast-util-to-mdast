@@ -1,5 +1,3 @@
 {
-  "fragment": true,
-  "#": "Tree is false because of escaping for checkboxes and radios",
-  "tree": false
+  "fragment": true
 }
