@@ -1,14 +1,11 @@
 # hast-util-to-mdast
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
+[![Build][badge-build-image]][badge-build-url]
+[![Coverage][badge-coverage-image]][badge-coverage-url]
+[![Downloads][badge-downloads-image]][badge-downloads-url]
+[![Size][badge-size-image]][badge-size-url]
 
-[hast][] utility to transform to [mdast][].
+[hast][github-hast] utility to transform to [mdast][github-mdast].
 
 ## Contents
 
@@ -39,24 +36,24 @@
 
 ## What is this?
 
-This package is a utility that takes a [hast][] (HTML) syntax tree as input and
-turns it into an [mdast][] (markdown) syntax tree.
+This package is a utility that takes a [hast][github-hast] (HTML) syntax tree
+as input and turns it into an [mdast][github-mdast] (markdown) syntax tree.
 
 ## When should I use this?
 
 This project is useful when you want to turn HTML to markdown.
 
-The mdast utility [`mdast-util-to-hast`][mdast-util-to-hast] does the inverse of
-this utility.
+The mdast utility [`mdast-util-to-hast`][github-mdast-util-to-hast] does the
+inverse of this utility.
 It turns markdown into HTML.
 
-The rehype plugin [`rehype-remark`][rehype-remark] wraps this utility to also
-turn HTML to markdown at a higher-level (easier) abstraction.
+The rehype plugin [`rehype-remark`][github-rehype-remark] wraps this utility to
+also turn HTML to markdown at a higher-level (easier) abstraction.
 
 ## Install
 
-This package is [ESM only][esm].
-In Node.js (version 16+), install with [npm][]:
+This package is [ESM only][github-gist-esm].
+In Node.js (version 16+), install with [npm][npmjs-install]:
 
 ```sh
 npm install hast-util-to-mdast
@@ -119,14 +116,14 @@ Transform hast to mdast.
 
 ###### Parameters
 
-* `tree` ([`HastNode`][hast-node])
+* `tree` ([`HastNode`][github-hast-nodes])
   — hast tree to transform
 * `options` ([`Options`][api-options], optional)
   — configuration
 
 ###### Returns
 
-mdast tree ([`MdastNode`][mdast-node]).
+mdast tree ([`MdastNode`][github-mdast-nodes]).
 
 ### `defaultHandlers`
 
@@ -148,9 +145,9 @@ Handle a particular element (TypeScript type).
 
 * `state` ([`State`][api-state])
   — info passed around about the current state
-* `element` ([`Element`][element])
+* `element` ([`Element`][github-hast-element])
   — element to transform
-* `parent` ([`HastParent`][hast-parent])
+* `parent` ([`HastParent`][github-hast-parent])
   — parent of `element`
 
 ###### Returns
@@ -167,7 +164,7 @@ Handle a particular node (TypeScript type).
   — info passed around about the current state
 * `node` (`any`)
   — node to transform
-* `parent` ([`HastParent`][hast-parent])
+* `parent` ([`HastParent`][github-hast-parent])
   — parent of `node`
 
 ###### Returns
@@ -220,8 +217,9 @@ Whether the given tree represents a complete document (`boolean`, default:
 Applies when the `tree` is a `root` node.
 When the tree represents a complete document, then things are wrapped in
 paragraphs when needed, and otherwise they’re left as-is.
-The default checks for whether there’s mixed content: some *[phrasing][]* nodes
-*and* some non-phrasing nodes.
+The default checks for whether there’s mixed content:
+some *[phrasing][github-mdast-phrasing-content]* nodes *and* some non-phrasing
+nodes.
 
 ###### `handlers`
 
@@ -370,7 +368,7 @@ It supports all HTML elements, including ancient elements (`xmp`) and obscure
 ones (`base`).
 It’s particularly good at forms, media, and around implicit and explicit
 paragraphs (see [HTML Standard, A. van Kesteren; et al. WHATWG § 3.2.5.4
-Paragraphs][html-paragraphs]), such as:
+Paragraphs][whatwg-html-paragraphs]), such as:
 
 ```html
 <article>
@@ -389,8 +387,8 @@ An implicit paragraph.
 
 ## Syntax
 
-HTML is handled according to [WHATWG HTML][html] (the living standard), which is
-also followed by browsers such as Chrome and Firefox.
+HTML is handled according to [WHATWG HTML][whatwg-html] (the living standard),
+which is also followed by browsers such as Chrome and Firefox.
 
 This project creates markdown according to [GFM][], which is a standard that’s
 based on [CommonMark][] but adds the strikethrough (`~like so~`) and tables
@@ -398,9 +396,9 @@ based on [CommonMark][] but adds the strikethrough (`~like so~`) and tables
 
 ## Syntax tree
 
-The input syntax tree format is [hast][].
+The input syntax tree format is [hast][github-hast].
 Any HTML that can be represented in hast is accepted as input.
-The output syntax tree format is [mdast][].
+The output syntax tree format is [mdast][github-mdast].
 
 When `<table>` elements or `<del>`, `<s>`, and `<strike>` exist in the HTML,
 then the GFM nodes `table` and `delete` are used.
@@ -448,7 +446,7 @@ abide by its terms.
 
 ## License
 
-[MIT][file-license] © [Titus Wormer][author]
+[MIT][file-license] © [Titus Wormer][wooorm]
 
 <!-- Definitions -->
 
@@ -466,33 +464,23 @@ abide by its terms.
 
 [api-to-mdast]: #tomdasttree-options
 
-[author]: https://wooorm.com
+[badge-build-image]: https://github.com/syntax-tree/hast-util-to-mdast/workflows/main/badge.svg
 
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+[badge-build-url]: https://github.com/syntax-tree/hast-util-to-mdast/actions
 
-[build]: https://github.com/syntax-tree/hast-util-to-mdast/actions
+[badge-coverage-image]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-mdast.svg
 
-[build-badge]: https://github.com/syntax-tree/hast-util-to-mdast/workflows/main/badge.svg
+[badge-coverage-url]: https://codecov.io/github/syntax-tree/hast-util-to-mdast
 
-[chat]: https://github.com/syntax-tree/unist/discussions
+[badge-downloads-image]: https://img.shields.io/npm/dm/hast-util-to-mdast.svg
 
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
+[badge-downloads-url]: https://www.npmjs.com/package/hast-util-to-mdast
 
-[collective]: https://opencollective.com/unified
+[badge-size-image]: https://img.shields.io/bundlejs/size/hast-util-to-mdast
+
+[badge-size-url]: https://bundlejs.com/?q=hast-util-to-mdast
 
 [commonmark]: https://commonmark.org
-
-[coverage]: https://codecov.io/github/syntax-tree/hast-util-to-mdast
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-mdast.svg
-
-[downloads]: https://www.npmjs.com/package/hast-util-to-mdast
-
-[downloads-badge]: https://img.shields.io/npm/dm/hast-util-to-mdast.svg
-
-[element]: https://github.com/syntax-tree/hast#element
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
 [esmsh]: https://esm.sh
 
@@ -500,11 +488,25 @@ abide by its terms.
 
 [gfm]: https://github.github.com/gfm/
 
-[hast]: https://github.com/syntax-tree/hast
+[github-gist-esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
-[hast-node]: https://github.com/syntax-tree/hast#nodes
+[github-hast]: https://github.com/syntax-tree/hast
 
-[hast-parent]: https://github.com/syntax-tree/hast#parent
+[github-hast-element]: https://github.com/syntax-tree/hast#element
+
+[github-hast-nodes]: https://github.com/syntax-tree/hast#nodes
+
+[github-hast-parent]: https://github.com/syntax-tree/hast#parent
+
+[github-mdast]: https://github.com/syntax-tree/mdast
+
+[github-mdast-nodes]: https://github.com/syntax-tree/mdast#nodes
+
+[github-mdast-phrasing-content]: https://github.com/syntax-tree/mdast#phrasingcontent
+
+[github-mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
+[github-rehype-remark]: https://github.com/rehypejs/rehype-remark
 
 [health-coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
@@ -512,26 +514,12 @@ abide by its terms.
 
 [health-support]: https://github.com/syntax-tree/.github/blob/main/support.md
 
-[html]: https://html.spec.whatwg.org/multipage/
-
-[html-paragraphs]: https://html.spec.whatwg.org/multipage/dom.html#paragraphs
-
-[mdast]: https://github.com/syntax-tree/mdast
-
-[mdast-node]: https://github.com/syntax-tree/mdast#nodes
-
-[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[phrasing]: https://github.com/syntax-tree/mdast#phrasingcontent
-
-[rehype-remark]: https://github.com/rehypejs/rehype-remark
-
-[size]: https://bundlejs.com/?q=hast-util-to-mdast
-
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=hast-util-to-mdast
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+[npmjs-install]: https://docs.npmjs.com/cli/install
 
 [typescript]: https://www.typescriptlang.org
+
+[whatwg-html]: https://html.spec.whatwg.org/multipage/
+
+[whatwg-html-paragraphs]: https://html.spec.whatwg.org/multipage/dom.html#paragraphs
+
+[wooorm]: https://wooorm.com
