@@ -283,6 +283,20 @@ test('core', async function (t) {
     )
   })
 
+  await t.test('should collapse whitespace in `alt`', async function () {
+    assert.deepEqual(
+      toMdast(h('img', {alt: ' a \t b ', src: 'c'})),
+      u('image', {title: null, url: 'c', alt: 'a b'})
+    )
+  })
+
+  await t.test('should collapse whitespace in `title`', async function () {
+    assert.deepEqual(
+      toMdast(h('a', {href: 'c', title: ' a \t b '})),
+      u('link', {title: 'a b', url: 'c'}, [])
+    )
+  })
+
   await t.test('should use the last selected `option`', async function () {
     assert.deepEqual(
       toMdast(
