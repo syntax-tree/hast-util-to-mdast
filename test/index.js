@@ -26,7 +26,6 @@ import {fromMarkdown} from 'mdast-util-from-markdown'
 import {gfmFromMarkdown, gfmToMarkdown} from 'mdast-util-gfm'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {gfm} from 'micromark-extension-gfm'
-import {u} from 'unist-builder'
 import {removePosition} from 'unist-util-remove-position'
 
 test('core', async function (t) {
@@ -40,15 +39,21 @@ test('core', async function (t) {
 
   await t.test('should transform hast to mdast', async function () {
     assert.deepEqual(
-      toMdast(u('root', [h('strong', 'Alpha')])),
-      u('root', [u('strong', [u('text', 'Alpha')])])
+      toMdast({type: 'root', children: [h('strong', 'Alpha')]}),
+      {
+        type: 'root',
+        children: [{type: 'strong', children: [{type: 'text', value: 'Alpha'}]}]
+      }
     )
   })
 
   await t.test(
     'should transform a node w/o mdast representation to an empty root',
     async function () {
-      assert.deepEqual(toMdast(u('doctype', {name: 'html'})), u('root', []))
+      assert.deepEqual(toMdast({type: 'doctype'}), {
+        type: 'root',
+        children: []
+      })
     }
   )
 
@@ -66,9 +71,9 @@ test('core', async function (t) {
     assert.deepEqual(
       toMdast(
         // @ts-expect-error: check how the runtime handles an unknown literal.
-        u('root', [u('unknown', 'text')])
+        {type: 'root', children: [{type: 'unknown', value: 'text'}]}
       ),
-      u('root', [u('text', 'text')])
+      {type: 'root', children: [{type: 'text', value: 'text'}]}
     )
   })
 
@@ -76,9 +81,9 @@ test('core', async function (t) {
     assert.deepEqual(
       toMdast(
         // @ts-expect-error: check how the runtime handles an unknown parent.
-        u('root', [u('unknown', [h('em')])])
+        {type: 'root', children: [{type: 'unknown', children: [h('em')]}]}
       ),
-      u('root', [u('emphasis', [])])
+      {type: 'root', children: [{type: 'emphasis', children: []}]}
     )
   })
 
@@ -86,9 +91,9 @@ test('core', async function (t) {
     assert.deepEqual(
       toMdast(
         // @ts-expect-error: check how the runtime handles an unknown void.
-        u('root', [u('unknown')])
+        {type: 'root', children: [{type: 'unknown'}]}
       ),
-      u('root', [])
+      {type: 'root', children: []}
     )
   })
 
@@ -204,97 +209,131 @@ test('core', async function (t) {
   await t.test(
     'should turn a line ending in a `textarea` into a break',
     async function () {
-      assert.deepEqual(
-        toMdast(h('textarea', 'a\nb')),
-        u('root', [u('text', 'a'), u('break'), u('text', 'b')])
-      )
+      assert.deepEqual(toMdast(h('textarea', 'a\nb')), {
+        type: 'root',
+        children: [
+          {type: 'text', value: 'a'},
+          {type: 'break'},
+          {type: 'text', value: 'b'}
+        ]
+      })
     }
   )
 
   await t.test(
     'should turn a blank line in a `textarea` into two breaks',
     async function () {
-      assert.deepEqual(
-        toMdast(h('textarea', 'a\n\nb')),
-        u('root', [u('text', 'a'), u('break'), u('break'), u('text', 'b')])
-      )
+      assert.deepEqual(toMdast(h('textarea', 'a\n\nb')), {
+        type: 'root',
+        children: [
+          {type: 'text', value: 'a'},
+          {type: 'break'},
+          {type: 'break'},
+          {type: 'text', value: 'b'}
+        ]
+      })
     }
   )
 
   await t.test(
     'should turn blank lines in a `textarea` into two breaks',
     async function () {
-      assert.deepEqual(
-        toMdast(h('textarea', 'a\n\n\nb')),
-        u('root', [u('text', 'a'), u('break'), u('break'), u('text', 'b')])
-      )
+      assert.deepEqual(toMdast(h('textarea', 'a\n\n\nb')), {
+        type: 'root',
+        children: [
+          {type: 'text', value: 'a'},
+          {type: 'break'},
+          {type: 'break'},
+          {type: 'text', value: 'b'}
+        ]
+      })
     }
   )
 
   await t.test(
     'should drop line endings at the edges of a `textarea`',
     async function () {
-      assert.deepEqual(
-        toMdast(h('textarea', '\na\n')),
-        u('root', [u('text', 'a')])
-      )
+      assert.deepEqual(toMdast(h('textarea', '\na\n')), {
+        type: 'root',
+        children: [{type: 'text', value: 'a'}]
+      })
     }
   )
 
   await t.test('should collapse whitespace in a `textarea`', async function () {
-    assert.deepEqual(
-      toMdast(h('textarea', ' a \t b ')),
-      u('root', [u('text', 'a b')])
-    )
+    assert.deepEqual(toMdast(h('textarea', ' a \t b ')), {
+      type: 'root',
+      children: [{type: 'text', value: 'a b'}]
+    })
   })
 
   await t.test(
     'should treat whitespace-only lines in a `textarea` as blank',
     async function () {
-      assert.deepEqual(
-        toMdast(h('textarea', 'a\n \nb')),
-        u('root', [u('text', 'a'), u('break'), u('break'), u('text', 'b')])
-      )
+      assert.deepEqual(toMdast(h('textarea', 'a\n \nb')), {
+        type: 'root',
+        children: [
+          {type: 'text', value: 'a'},
+          {type: 'break'},
+          {type: 'break'},
+          {type: 'text', value: 'b'}
+        ]
+      })
     }
   )
 
   await t.test('should support CR + LF in a `textarea`', async function () {
-    assert.deepEqual(
-      toMdast(h('textarea', 'a\r\nb')),
-      u('root', [u('text', 'a'), u('break'), u('text', 'b')])
-    )
+    assert.deepEqual(toMdast(h('textarea', 'a\r\nb')), {
+      type: 'root',
+      children: [
+        {type: 'text', value: 'a'},
+        {type: 'break'},
+        {type: 'text', value: 'b'}
+      ]
+    })
   })
 
   await t.test('should support CR in a `textarea`', async function () {
-    assert.deepEqual(
-      toMdast(h('textarea', 'a\rb')),
-      u('root', [u('text', 'a'), u('break'), u('text', 'b')])
-    )
+    assert.deepEqual(toMdast(h('textarea', 'a\rb')), {
+      type: 'root',
+      children: [
+        {type: 'text', value: 'a'},
+        {type: 'break'},
+        {type: 'text', value: 'b'}
+      ]
+    })
   })
 
   await t.test('should collapse whitespace in an `input`', async function () {
-    assert.deepEqual(toMdast(h('input', {value: ' a \t b '})), u('text', 'a b'))
+    assert.deepEqual(toMdast(h('input', {value: ' a \t b '})), {
+      type: 'text',
+      value: 'a b'
+    })
   })
 
   await t.test('should collapse whitespace in an `option`', async function () {
     assert.deepEqual(
       toMdast(h('select', h('option', {value: ' a \t b '}, ' c \t d '))),
-      u('text', 'c d (a b)')
+      {type: 'text', value: 'c d (a b)'}
     )
   })
 
   await t.test('should collapse whitespace in `alt`', async function () {
-    assert.deepEqual(
-      toMdast(h('img', {alt: ' a \t b ', src: 'c'})),
-      u('image', {title: null, url: 'c', alt: 'a b'})
-    )
+    assert.deepEqual(toMdast(h('img', {alt: ' a \t b ', src: 'c'})), {
+      type: 'image',
+      title: null,
+      url: 'c',
+      alt: 'a b'
+    })
   })
 
   await t.test('should collapse whitespace in `title`', async function () {
-    assert.deepEqual(
-      toMdast(h('a', {href: 'c', title: ' a \t b '})),
-      u('link', {title: 'a b', url: 'c'}, [])
-    )
+    assert.deepEqual(toMdast(h('a', {href: 'c', title: ' a \t b '})), {
+      type: 'link',
+      title: 'a b',
+      url: 'c',
+      children: []
+    })
   })
 
   await t.test('should use the last selected `option`', async function () {
@@ -305,32 +344,32 @@ test('core', async function (t) {
           h('option', {selected: true}, 'b')
         ])
       ),
-      u('text', 'b')
+      {type: 'text', value: 'b'}
     )
   })
 
   await t.test('should use the first `option` by default', async function () {
     assert.deepEqual(
       toMdast(h('select', [h('option', 'a'), h('option', 'b')])),
-      u('text', 'a')
+      {type: 'text', value: 'a'}
     )
   })
 
   await t.test(
     'should use no `option` by default w/ `size`',
     async function () {
-      assert.deepEqual(
-        toMdast(h('select', {size: 2}, [h('option', 'a')])),
-        u('root', [])
-      )
+      assert.deepEqual(toMdast(h('select', {size: 2}, [h('option', 'a')])), {
+        type: 'root',
+        children: []
+      })
     }
   )
 
   await t.test('should ignore an invalid `size`', async function () {
-    assert.deepEqual(
-      toMdast(h('select', {size: -1}, [h('option', 'a')])),
-      u('text', 'a')
-    )
+    assert.deepEqual(toMdast(h('select', {size: -1}, [h('option', 'a')])), {
+      type: 'text',
+      value: 'a'
+    })
   })
 
   await t.test(
@@ -344,7 +383,7 @@ test('core', async function (t) {
             h('option', {selected: true}, 'c')
           ])
         ),
-        u('text', 'a, c')
+        {type: 'text', value: 'a, c'}
       )
     }
   )
@@ -354,7 +393,7 @@ test('core', async function (t) {
     async function () {
       assert.deepEqual(
         toMdast(h('select', {multiple: true}, [h('option', 'a')])),
-        u('root', [])
+        {type: 'root', children: []}
       )
     }
   )
@@ -369,16 +408,19 @@ test('core', async function (t) {
             h('option', {selected: true}, 'b')
           ])
         ),
-        u('text', 'a, b')
+        {type: 'text', value: 'a, b'}
       )
     }
   )
 
   await t.test('should support an `ol` starting at `0`', async function () {
-    assert.deepEqual(
-      toMdast(h('ol', {start: 0})),
-      u('list', {ordered: true, start: 0, spread: false}, [])
-    )
+    assert.deepEqual(toMdast(h('ol', {start: 0})), {
+      type: 'list',
+      ordered: true,
+      start: 0,
+      spread: false,
+      children: []
+    })
   })
 
   await t.test('should support an `ol` w/o `properties`', async function () {
@@ -387,15 +429,18 @@ test('core', async function (t) {
         // @ts-expect-error: check how the runtime handles missing `properties`.
         {type: 'element', tagName: 'ol', children: []}
       ),
-      u('list', {ordered: true, start: 1, spread: false}, [])
+      {type: 'list', ordered: true, start: 1, spread: false, children: []}
     )
   })
 
   await t.test('should ignore an invalid `start` on `ol`', async function () {
-    assert.deepEqual(
-      toMdast(h('ol', {start: 'a'})),
-      u('list', {ordered: true, start: 1, spread: false}, [])
-    )
+    assert.deepEqual(toMdast(h('ol', {start: 'a'})), {
+      type: 'list',
+      ordered: true,
+      start: 1,
+      spread: false,
+      children: []
+    })
   })
 
   await t.test('should support a `video` w/o `properties`', async function () {
@@ -442,21 +487,33 @@ test('core', async function (t) {
           }
         }
       }),
-      u('root', [u('paragraph', [u('text', 'Beta')])])
+      {
+        type: 'root',
+        children: [
+          {type: 'paragraph', children: [{type: 'text', value: 'Beta'}]}
+        ]
+      }
     )
   })
 
   await t.test('should collapse newline to a single space', async function () {
-    assert.deepEqual(
-      toMdast(h(null, h('p', 'Alpha\nBeta'))),
-      u('root', [u('paragraph', [u('text', 'Alpha Beta')])])
-    )
+    assert.deepEqual(toMdast(h(null, h('p', 'Alpha\nBeta'))), {
+      type: 'root',
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'Alpha Beta'}]}
+      ]
+    })
   })
 
   await t.test('should support `newlines: true`', async function () {
     assert.deepEqual(
       toMdast(h(null, h('p', 'Alpha\nBeta')), {newlines: true}),
-      u('root', [u('paragraph', [u('text', 'Alpha\nBeta')])])
+      {
+        type: 'root',
+        children: [
+          {type: 'paragraph', children: [{type: 'text', value: 'Alpha\nBeta'}]}
+        ]
+      }
     )
   })
 
@@ -468,31 +525,34 @@ test('core', async function (t) {
   ])
 
   await t.test('should infer document if not needed', async function () {
-    assert.deepEqual(
-      toMdast(phrasingTree),
-      u('root', [
-        u('strong', [u('text', 'Importance')]),
-        u('text', ' and '),
-        u('emphasis', [u('text', 'emphasis')]),
-        u('text', '.')
-      ])
-    )
+    assert.deepEqual(toMdast(phrasingTree), {
+      type: 'root',
+      children: [
+        {type: 'strong', children: [{type: 'text', value: 'Importance'}]},
+        {type: 'text', value: ' and '},
+        {type: 'emphasis', children: [{type: 'text', value: 'emphasis'}]},
+        {type: 'text', value: '.'}
+      ]
+    })
   })
 
   await t.test(
     'should support an explicit `document: true`',
     async function () {
-      assert.deepEqual(
-        toMdast(phrasingTree, {document: true}),
-        u('root', [
-          u('paragraph', [
-            u('strong', [u('text', 'Importance')]),
-            u('text', ' and '),
-            u('emphasis', [u('text', 'emphasis')]),
-            u('text', '.')
-          ])
-        ])
-      )
+      assert.deepEqual(toMdast(phrasingTree, {document: true}), {
+        type: 'root',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {type: 'strong', children: [{type: 'text', value: 'Importance'}]},
+              {type: 'text', value: ' and '},
+              {type: 'emphasis', children: [{type: 'text', value: 'emphasis'}]},
+              {type: 'text', value: '.'}
+            ]
+          }
+        ]
+      })
     }
   )
 
