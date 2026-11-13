@@ -8,7 +8,7 @@ Charlie: Delta
 
 Echo:
 
-Golf: L
+Golf: N
 
 Hotel: L, N
 
@@ -32,7 +32,7 @@ Tango:
 
 Uniform:
 
-Whiskey: L
+Whiskey: N
 
 X-ray:
 
@@ -130,7 +130,7 @@ Bravo: <http://charlie.com>
 
 Delta: <http://echo.com>
 
-Golf: <https://l.com>
+Golf: <https://n.com>
 
 Hotel: <https://l.com>, <https://n.com>
 
@@ -142,7 +142,7 @@ Bravo: <charlie@example.com>
 
 Delta: <echo@example.com>
 
-Golf: <l@example.com>
+Golf: <n@example.com>
 
 Hotel: <l@example.com>, <n@example.com>
 

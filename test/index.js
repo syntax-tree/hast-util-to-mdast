@@ -283,6 +283,83 @@ test('core', async function (t) {
     )
   })
 
+  await t.test('should use the last selected `option`', async function () {
+    assert.deepEqual(
+      toMdast(
+        h('select', [
+          h('option', {selected: true}, 'a'),
+          h('option', {selected: true}, 'b')
+        ])
+      ),
+      u('text', 'b')
+    )
+  })
+
+  await t.test('should use the first `option` by default', async function () {
+    assert.deepEqual(
+      toMdast(h('select', [h('option', 'a'), h('option', 'b')])),
+      u('text', 'a')
+    )
+  })
+
+  await t.test(
+    'should use no `option` by default w/ `size`',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('select', {size: 2}, [h('option', 'a')])),
+        u('root', [])
+      )
+    }
+  )
+
+  await t.test('should ignore an invalid `size`', async function () {
+    assert.deepEqual(
+      toMdast(h('select', {size: -1}, [h('option', 'a')])),
+      u('text', 'a')
+    )
+  })
+
+  await t.test(
+    'should use selected `option`s w/ `multiple`',
+    async function () {
+      assert.deepEqual(
+        toMdast(
+          h('select', {multiple: true}, [
+            h('option', {selected: true}, 'a'),
+            h('option', 'b'),
+            h('option', {selected: true}, 'c')
+          ])
+        ),
+        u('text', 'a, c')
+      )
+    }
+  )
+
+  await t.test(
+    'should use no `option` by default w/ `multiple`',
+    async function () {
+      assert.deepEqual(
+        toMdast(h('select', {multiple: true}, [h('option', 'a')])),
+        u('root', [])
+      )
+    }
+  )
+
+  await t.test(
+    'should not limit selected `option`s to `size`',
+    async function () {
+      assert.deepEqual(
+        toMdast(
+          h('select', {multiple: true, size: 1}, [
+            h('option', {selected: true}, 'a'),
+            h('option', {selected: true}, 'b')
+          ])
+        ),
+        u('text', 'a, b')
+      )
+    }
+  )
+
   await t.test('should support an `ol` starting at `0`', async function () {
     assert.deepEqual(
       toMdast(h('ol', {start: 0})),
