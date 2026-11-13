@@ -8,7 +8,9 @@
  * @typedef ConfigFields
  *   Options for a fixture.
  * @property {boolean} stringify
+ *   Whether to check serializing.
  * @property {boolean} tree
+ *   Whether to check the tree.
  */
 
 import assert from 'node:assert/strict'
@@ -328,7 +330,7 @@ test('core', async function (t) {
     async function () {
       // Reference check: `text`s are wrapped in `paragraph`s because the unknown
       // node is seen as “block”
-      assert.deepEqual(
+      assert.equal(
         referenceTree.type === 'root' &&
           referenceTree.children.length === 3 &&
           referenceTree.children[0].type === 'paragraph',
@@ -341,7 +343,7 @@ test('core', async function (t) {
     'should support `node.data.hName` to infer phrasing (2)',
     async function () {
       // Actual check: no `paragraph` is added because `hName` is added.
-      assert.deepEqual(
+      assert.equal(
         explicitTree.type === 'root' &&
           explicitTree.children.length === 3 &&
           explicitTree.children[0].type !== 'paragraph',
