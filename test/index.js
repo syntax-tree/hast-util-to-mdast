@@ -81,9 +81,12 @@ test('core', async function (t) {
     assert.deepEqual(
       toMdast(
         // @ts-expect-error: check how the runtime handles an unknown parent.
-        {type: 'root', children: [{type: 'unknown', children: [h('em')]}]}
+        {type: 'root', children: [{type: 'unknown', children: [h('em', 'a')]}]}
       ),
-      {type: 'root', children: [{type: 'emphasis', children: []}]}
+      {
+        type: 'root',
+        children: [{type: 'emphasis', children: [{type: 'text', value: 'a'}]}]
+      }
     )
   })
 

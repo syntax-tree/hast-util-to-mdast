@@ -9,6 +9,7 @@ const xoConfig = [
     prettier: 'compat',
     rules: {
       '@typescript-eslint/no-shadow': 'off',
+      complexity: 'off',
       curly: 'off',
       'import-x/order': 'off',
       'jsdoc/check-indentation': 'off',
@@ -39,6 +40,7 @@ const xoConfig = [
       'unicorn/prefer-code-point': 'off',
       'unicorn/prefer-continue': 'off',
       'unicorn/prefer-early-return': 'off',
+      'unicorn/prefer-else-if': 'off',
       'unicorn/prefer-includes-over-repeated-comparisons': 'off',
       // HTML integers are parsed leniently, like `parseInt`.
       'unicorn/prefer-math-trunc': 'off',

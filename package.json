@@ -20,7 +20,7 @@
     "rehype-minify-whitespace": "^6.0.0",
     "trim-trailing-lines": "^2.0.0",
     "unist-util-position": "^5.0.0",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.2.0"
   },
   "description": "hast utility to transform to mdast",
   "devDependencies": {
